@@ -1,0 +1,849 @@
+<!-- pasien-pendaftaran.html -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <!-- Meta Tags dan Title -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UFS Dental - Pendaftaran Pasien</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome CDN dengan Integrity yang Diperbaiki -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-papH8D0zQIdXSAj7i42jwrNw2mGwj1ph5E+G4x3xymLkHkOk4bqR0ztQ6p8L7a0p3E61PRkt7Vgk8C0P6g7Qkg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Animate.css CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <!-- Tailwind CSS Custom Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a8a', // Blue-900
+                        primaryDark: '#1e40af', // Blue-800
+                        secondary: '#f1f5f9', // Gray-100
+                        alertGreen: '#dcfce7', // Green-100
+                        alertGreenBorder: '#22c55e', // Green-500
+                        alertGreenText: '#166534', // Green-700
+                        alertRed: '#fee2e2', // Red-100
+                        alertRedBorder: '#f87171', // Red-400
+                        alertRedText: '#991b1b', // Red-700
+                    },
+                },
+            },
+        }
+    </script>
+    
+    <style>
+        /* Custom Styles */
+        .active {
+            background-color: #1e40af; /* Blue-800 */
+        }
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0; 
+        }
+        /* Sticky Header */
+        thead th {
+            position: sticky;
+            top: 0;
+            background-color: #f3f4f6; /* Gray-100 */
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans leading-normal tracking-normal">
+    <div class="flex">
+        <!-- Sidebar -->
+        <div id="sidebar" class="w-64 bg-primary text-white fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-50">
+            <div class="p-6 text-3xl font-bold border-b border-primaryDark flex items-center justify-between">
+                <span>UFS Dental</span>
+                <button id="close-sidebar" class="md:hidden text-white focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul class="mt-8">
+                <!-- Menu Index -->
+                <li id="menu-index" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-tachometer-alt mr-3 text-lg"></i>
+                    <a href="index.html" class="flex-1">Beranda</a>
+                </li>
+                
+                <!-- Menu Pasien Pendaftaran -->
+                <li id="menu-pendaftaran" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200 active">
+                    <i class="fas fa-user-plus mr-3 text-lg"></i>
+                    <a href="pasien-pendaftaran.html" class="flex-1">Pendaftaran Pasien</a>
+                </li>
+                
+                <!-- Menu Pasien Kunjungan -->
+                <li id="menu-kunjungan" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-notes-medical mr-3 text-lg"></i>
+                    <a href="pasien-kunjungan.html" class="flex-1">Kunjungan Pasien</a>
+                </li>
+                
+                <!-- Menu Pembelian -->
+                <li id="menu-pembelian" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-shopping-cart mr-3 text-lg"></i>
+                    <a href="pembelian.html" class="flex-1">Pembelian</a>
+                </li>
+                
+                <!-- Menu Laporan -->
+                <li id="menu-laporan" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-chart-line mr-3 text-lg"></i>
+                    <a href="laporan.html" class="flex-1">Laporan</a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Overlay untuk Mobile Sidebar -->
+        <div id="overlay" class="fixed inset-0 bg-black opacity-50 hidden z-40"></div>
+        
+        <!-- Mobile Sidebar Toggle -->
+        <div class="w-full md:hidden flex items-center bg-primary p-4">
+            <button id="mobile-menu-button" class="text-white focus:outline-none">
+                <i class="fas fa-bars fa-lg"></i>
+            </button>
+            <div class="ml-4 text-white text-2xl font-bold">UFS Dental</div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 p-6 ml-0 md:ml-64 transition-all duration-300">
+            <!-- Top Bar -->
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                <div class="relative w-full md:w-1/3 mb-4 md:mb-0">
+                    <input type="text" id="search-input" class="w-full p-3 pl-10 pr-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition duration-300 transform hover:scale-105" placeholder="Cari data pasien...">
+                    <button id="search-button" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 focus:outline-none">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div id="current-date" class="text-gray-700 mb-4 md:mb-0">Tanggal: <span id="formatted-date">-</span></div>
+                <div class="flex items-center">
+                    <div class="mr-3 text-gray-700">Administrator</div>
+                    <div class="w-10 h-10 rounded-full bg-gray-300"></div>
+                </div>
+            </div>
+            
+            <!-- Alert (Hidden by Default) -->
+            <div id="alert" class="hidden flex items-center bg-alertGreen border border-alertGreenBorder text-alertGreenText px-4 py-3 rounded relative mb-6 animate__animated animate__fadeIn" role="alert">
+                <span class="block sm:inline" id="dynamic-alert">Pesan alert.</span>
+                <button onclick="document.getElementById('alert').classList.add('hidden')" class="absolute top-0 bottom-0 right-0 px-4 py-3 focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Pendaftaran Pasien -->
+            <div class="bg-white p-6 rounded-lg shadow mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-semibold text-gray-700">Pendaftaran Pasien</h2>
+                    <!-- Tombol Toggle Formulir -->
+                    <button id="toggle-form-button" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 transition-colors transform hover:scale-105 duration-300 shadow-lg flex items-center">
+                        <i class="fas fa-plus mr-2"></i> Tambah Pendaftaran
+                    </button>
+                </div>
+                <!-- Formulir Pendaftaran (Hidden Secara Default) -->
+                <div id="pendaftaran-form-container" class="hidden mb-6 animate__animated animate__fadeIn">
+                    <form id="pendaftaran-form" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">No.RM <span class="text-red-500">*</span></label>
+                                <input type="text" id="pendaftaran-no-rm" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Nama Pasien <span class="text-red-500">*</span></label>
+                                <input type="text" id="pendaftaran-nama-pasien" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Tanggal Lahir <span class="text-red-500">*</span></label>
+                                <input type="date" id="pendaftaran-tgl-lahir" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Umur</label>
+                                <input type="number" id="pendaftaran-umur" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm bg-gray-100" readonly>
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700">Alamat <span class="text-red-500">*</span></label>
+                                <textarea id="pendaftaran-alamat" rows="3" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required></textarea>
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700">Tanggal Daftar</label>
+                                <input type="datetime-local" id="pendaftaran-tgl-daftar" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm bg-gray-100" readonly>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">No HP <span class="text-red-500">*</span></label>
+                                <input type="tel" id="pendaftaran-no-hp" pattern="[0-9]{10,15}" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required placeholder="contoh: 081234567890">
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700">Catatan</label>
+                                <input type="text" id="pendaftaran-catatan" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105">
+                            </div>
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primaryDark transition-colors transform hover:scale-105 duration-300 shadow-lg flex items-center">
+                                <i class="fas fa-save mr-2"></i> Simpan Pendaftaran
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <!-- Feedback Message -->
+                <div id="pendaftaran-feedback" class="hidden flex items-center bg-alertGreen border border-alertGreenBorder text-alertGreenText px-4 py-3 rounded relative mt-4 animate__animated animate__fadeIn" role="alert">
+                    <span class="block sm:inline" id="dynamic-feedback">Pendaftaran berhasil ditambahkan!</span>
+                    <button onclick="document.getElementById('pendaftaran-feedback').classList.add('hidden')" class="absolute top-0 bottom-0 right-0 px-4 py-3 focus:outline-none">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Tabel Daftar Pasien -->
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-semibold text-gray-700">Daftar Pasien</h2>
+                    <div class="flex space-x-2">
+                        <button id="export-pendaftaran" class="flex items-center bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition transform hover:scale-105 duration-300 shadow-lg">
+                            <i class="fas fa-file-export mr-2"></i> Export CSV
+                        </button>
+                        <label for="import-pendaftaran" class="flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition transform hover:scale-105 duration-300 cursor-pointer shadow-lg">
+                            <i class="fas fa-file-import mr-2"></i> Import CSV
+                            <input type="file" id="import-pendaftaran" accept=".csv" class="hidden">
+                        </label>
+                    </div>
+                </div>
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4 space-y-2 md:space-y-0">
+                    <!-- Select Jumlah Entri dan Filter Pencarian -->
+                    <div class="flex items-center space-x-2">
+                        <label for="entries-select-pendaftaran" class="text-sm text-gray-700">Tampilkan:</label>
+                        <select id="entries-select-pendaftaran" class="border border-gray-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition duration-300 transform hover:scale-105">
+                            <option value="5">5</option>
+                            <option value="10" selected>10</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                            <option value="all">Semua</option>
+                        </select>
+                        <label for="filter-pendaftaran" class="text-sm text-gray-700">Filter berdasarkan:</label>
+                        <select id="filter-pendaftaran" class="border border-gray-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition duration-300 transform hover:scale-105">
+                            <option value="noRM">No.RM</option>
+                            <option value="nama">Nama</option>
+                            <option value="noHP">No HP</option>
+                        </select>
+                        <input type="text" id="search-pendaftaran" class="border border-gray-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition duration-300 transform hover:scale-105" placeholder="Cari...">
+                        <button id="search-button-pendaftaran" class="bg-primary text-white px-3 py-2 rounded-md text-sm hover:bg-primaryDark transition-colors transform hover:scale-105 duration-300 shadow-lg">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <!-- Menampilkan Informasi Menampilkan X Pasien -->
+                    <div class="text-sm text-gray-600" id="showing-info-pendaftaran">Menampilkan 10 pasien.</div>
+                </div>
+                <!-- Wrapper untuk membuat tabel scrollable -->
+                <div class="max-h-96 overflow-y-auto">
+                    <table class="min-w-full text-sm">
+                        <thead>
+                            <tr class="bg-gray-200">
+                                <th class="py-2 px-4 text-left">No</th>
+                                <th class="py-2 px-4 text-left">No.RM</th>
+                                <th class="py-2 px-4 text-left">Nama</th>
+                                <th class="py-2 px-4 text-left">Tanggal Lahir</th>
+                                <th class="py-2 px-4 text-left">Umur</th>
+                                <th class="py-2 px-4 text-left">Alamat</th>
+                                <th class="py-2 px-4 text-left">Tanggal Daftar</th>
+                                <th class="py-2 px-4 text-left">No HP</th>
+                                <th class="py-2 px-4 text-left">Catatan</th>
+                                <th class="py-2 px-4 text-left">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="daftar-pendaftaran" class="divide-y divide-gray-300">
+                            <!-- Data Pendaftaran akan diisi oleh JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript untuk Navigation and Functionality -->
+    <script>
+        // Mengatur Tanggal Saat Ini dalam format DD/MM/YY
+        function setCurrentDate() {
+            const today = new Date();
+            const day = String(today.getDate()).padStart(2, '0');
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const year = String(today.getFullYear()).slice(-2);
+            const formattedDate = `${day}/${month}/${year}`;
+            document.getElementById('formatted-date').innerText = formattedDate;
+        }
+        setCurrentDate();
+
+        // Fungsi untuk mengatur menu aktif berdasarkan URL
+        function setActiveMenu() {
+            const path = window.location.pathname;
+            const page = path.split("/").pop().split(".")[0]; // Mendapatkan nama halaman tanpa ekstensi
+
+            // Daftar menu dan halaman yang sesuai
+            const menuMapping = {
+                'index': 'menu-index',
+                'pasien-pendaftaran': 'menu-pendaftaran',
+                'pasien-kunjungan': 'menu-kunjungan',
+                'pembelian': 'menu-pembelian',
+                'laporan': 'menu-laporan'
+            };
+
+            // Menghapus kelas 'active' dari semua menu
+            document.querySelectorAll('#sidebar ul li').forEach(li => {
+                li.classList.remove('active');
+            });
+
+            // Menambahkan kelas 'active' pada menu yang sesuai
+            const activeMenuId = menuMapping[page];
+            if (activeMenuId) {
+                const activeMenu = document.getElementById(activeMenuId);
+                if (activeMenu) {
+                    activeMenu.classList.add('active');
+                }
+            }
+        }
+
+        // Mengatur menu aktif saat halaman dimuat
+        window.onload = function() {
+            setActiveMenu();
+            initializePendaftaranForm();
+            loadPendaftaran();
+        };
+
+        // Mengelola toggle sidebar pada perangkat mobile
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const sidebar = document.getElementById('sidebar');
+        const closeSidebarButton = document.getElementById('close-sidebar');
+        const overlay = document.getElementById('overlay');
+
+        if (mobileMenuButton && sidebar && overlay) {
+            mobileMenuButton.addEventListener('click', () => {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+            });
+        }
+
+        if (closeSidebarButton && sidebar && overlay) {
+            closeSidebarButton.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            });
+        }
+
+        // Menutup sidebar ketika klik pada overlay
+        if (overlay && sidebar) {
+            overlay.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            });
+        }
+
+        // ===========================
+        // Fungsi untuk Menampilkan Feedback Pesan
+        // ===========================
+        function showFeedback(message, type, elementId) {
+            const feedback = document.getElementById(elementId);
+            if (feedback) {
+                feedback.querySelector('#dynamic-feedback').innerText = message;
+                if (type === 'error') {
+                    feedback.classList.remove('bg-alertGreen', 'text-alertGreenText');
+                    feedback.classList.add('bg-alertRed', 'text-alertRedText');
+                } else {
+                    feedback.classList.remove('bg-alertRed', 'text-alertRedText');
+                    feedback.classList.add('bg-alertGreen', 'text-alertGreenText');
+                }
+                feedback.classList.remove('hidden');
+                // Sembunyikan setelah 3 detik
+                setTimeout(() => {
+                    feedback.classList.add('hidden');
+                }, 3000);
+            }
+        }
+
+        // ===========================
+        // Manajemen Data Pendaftaran
+        // ===========================
+
+        // Fungsi untuk menghitung umur berdasarkan tanggal lahir
+        function calculateAgeFromDOB(dob) {
+            const today = new Date();
+            const birthDate = new Date(dob);
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
+        // Format Tanggal dari YYYY-MM-DD ke DD/MM/YY atau YYYY-MM-DD HH:MM untuk datetime-local
+        function formatDate(dateStr, withTime = false) {
+            if (!dateStr || dateStr === '-') return '-';
+            const date = new Date(dateStr);
+            if (isNaN(date)) return '-'; // Cek validitas tanggal
+            if (withTime) {
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = String(date.getFullYear());
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                return `${day}/${month}/${year} ${hours}:${minutes}`;
+            } else {
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = String(date.getFullYear()).slice(-2);
+                return `${day}/${month}/${year}`;
+            }
+        }
+
+        // Fungsi untuk menghasilkan No.RM berikutnya
+        function generateNextNoRM() {
+            let pendaftaranList = JSON.parse(localStorage.getItem('pendaftarans')) || [];
+            if (pendaftaranList.length === 0) {
+                return 'A1';
+            }
+            // Ambil semua No.RM yang bukan '-'
+            let noRMList = pendaftaranList
+                .filter(p => p.noRM !== '-')
+                .map(p => p.noRM.toUpperCase());
+            if (noRMList.length === 0) {
+                return 'A1';
+            }
+            // Sort No.RM berdasarkan huruf dan angka
+            noRMList.sort();
+            // Ambil No.RM terakhir
+            let lastNoRM = noRMList[noRMList.length - 1];
+            // Pisahkan huruf dan angka
+            let match = lastNoRM.match(/^([A-Z]+)(\d+)$/);
+            if (match) {
+                let letter = match[1];
+                let number = parseInt(match[2], 10) + 1;
+                return `${letter}${number}`;
+            } else {
+                // Jika format tidak sesuai, mulai dari A1
+                return 'A1';
+            }
+        }
+
+        // Fungsi untuk menghapus pendaftaran berdasarkan noRM
+        function hapusPendaftaran(noRM) {
+            let pendaftaranList = JSON.parse(localStorage.getItem('pendaftarans')) || [];
+            const index = pendaftaranList.findIndex(p => p.noRM.toUpperCase() === noRM.toUpperCase());
+            if (index === -1) {
+                showFeedback('Data pendaftaran tidak ditemukan.', 'error', 'pendaftaran-feedback');
+                return;
+            }
+            if (confirm(`Apakah Anda yakin ingin menghapus pendaftaran pasien dengan No.RM ${pendaftaranList[index].noRM}?`)) {
+                pendaftaranList.splice(index, 1);
+                localStorage.setItem('pendaftarans', JSON.stringify(pendaftaranList));
+                loadPendaftaran();
+                showFeedback('Pendaftaran berhasil dihapus!', 'success', 'pendaftaran-feedback');
+            }
+        }
+
+        // Fungsi untuk mengedit pendaftaran berdasarkan noRM
+        function editPendaftaran(noRM) {
+            let pendaftaranList = JSON.parse(localStorage.getItem('pendaftarans')) || [];
+            const index = pendaftaranList.findIndex(p => p.noRM.toUpperCase() === noRM.toUpperCase());
+            if (index === -1) {
+                showFeedback('Data pendaftaran tidak ditemukan.', 'error', 'pendaftaran-feedback');
+                return;
+            }
+            const pendaftaran = pendaftaranList[index];
+
+            // Tampilkan prompt untuk mengedit data
+            const newNoRM = prompt("Ubah No.RM:", pendaftaran.noRM);
+            if (newNoRM === null || newNoRM.trim() === "") {
+                showFeedback('No.RM tidak boleh kosong.', 'error', 'pendaftaran-feedback');
+                return;
+            }
+            const normalizedNewNoRM = newNoRM.trim().toUpperCase();
+
+            // Cek apakah No.RM baru sudah ada (kecuali jika No.RM tidak diubah)
+            if (normalizedNewNoRM !== pendaftaran.noRM.toUpperCase() && normalizedNewNoRM !== '-') {
+                const exists = pendaftaranList.some(p => p.noRM.toUpperCase() === normalizedNewNoRM);
+                if (exists) {
+                    showFeedback('No.RM sudah terdaftar. Silakan gunakan No.RM lain.', 'error', 'pendaftaran-feedback');
+                    return;
+                }
+            }
+
+            const newNama = prompt("Ubah Nama Pasien:", pendaftaran.nama);
+            if (newNama === null || newNama.trim() === "") {
+                showFeedback('Nama Pasien tidak boleh kosong.', 'error', 'pendaftaran-feedback');
+                return;
+            }
+
+            const newTglLahir = prompt("Ubah Tanggal Lahir (YYYY-MM-DD):", pendaftaran.tglLahir);
+            if (newTglLahir === null || newTglLahir.trim() === "") {
+                showFeedback('Tanggal Lahir tidak boleh kosong.', 'error', 'pendaftaran-feedback');
+                return;
+            }
+
+            const newAlamat = prompt("Ubah Alamat:", pendaftaran.alamat);
+            if (newAlamat === null || newAlamat.trim() === "") {
+                showFeedback('Alamat tidak boleh kosong.', 'error', 'pendaftaran-feedback');
+                return;
+            }
+
+            const newNoHP = prompt("Ubah No HP:", pendaftaran.noHP);
+            if (newNoHP === null || newNoHP.trim() === "") {
+                showFeedback('No HP tidak boleh kosong.', 'error', 'pendaftaran-feedback');
+                return;
+            }
+
+            const newCatatan = prompt("Ubah Catatan:", pendaftaran.catatan);
+
+            // Update data pendaftaran
+            pendaftaranList[index].noRM = normalizedNewNoRM;
+            pendaftaranList[index].nama = newNama.trim();
+            pendaftaranList[index].tglLahir = newTglLahir.trim();
+            pendaftaranList[index].umur = calculateAgeFromDOB(newTglLahir.trim());
+            pendaftaranList[index].alamat = newAlamat.trim();
+            pendaftaranList[index].noHP = newNoHP.trim();
+            pendaftaranList[index].catatan = newCatatan ? newCatatan.trim() : '';
+
+            localStorage.setItem('pendaftarans', JSON.stringify(pendaftaranList));
+            loadPendaftaran();
+            showFeedback('Pendaftaran berhasil diubah!', 'success', 'pendaftaran-feedback');
+        }
+
+        // ===========================
+        // Form Pendaftaran Pasien
+        // ===========================
+        const pendaftaranForm = document.getElementById('pendaftaran-form');
+        if (pendaftaranForm) {
+            pendaftaranForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const noRMInput = document.getElementById('pendaftaran-no-rm');
+                const noRM = noRMInput.value.trim().toUpperCase();
+                const nama = document.getElementById('pendaftaran-nama-pasien').value.trim();
+                const tglLahir = document.getElementById('pendaftaran-tgl-lahir').value;
+                const umur = document.getElementById('pendaftaran-umur').value.trim();
+                const alamat = document.getElementById('pendaftaran-alamat').value.trim();
+                const tglDaftar = document.getElementById('pendaftaran-tgl-daftar').value; // Tanggal dan waktu saat ini
+                const noHP = document.getElementById('pendaftaran-no-hp').value.trim();
+                const catatan = document.getElementById('pendaftaran-catatan').value.trim();
+
+                // Validasi
+                if (!noRM || !nama || !tglLahir || !alamat || !noHP) {
+                    showFeedback('Silakan lengkapi semua field yang wajib.', 'error', 'pendaftaran-feedback');
+                    return;
+                }
+
+                let pendaftaranList = JSON.parse(localStorage.getItem('pendaftarans')) || [];
+
+                // Cek apakah No.RM sudah ada (kecuali jika No.RM adalah '-')
+                if (noRM !== '-') {
+                    const existingPendaftaran = pendaftaranList.find(p => p.noRM.toUpperCase() === noRM);
+                    if (existingPendaftaran) {
+                        showFeedback('No.RM sudah terdaftar. Silakan gunakan No.RM lain.', 'error', 'pendaftaran-feedback');
+                        return;
+                    }
+                }
+
+                // Tambahkan pendaftaran
+                const pendaftaran = { noRM, nama, tglLahir, umur, alamat, tglDaftar, noHP, catatan };
+                pendaftaranList.push(pendaftaran);
+                localStorage.setItem('pendaftarans', JSON.stringify(pendaftaranList));
+
+                // Reset Form
+                pendaftaranForm.reset();
+                // Reset Umur
+                document.getElementById('pendaftaran-umur').value = '';
+                // Reset Tanggal Daftar
+                document.getElementById('pendaftaran-tgl-daftar').value = '';
+                // Auto-generate No.RM berikutnya
+                noRMInput.value = generateNextNoRM();
+                // Tampilkan data terbaru
+                loadPendaftaran();
+                // Tampilkan feedback
+                showFeedback('Pendaftaran berhasil ditambahkan!', 'success', 'pendaftaran-feedback');
+            });
+        }
+
+        // Fungsi untuk inisialisasi form pendaftaran
+        function initializePendaftaranForm() {
+            const tglLahirInput = document.getElementById('pendaftaran-tgl-lahir');
+            const umurInput = document.getElementById('pendaftaran-umur');
+            const tglDaftarInput = document.getElementById('pendaftaran-tgl-daftar');
+            const toggleFormButton = document.getElementById('toggle-form-button');
+            const pendaftaranFormContainer = document.getElementById('pendaftaran-form-container');
+            const noRMInput = document.getElementById('pendaftaran-no-rm');
+
+            if (tglLahirInput && umurInput && tglDaftarInput && toggleFormButton && pendaftaranFormContainer && noRMInput) {
+                // Event listener untuk menghitung umur ketika tanggal lahir diubah
+                tglLahirInput.addEventListener('change', () => {
+                    const dob = tglLahirInput.value;
+                    if (dob) {
+                        umurInput.value = calculateAgeFromDOB(dob);
+                    } else {
+                        umurInput.value = '';
+                    }
+                });
+
+                // Event listener untuk toggle formulir
+                toggleFormButton.addEventListener('click', () => {
+                    pendaftaranFormContainer.classList.toggle('hidden');
+                    if (!pendaftaranFormContainer.classList.contains('hidden')) {
+                        // Set Tanggal Daftar dengan tanggal dan waktu saat ini (waktu lokal)
+                        const now = new Date();
+                        const pad = (num) => String(num).padStart(2, '0');
+                        const localDatetime = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
+                        tglDaftarInput.value = localDatetime;
+                        // Auto-generate No.RM berikutnya
+                        noRMInput.value = generateNextNoRM();
+                    } else {
+                        // Reset Tanggal Daftar ketika form disembunyikan
+                        tglDaftarInput.value = '';
+                        // Reset No.RM jika diperlukan
+                        noRMInput.value = '';
+                    }
+                });
+            }
+        }
+
+        // ===========================
+        // Load Data Pendaftaran dengan Filter dan Jumlah Entri
+        // ===========================
+        function loadPendaftaran() {
+            let fullList = JSON.parse(localStorage.getItem('pendaftarans')) || [];
+            const filterBy = document.getElementById('filter-pendaftaran').value;
+            const searchQuery = document.getElementById('search-pendaftaran').value.trim().toLowerCase();
+            const entriesSelect = document.getElementById('entries-select-pendaftaran').value;
+
+            // Terapkan Filter jika ada
+            let filteredList = fullList;
+            if (searchQuery) {
+                if (filterBy === 'noRM') {
+                    // Exact match for No.RM
+                    filteredList = fullList.filter(pendaftaran => pendaftaran.noRM.toLowerCase() === searchQuery);
+                } else if (filterBy === 'nama') {
+                    // Partial match for Nama (case-insensitive)
+                    filteredList = fullList.filter(pendaftaran => pendaftaran.nama.toLowerCase().includes(searchQuery));
+                } else if (filterBy === 'noHP') {
+                    // Partial match for No HP
+                    filteredList = fullList.filter(pendaftaran => pendaftaran.noHP.toLowerCase().includes(searchQuery));
+                }
+            }
+
+            // Tentukan jumlah entri yang ditampilkan
+            let jumlahTampil;
+            if (entriesSelect === 'all') {
+                jumlahTampil = filteredList.length;
+            } else {
+                jumlahTampil = parseInt(entriesSelect);
+            }
+
+            // Ambil pendaftaran sesuai jumlahTampil
+            const displayList = filteredList.slice(-jumlahTampil).reverse(); // Reverse untuk menampilkan terbaru di atas
+
+            const tbody = document.getElementById('daftar-pendaftaran');
+            if (tbody) {
+                tbody.innerHTML = '';
+                displayList.forEach((pendaftaran, index) => {
+                    const row = `
+                        <tr class="hover:bg-gray-100">
+                            <td class="py-2 px-4">${index + 1}</td>
+                            <td class="py-2 px-4">${pendaftaran.noRM}</td>
+                            <td class="py-2 px-4">${pendaftaran.nama}</td>
+                            <td class="py-2 px-4">${formatDate(pendaftaran.tglLahir)}</td>
+                            <td class="py-2 px-4">${pendaftaran.umur || '-'}</td>
+                            <td class="py-2 px-4">${pendaftaran.alamat || '-'}</td>
+                            <td class="py-2 px-4">${formatDate(pendaftaran.tglDaftar, true)}</td>
+                            <td class="py-2 px-4">${pendaftaran.noHP || '-'}</td>
+                            <td class="py-2 px-4">${pendaftaran.catatan || '-'}</td>
+                            <td class="py-2 px-4 flex space-x-2">
+                                <button onclick="editPendaftaran('${pendaftaran.noRM}')" class="bg-yellow-500 text-white px-2 py-1 rounded-md hover:bg-yellow-600 transition-colors transform hover:scale-105 duration-300 shadow-lg">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button onclick="hapusPendaftaran('${pendaftaran.noRM}')" class="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600 transition-colors transform hover:scale-105 duration-300 shadow-lg">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                    tbody.insertAdjacentHTML('beforeend', row);
+                });
+                // Update informasi menampilkan
+                const showingInfo = document.getElementById('showing-info-pendaftaran');
+                if (showingInfo) {
+                    showingInfo.innerText = `Menampilkan ${displayList.length} pasien.`;
+                }
+            }
+        }
+
+        // ===========================
+        // Pencarian dan Filter (Pendaftaran)
+        // ===========================
+        const searchButtonPendaftaran = document.getElementById('search-button-pendaftaran');
+        const searchInputPendaftaran = document.getElementById('search-pendaftaran');
+        const filterPendaftaranSelect = document.getElementById('filter-pendaftaran');
+        const entriesSelectPendaftaran = document.getElementById('entries-select-pendaftaran');
+
+        if (searchButtonPendaftaran && searchInputPendaftaran) {
+            searchButtonPendaftaran.addEventListener('click', () => {
+                loadPendaftaran();
+            });
+        }
+
+        if (searchInputPendaftaran) {
+            searchInputPendaftaran.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    loadPendaftaran();
+                }
+            });
+        }
+
+        if (filterPendaftaranSelect || entriesSelectPendaftaran) {
+            if (filterPendaftaranSelect) {
+                filterPendaftaranSelect.addEventListener('change', loadPendaftaran);
+            }
+            if (entriesSelectPendaftaran) {
+                entriesSelectPendaftaran.addEventListener('change', loadPendaftaran);
+            }
+        }
+
+        // ===========================
+        // Export dan Import Data ke CSV (Pendaftaran)
+        // ===========================
+
+        // Fungsi untuk mengkonversi data JSON ke CSV
+        function convertToCSV(arr) {
+            if (arr.length === 0) {
+                return '';
+            }
+            const keys = Object.keys(arr[0]);
+            const csvContent = [keys.join(',')].concat(arr.map(row => keys.map(k => `"${row[k] || ''}"`).join(','))).join('\n');
+            return csvContent;
+        }
+
+        // Fungsi untuk parsing CSV
+        function parseCSV(text) {
+            const lines = text.trim().split('\n');
+            const headers = lines[0].split(',').map(header => header.trim());
+            const data = lines.slice(1).map(line => {
+                const values = line.split(',').map(value => value.trim().replace(/^"|"$/g, ''));
+                let obj = {};
+                headers.forEach((header, index) => {
+                    obj[header] = values[index];
+                });
+                return obj;
+            });
+            return data;
+        }
+
+        // Fungsi untuk mengunduh file CSV
+        function downloadCSV(csv, filename) {
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Export Daftar Pendaftaran
+        const exportPendaftaranBtn = document.getElementById('export-pendaftaran');
+        if (exportPendaftaranBtn) {
+            exportPendaftaranBtn.addEventListener('click', function() {
+                const pendaftaranList = JSON.parse(localStorage.getItem('pendaftarans')) || [];
+                if (pendaftaranList.length === 0) {
+                    showFeedback('Tidak ada data pendaftaran untuk diekspor.', 'error', 'pendaftaran-feedback');
+                    return;
+                }
+                const csv = convertToCSV(pendaftaranList);
+                downloadCSV(csv, 'daftar_pendaftaran.csv');
+                showFeedback('Data pendaftaran berhasil diekspor!', 'success', 'pendaftaran-feedback');
+            });
+        }
+
+        // Import Pendaftaran
+        const importPendaftaranInput = document.getElementById('import-pendaftaran');
+        if (importPendaftaranInput) {
+            importPendaftaranInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file && (file.type === 'text/csv' || file.name.endsWith('.csv'))) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const text = event.target.result;
+                        const data = parseCSV(text);
+                        if (data) {
+                            let pendaftaranList = JSON.parse(localStorage.getItem('pendaftarans')) || [];
+                            let berhasilDiimpor = 0;
+                            data.forEach(pendaftaran => {
+                                // Sesuaikan nama field sesuai CSV yang ada
+                                let mappedPendaftaran = {
+                                    noRM: pendaftaran['No.RM'] || '-',
+                                    nama: pendaftaran['Nama'] || '-',
+                                    tglLahir: pendaftaran['Tanggal Lahir'] || '-',
+                                    umur: pendaftaran['Umur'] || '-',
+                                    alamat: pendaftaran['Alamat'] || '-',
+                                    tglDaftar: pendaftaran['Tanggal Daftar'] || '-',
+                                    noHP: pendaftaran['No HP'] || '-',
+                                    catatan: pendaftaran['Catatan'] || '-'
+                                };
+                                // Cek apakah No.RM sudah ada (kecuali jika No.RM adalah '-')
+                                if (mappedPendaftaran.noRM !== '-') {
+                                    const exists = pendaftaranList.find(p => p.noRM.toUpperCase() === mappedPendaftaran.noRM.toUpperCase());
+                                    if (!exists) {
+                                        pendaftaranList.push(mappedPendaftaran);
+                                        berhasilDiimpor++;
+                                    }
+                                } else {
+                                    // No.RM adalah '-', tambahkan tanpa cek duplikasi
+                                    pendaftaranList.push(mappedPendaftaran);
+                                    berhasilDiimpor++;
+                                }
+                            });
+                            localStorage.setItem('pendaftarans', JSON.stringify(pendaftaranList));
+                            loadPendaftaran();
+                            if (berhasilDiimpor > 0) {
+                                showFeedback(`${berhasilDiimpor} data pendaftaran berhasil diimpor!`, 'success', 'pendaftaran-feedback');
+                            } else {
+                                showFeedback('Tidak ada data pendaftaran yang diimpor. Pastikan format CSV sesuai atau No.RM sudah terdaftar.', 'error', 'pendaftaran-feedback');
+                            }
+                        } else {
+                            showFeedback('Format CSV tidak valid.', 'error', 'pendaftaran-feedback');
+                        }
+                    };
+                    reader.readAsText(file);
+                } else {
+                    showFeedback('Silakan pilih file CSV yang valid.', 'error', 'pendaftaran-feedback');
+                }
+            });
+        }
+
+        // ===========================
+        // Toggle Formulir Pendaftaran
+        // ===========================
+        // Sudah dihandle dalam initializePendaftaranForm()
+
+        // ===========================
+        // Load Data Pendaftaran dengan Filter dan Jumlah Entri
+        // ===========================
+        // Sudah diimplementasikan di fungsi loadPendaftaran()
+
+        // ===========================
+        // Edit Pendaftaran
+        // ===========================
+        // Fungsi editPendaftaran sudah ditambahkan di atas
+
+    </script>
+</body>
+</html>

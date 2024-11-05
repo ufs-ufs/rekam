@@ -1,0 +1,757 @@
+<!-- pembelian.html -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <!-- Meta Tags dan Title -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UFS Dental - Pembelian</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-papH8D0zQIdXSAj7i42jwrNw2mGwj1ph5E+G4x3xymLkHkOk4bqR0ztQ6p8L7a0p3E61PRkt7Vgk8C0P6g7Qkg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Animate.css CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <!-- Tailwind CSS Custom Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a8a', // Blue-900
+                        primaryDark: '#1e40af', // Blue-800
+                        secondary: '#f1f5f9', // Gray-100
+                        alertGreen: '#dcfce7', // Green-100
+                        alertGreenBorder: '#22c55e', // Green-500
+                        alertGreenText: '#166534', // Green-700
+                        alertRed: '#fee2e2', // Red-100
+                        alertRedBorder: '#f87171', // Red-400
+                        alertRedText: '#991b1b', // Red-700
+                    },
+                },
+            },
+        }
+    </script>
+    
+    <style>
+        /* Custom Styles */
+        .active {
+            background-color: #1e40af; /* Blue-800 */
+        }
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0; 
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans leading-normal tracking-normal">
+    <div class="flex">
+        <!-- Sidebar -->
+        <div id="sidebar" class="w-64 bg-primary text-white fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-50">
+            <div class="p-6 text-3xl font-bold border-b border-primaryDark flex items-center justify-between">
+                <span>UFS Dental</span>
+                <button id="close-sidebar" class="md:hidden text-white focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul class="mt-8">
+                <!-- Menu Beranda -->
+                <li id="menu-index" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-tachometer-alt mr-3 text-lg"></i>
+                    <a href="index.html" class="flex-1">Beranda</a>
+                </li>
+                
+                <!-- Menu Pasien Pendaftaran -->
+                <li id="menu-pendaftaran" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-user-plus mr-3 text-lg"></i>
+                    <a href="pasien-pendaftaran.html" class="flex-1">Pendaftaran Pasien</a>
+                </li>
+                
+                <!-- Menu Pasien Kunjungan -->
+                <li id="menu-kunjungan" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-notes-medical mr-3 text-lg"></i>
+                    <a href="pasien-kunjungan.html" class="flex-1">Kunjungan Pasien</a>
+                </li>
+                
+                <!-- Menu Pembelian -->
+                <li id="menu-pembelian" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200 active">
+                    <i class="fas fa-shopping-cart mr-3 text-lg"></i>
+                    <a href="pembelian.html" class="flex-1">Pembelian</a>
+                </li>
+                
+                <!-- Menu Laporan -->
+                <li id="menu-laporan" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-chart-line mr-3 text-lg"></i>
+                    <a href="laporan.html" class="flex-1">Laporan</a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Overlay untuk Mobile Sidebar -->
+        <div id="overlay" class="fixed inset-0 bg-black opacity-50 hidden z-40"></div>
+        
+        <!-- Mobile Sidebar Toggle -->
+        <div class="w-full md:hidden flex items-center bg-primary p-4">
+            <button id="mobile-menu-button" class="text-white focus:outline-none">
+                <i class="fas fa-bars fa-lg"></i>
+            </button>
+            <div class="ml-4 text-white text-2xl font-bold">UFS Dental</div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 p-6 ml-0 md:ml-64 transition-all duration-300">
+            <!-- Top Bar -->
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                <div class="relative w-full md:w-1/3 mb-4 md:mb-0">
+                    <input type="text" id="search-input" class="w-full p-3 pl-10 pr-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition duration-300 transform hover:scale-105" placeholder="Cari data pembelian...">
+                    <button id="search-button" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 focus:outline-none">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div id="current-date" class="text-gray-700 mb-4 md:mb-0">Tanggal: <span id="formatted-date">-</span></div>
+                <div class="flex items-center">
+                    <div class="mr-3 text-gray-700">Administrator</div>
+                    <div class="w-10 h-10 rounded-full bg-gray-300"></div>
+                </div>
+            </div>
+            
+            <!-- Alert (Hidden by Default) -->
+            <div id="alert" class="hidden flex items-center bg-alertGreen border border-alertGreenBorder text-alertGreenText px-4 py-3 rounded relative mb-6 animate__animated animate__fadeIn" role="alert">
+                <span class="block sm:inline" id="dynamic-alert">Pesan alert.</span>
+                <button onclick="document.getElementById('alert').classList.add('hidden')" class="absolute top-0 bottom-0 right-0 px-4 py-3 focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Pembelian -->
+            <div class="bg-white p-6 rounded-lg shadow mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-semibold text-gray-700">Pembelian</h2>
+                    <!-- Tombol Toggle Formulir -->
+                    <button id="toggle-form-button" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors transform hover:scale-105 duration-300 shadow-lg flex items-center">
+                        <i class="fas fa-plus mr-2"></i> Tambah Pembelian
+                    </button>
+                </div>
+                <!-- Formulir Pembelian (Hidden Secara Default) -->
+                <div id="pembelian-form-container" class="hidden mb-6">
+                    <form id="pembelian-form" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">No.Pembelian <span class="text-red-500">*</span></label>
+                                <input type="text" id="pembelian-no" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Tanggal Pembelian <span class="text-red-500">*</span></label>
+                                <input type="date" id="pembelian-tgl" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Nama Barang <span class="text-red-500">*</span></label>
+                                <input type="text" id="pembelian-nama-barang" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Jumlah <span class="text-red-500">*</span></label>
+                                <input type="number" id="pembelian-jumlah" min="1" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Harga Satuan <span class="text-red-500">*</span></label>
+                                <input type="number" id="pembelian-harga-satuan" min="0" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Total Biaya</label>
+                                <input type="number" id="pembelian-total-biaya" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm bg-gray-100" readonly>
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700">Supplier <span class="text-red-500">*</span></label>
+                                <input type="text" id="pembelian-supplier" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required>
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700">Catatan</label>
+                                <textarea id="pembelian-catatan" rows="3" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105"></textarea>
+                            </div>
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primaryDark transition-colors transform hover:scale-105 duration-300 shadow-lg flex items-center">
+                                <i class="fas fa-save mr-2"></i> Simpan Pembelian
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <!-- Feedback Message -->
+                <div id="pembelian-feedback" class="hidden flex items-center bg-alertGreen border border-alertGreenBorder text-alertGreenText px-4 py-3 rounded relative mt-4 animate__animated animate__fadeIn" role="alert">
+                    <span class="block sm:inline" id="dynamic-feedback">Pembelian berhasil ditambahkan!</span>
+                    <button onclick="document.getElementById('pembelian-feedback').classList.add('hidden')" class="absolute top-0 bottom-0 right-0 px-4 py-3 focus:outline-none">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Tabel Daftar Pembelian -->
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-semibold text-gray-700">Daftar Pembelian</h2>
+                    <div class="flex space-x-2">
+                        <button id="export-pembelian" class="flex items-center bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition-colors transform hover:scale-105 duration-300 shadow-lg">
+                            <i class="fas fa-file-export mr-2"></i> Export CSV
+                        </button>
+                        <label for="import-pembelian" class="flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors transform hover:scale-105 duration-300 cursor-pointer shadow-lg">
+                            <i class="fas fa-file-import mr-2"></i> Import CSV
+                            <input type="file" id="import-pembelian" accept=".csv" class="hidden">
+                        </label>
+                    </div>
+                </div>
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4 space-y-2 md:space-y-0">
+                    <!-- Select Jumlah Entri dan Filter Pencarian -->
+                    <div class="flex items-center space-x-2">
+                        <label for="entries-select-pembelian" class="text-sm text-gray-700">Tampilkan:</label>
+                        <select id="entries-select-pembelian" class="border border-gray-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition duration-300 transform hover:scale-105">
+                            <option value="5">5</option>
+                            <option value="10" selected>10</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                            <option value="all">Semua</option>
+                        </select>
+                        <label for="filter-pembelian" class="text-sm text-gray-700">Filter berdasarkan:</label>
+                        <select id="filter-pembelian" class="border border-gray-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition duration-300 transform hover:scale-105">
+                            <option value="noPembelian">No.Pembelian</option>
+                            <option value="namaBarang">Nama Barang</option>
+                            <option value="tanggal">Tanggal Pembelian</option>
+                        </select>
+                        <input type="text" id="search-pembelian" class="border border-gray-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition duration-300 transform hover:scale-105" placeholder="Cari...">
+                        <button id="search-button-pembelian" class="bg-primary text-white px-3 py-2 rounded-md text-sm hover:bg-primaryDark transition-colors transform hover:scale-105 duration-300 shadow-lg">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <!-- Menampilkan Informasi Menampilkan X Pembelian -->
+                    <div class="text-sm text-gray-600" id="showing-info-pembelian">Menampilkan 10 pembelian.</div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm">
+                        <thead>
+                            <tr class="bg-gray-200">
+                                <th class="py-2 px-4 text-left">No</th>
+                                <th class="py-2 px-4 text-left">No.Pembelian</th>
+                                <th class="py-2 px-4 text-left">Tanggal Pembelian</th>
+                                <th class="py-2 px-4 text-left">Nama Barang</th>
+                                <th class="py-2 px-4 text-left">Jumlah</th>
+                                <th class="py-2 px-4 text-left">Harga Satuan</th>
+                                <th class="py-2 px-4 text-left">Total Biaya</th>
+                                <th class="py-2 px-4 text-left">Supplier</th>
+                                <th class="py-2 px-4 text-left">Catatan</th>
+                                <th class="py-2 px-4 text-left">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="daftar-pembelian" class="divide-y divide-gray-300">
+                            <!-- Data Pembelian akan diisi oleh JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Message (Hidden by Default) -->
+    <div id="pembelian-feedback" class="hidden flex items-center bg-alertGreen border border-alertGreenBorder text-alertGreenText px-4 py-3 rounded relative mb-6 animate__animated animate__fadeIn" role="alert">
+        <span class="block sm:inline" id="dynamic-feedback">Pembelian berhasil ditambahkan!</span>
+        <button onclick="document.getElementById('pembelian-feedback').classList.add('hidden')" class="absolute top-0 bottom-0 right-0 px-4 py-3 focus:outline-none">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <!-- JavaScript untuk Navigation and Functionality -->
+    <script>
+        // Mengatur Tanggal Saat Ini dalam format DD/MM/YY
+        function setCurrentDate() {
+            const today = new Date();
+            const day = String(today.getDate()).padStart(2, '0');
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const year = String(today.getFullYear()).slice(-2);
+            const formattedDate = `${day}/${month}/${year}`;
+            document.getElementById('formatted-date').innerText = formattedDate;
+        }
+        setCurrentDate();
+
+        // Fungsi untuk mengatur menu aktif berdasarkan URL
+        function setActiveMenu() {
+            const path = window.location.pathname;
+            const page = path.split("/").pop().split(".")[0]; // Mendapatkan nama halaman tanpa ekstensi
+
+            // Daftar menu dan halaman yang sesuai
+            const menuMapping = {
+                'index': 'menu-index',
+                'pasien-pendaftaran': 'menu-pendaftaran',
+                'pasien-kunjungan': 'menu-kunjungan',
+                'pembelian': 'menu-pembelian',
+                'laporan': 'menu-laporan'
+            };
+
+            // Menghapus kelas 'active' dari semua menu
+            document.querySelectorAll('#sidebar ul li').forEach(li => {
+                li.classList.remove('active');
+            });
+
+            // Menambahkan kelas 'active' pada menu yang sesuai
+            const activeMenuId = menuMapping[page];
+            if (activeMenuId) {
+                const activeMenu = document.getElementById(activeMenuId);
+                if (activeMenu) {
+                    activeMenu.classList.add('active');
+                }
+            }
+        }
+
+        // Mengatur menu aktif saat halaman dimuat
+        window.onload = function() {
+            setActiveMenu();
+            initializePembelianForm();
+            loadPembelian();
+        };
+
+        // Mengelola toggle sidebar pada perangkat mobile
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const sidebar = document.getElementById('sidebar');
+        const closeSidebarButton = document.getElementById('close-sidebar');
+        const overlay = document.getElementById('overlay');
+
+        if (mobileMenuButton && sidebar && overlay) {
+            mobileMenuButton.addEventListener('click', () => {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+            });
+        }
+
+        if (closeSidebarButton && sidebar && overlay) {
+            closeSidebarButton.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            });
+        }
+
+        // Menutup sidebar ketika klik pada overlay
+        if (overlay && sidebar) {
+            overlay.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            });
+        }
+
+        // ===========================
+        // Fungsi untuk Menampilkan Feedback Pesan
+        // ===========================
+        function showFeedback(message, type, elementId) {
+            const feedback = document.getElementById(elementId);
+            if (feedback) {
+                feedback.querySelector('#dynamic-feedback').innerText = message;
+                if (type === 'error') {
+                    feedback.classList.remove('bg-alertGreen', 'text-alertGreenText');
+                    feedback.classList.add('bg-alertRed', 'text-alertRedText');
+                } else {
+                    feedback.classList.remove('bg-alertRed', 'text-alertRedText');
+                    feedback.classList.add('bg-alertGreen', 'text-alertGreenText');
+                }
+                feedback.classList.remove('hidden');
+                // Sembunyikan setelah 3 detik
+                setTimeout(() => {
+                    feedback.classList.add('hidden');
+                }, 3000);
+            }
+        }
+
+        // ===========================
+        // Manajemen Data Pembelian
+        // ===========================
+
+        // Fungsi untuk format tanggal
+        function formatDate(dateStr) {
+            if (!dateStr) return '-';
+            const date = new Date(dateStr);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = String(date.getFullYear()).slice(-2);
+            return `${day}/${month}/${year}`;
+        }
+
+        // Fungsi untuk menghapus pembelian berdasarkan index
+        function hapusPembelian(displayIndex) {
+            let pembelianList = JSON.parse(localStorage.getItem('pembelians')) || [];
+            const actualIndex = pembelianList.length - 1 - displayIndex; // Sesuaikan indeks
+            if (confirm(`Apakah Anda yakin ingin menghapus pembelian dengan No.Pembelian ${pembelianList[actualIndex].noPembelian}?`)) {
+                pembelianList.splice(actualIndex, 1);
+                localStorage.setItem('pembelians', JSON.stringify(pembelianList));
+                loadPembelian();
+                showFeedback('Pembelian berhasil dihapus!', 'success', 'pembelian-feedback');
+            }
+        }
+
+        // ===========================
+        // Form Pembelian
+        // ===========================
+        const pembelianForm = document.getElementById('pembelian-form');
+        if (pembelianForm) {
+            pembelianForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const noPembelian = document.getElementById('pembelian-no').value.trim();
+                const tglPembelian = document.getElementById('pembelian-tgl').value;
+                const namaBarang = document.getElementById('pembelian-nama-barang').value.trim();
+                const jumlah = document.getElementById('pembelian-jumlah').value.trim();
+                const hargaSatuan = document.getElementById('pembelian-harga-satuan').value.trim();
+                const totalBiaya = document.getElementById('pembelian-total-biaya').value.trim();
+                const supplier = document.getElementById('pembelian-supplier').value.trim();
+                const catatan = document.getElementById('pembelian-catatan').value.trim();
+
+                // Validasi
+                if (!noPembelian || !tglPembelian || !namaBarang || !jumlah || !hargaSatuan || !supplier) {
+                    showFeedback('Silakan lengkapi semua field yang wajib.', 'error', 'pembelian-feedback');
+                    return;
+                }
+
+                const pembelian = { noPembelian: noPembelian, tglPembelian, namaBarang, jumlah, hargaSatuan, totalBiaya, supplier, catatan };
+                let pembelianList = JSON.parse(localStorage.getItem('pembelians')) || [];
+
+                // Cek apakah No.Pembelian sudah ada
+                const existingPembelian = pembelianList.find(p => p.noPembelian === noPembelian);
+                if (existingPembelian) {
+                    showFeedback('No.Pembelian sudah terdaftar. Silakan gunakan No.Pembelian lain.', 'error', 'pembelian-feedback');
+                    return;
+                }
+
+                // Tambahkan pembelian
+                pembelianList.push(pembelian);
+                localStorage.setItem('pembelians', JSON.stringify(pembelianList));
+
+                // Reset Form
+                pembelianForm.reset();
+                // Reset Total Biaya
+                document.getElementById('pembelian-total-biaya').value = '';
+                // Tampilkan data terbaru
+                loadPembelian();
+                // Tampilkan feedback
+                showFeedback('Pembelian berhasil ditambahkan!', 'success', 'pembelian-feedback');
+            });
+        }
+
+        // Fungsi untuk menghitung Total Biaya
+        function calculateTotalBiaya() {
+            const jumlah = parseInt(document.getElementById('pembelian-jumlah').value) || 0;
+            const hargaSatuan = parseFloat(document.getElementById('pembelian-harga-satuan').value) || 0;
+            const totalBiaya = jumlah * hargaSatuan;
+            document.getElementById('pembelian-total-biaya').value = totalBiaya.toFixed(2);
+        }
+
+        // Fungsi untuk inisialisasi form pembelian
+        function initializePembelianForm() {
+            const jumlahInput = document.getElementById('pembelian-jumlah');
+            const hargaSatuanInput = document.getElementById('pembelian-harga-satuan');
+
+            if (jumlahInput && hargaSatuanInput) {
+                // Event listener untuk menghitung total biaya ketika jumlah atau harga satuan diubah
+                jumlahInput.addEventListener('input', calculateTotalBiaya);
+                hargaSatuanInput.addEventListener('input', calculateTotalBiaya);
+            }
+        }
+
+        // ===========================
+        // Load Data Pembelian dengan Filter dan Jumlah Entri
+        // ===========================
+        function loadPembelian() {
+            let pembelianList = JSON.parse(localStorage.getItem('pembelians')) || [];
+            const filterBy = document.getElementById('filter-pembelian').value;
+            const searchQuery = document.getElementById('search-pembelian').value.trim().toLowerCase();
+            const entriesSelect = document.getElementById('entries-select-pembelian').value;
+
+            // Terapkan Filter jika ada
+            if (searchQuery) {
+                pembelianList = pembelianList.filter(pembelian => {
+                    if (filterBy === 'noPembelian') {
+                        return pembelian.noPembelian.toLowerCase().includes(searchQuery);
+                    } else if (filterBy === 'namaBarang') {
+                        return pembelian.namaBarang.toLowerCase().includes(searchQuery);
+                    } else if (filterBy === 'tanggal') {
+                        return formatDate(pembelian.tglPembelian).toLowerCase().includes(searchQuery);
+                    }
+                    return false;
+                });
+            }
+
+            // Tentukan jumlah entri yang ditampilkan
+            let jumlahTampil;
+            if (entriesSelect === 'all') {
+                jumlahTampil = pembelianList.length;
+            } else {
+                jumlahTampil = parseInt(entriesSelect);
+            }
+
+            // Ambil pembelian sesuai jumlahTampil
+            pembelianList = pembelianList.slice(-jumlahTampil).reverse(); // Reverse untuk menampilkan terbaru di atas
+
+            const tbody = document.getElementById('daftar-pembelian');
+            if (tbody) {
+                tbody.innerHTML = '';
+                pembelianList.forEach((pembelian, index) => {
+                    const row = `
+                        <tr class="hover:bg-gray-100">
+                            <td class="py-2 px-4">${index + 1}</td>
+                            <td class="py-2 px-4">${pembelian.noPembelian}</td>
+                            <td class="py-2 px-4">${formatDate(pembelian.tglPembelian)}</td>
+                            <td class="py-2 px-4">${pembelian.namaBarang}</td>
+                            <td class="py-2 px-4">${pembelian.jumlah}</td>
+                            <td class="py-2 px-4">${pembelian.hargaSatuan}</td>
+                            <td class="py-2 px-4">${pembelian.totalBiaya}</td>
+                            <td class="py-2 px-4">${pembelian.supplier}</td>
+                            <td class="py-2 px-4">${pembelian.catatan || '-'}</td>
+                            <td class="py-2 px-4">
+                                <button onclick="hapusPembelian(${pembelianList.length - 1 - index})" class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition-colors transform hover:scale-105 duration-300 shadow-lg flex items-center">
+                                    <i class="fas fa-trash-alt mr-2"></i> Hapus
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                    tbody.insertAdjacentHTML('beforeend', row);
+                });
+                // Update informasi menampilkan
+                const showingInfo = document.getElementById('showing-info-pembelian');
+                if (showingInfo) {
+                    showingInfo.innerText = `Menampilkan ${pembelianList.length} pembelian.`;
+                }
+            }
+        }
+
+        // ===========================
+        // Pencarian dan Filter (Pembelian)
+        // ===========================
+        const searchButtonPembelian = document.getElementById('search-button-pembelian');
+        const searchInputPembelian = document.getElementById('search-pembelian');
+        const filterPembelianSelect = document.getElementById('filter-pembelian');
+        const entriesSelectPembelian = document.getElementById('entries-select-pembelian');
+
+        if (searchButtonPembelian && searchInputPembelian) {
+            searchButtonPembelian.addEventListener('click', () => {
+                loadPembelian();
+            });
+        }
+
+        if (searchInputPembelian) {
+            searchInputPembelian.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    loadPembelian();
+                }
+            });
+        }
+
+        if (filterPembelianSelect || entriesSelectPembelian) {
+            if (filterPembelianSelect) {
+                filterPembelianSelect.addEventListener('change', loadPembelian);
+            }
+            if (entriesSelectPembelian) {
+                entriesSelectPembelian.addEventListener('change', loadPembelian);
+            }
+        }
+
+        // ===========================
+        // Export dan Import Data ke CSV (Pembelian)
+        // ===========================
+
+        // Fungsi untuk mengkonversi data JSON ke CSV
+        function convertToCSV(arr) {
+            if (arr.length === 0) {
+                return '';
+            }
+            const keys = Object.keys(arr[0]);
+            const csvContent = [keys.join(',')].concat(arr.map(row => keys.map(k => `"${row[k] || ''}"`).join(','))).join('\n');
+            return csvContent;
+        }
+
+        // Fungsi untuk parsing CSV
+        function parseCSV(text) {
+            const lines = text.trim().split('\n');
+            const headers = lines[0].split(',').map(header => header.trim());
+            const data = lines.slice(1).map(line => {
+                const values = line.split(',').map(value => value.trim().replace(/^"|"$/g, ''));
+                let obj = {};
+                headers.forEach((header, index) => {
+                    obj[header] = values[index];
+                });
+                return obj;
+            });
+            return data;
+        }
+
+        // Fungsi untuk mengunduh file CSV
+        function downloadCSV(csv, filename) {
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Export Daftar Pembelian
+        const exportPembelianBtn = document.getElementById('export-pembelian');
+        if (exportPembelianBtn) {
+            exportPembelianBtn.addEventListener('click', function() {
+                const pembelianList = JSON.parse(localStorage.getItem('pembelians')) || [];
+                if (pembelianList.length === 0) {
+                    showFeedback('Tidak ada data pembelian untuk diekspor.', 'error', 'pembelian-feedback');
+                    return;
+                }
+                const csv = convertToCSV(pembelianList);
+                downloadCSV(csv, 'daftar_pembelian.csv');
+                showFeedback('Data pembelian berhasil diekspor!', 'success', 'pembelian-feedback');
+            });
+        }
+
+        // Import Pembelian
+        const importPembelianInput = document.getElementById('import-pembelian');
+        if (importPembelianInput) {
+            importPembelianInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file && (file.type === 'text/csv' || file.name.endsWith('.csv'))) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const text = event.target.result;
+                        const data = parseCSV(text);
+                        if (data) {
+                            let pembelianList = JSON.parse(localStorage.getItem('pembelians')) || [];
+                            let berhasilDiimpor = 0;
+                            data.forEach(pembelian => {
+                                // Sesuaikan nama field sesuai CSV yang ada
+                                const mappedPembelian = {
+                                    noPembelian: pembelian['No.Pembelian'],
+                                    tglPembelian: pembelian['Tanggal Pembelian'],
+                                    namaBarang: pembelian['Nama Barang'],
+                                    jumlah: pembelian['Jumlah'],
+                                    hargaSatuan: pembelian['Harga Satuan'],
+                                    totalBiaya: pembelian['Total Biaya'],
+                                    supplier: pembelian['Supplier'],
+                                    catatan: pembelian['Catatan']
+                                };
+                                // Validasi bahwa field yang diperlukan ada
+                                if (mappedPembelian.noPembelian && mappedPembelian.tglPembelian && mappedPembelian.namaBarang && mappedPembelian.jumlah && mappedPembelian.hargaSatuan && mappedPembelian.supplier) {
+                                    // Cek apakah No.Pembelian sudah ada
+                                    const existing = pembelianList.find(p => p.noPembelian === mappedPembelian.noPembelian);
+                                    if (!existing) {
+                                        pembelianList.push(mappedPembelian);
+                                        berhasilDiimpor++;
+                                    }
+                                }
+                            });
+                            localStorage.setItem('pembelians', JSON.stringify(pembelianList));
+                            loadPembelian();
+                            if (berhasilDiimpor > 0) {
+                                showFeedback(`${berhasilDiimpor} data pembelian berhasil diimpor!`, 'success', 'pembelian-feedback');
+                            } else {
+                                showFeedback('Tidak ada data pembelian yang diimpor. Pastikan format CSV sesuai atau No.Pembelian sudah terdaftar.', 'error', 'pembelian-feedback');
+                            }
+                        } else {
+                            showFeedback('Format CSV tidak valid.', 'error', 'pembelian-feedback');
+                        }
+                    };
+                    reader.readAsText(file);
+                } else {
+                    showFeedback('Silakan pilih file CSV yang valid.', 'error', 'pembelian-feedback');
+                }
+            });
+        }
+
+        // ===========================
+        // Toggle Formulir Pembelian
+        // ===========================
+        const toggleFormButton = document.getElementById('toggle-form-button');
+        const pembelianFormContainer = document.getElementById('pembelian-form-container');
+
+        if (toggleFormButton && pembelianFormContainer) {
+            toggleFormButton.addEventListener('click', () => {
+                pembelianFormContainer.classList.toggle('hidden');
+                if (pembelianFormContainer.classList.contains('hidden')) {
+                    toggleFormButton.innerHTML = '<i class="fas fa-plus mr-2"></i> Tambah Pembelian';
+                } else {
+                    toggleFormButton.innerHTML = '<i class="fas fa-minus mr-2"></i> Sembunyikan Form';
+                }
+            });
+        }
+
+        // ===========================
+        // Load Data Pembelian dengan Filter dan Jumlah Entri
+        // ===========================
+        function loadPembelian() {
+            let pembelianList = JSON.parse(localStorage.getItem('pembelians')) || [];
+            const filterBy = document.getElementById('filter-pembelian').value;
+            const searchQuery = document.getElementById('search-pembelian').value.trim().toLowerCase();
+            const entriesSelect = document.getElementById('entries-select-pembelian').value;
+
+            // Terapkan Filter jika ada
+            if (searchQuery) {
+                pembelianList = pembelianList.filter(pembelian => {
+                    if (filterBy === 'noPembelian') {
+                        return pembelian.noPembelian.toLowerCase().includes(searchQuery);
+                    } else if (filterBy === 'namaBarang') {
+                        return pembelian.namaBarang.toLowerCase().includes(searchQuery);
+                    } else if (filterBy === 'tanggal') {
+                        return formatDate(pembelian.tglPembelian).toLowerCase().includes(searchQuery);
+                    }
+                    return false;
+                });
+            }
+
+            // Tentukan jumlah entri yang ditampilkan
+            let jumlahTampil;
+            if (entriesSelect === 'all') {
+                jumlahTampil = pembelianList.length;
+            } else {
+                jumlahTampil = parseInt(entriesSelect);
+            }
+
+            // Ambil pembelian sesuai jumlahTampil
+            pembelianList = pembelianList.slice(-jumlahTampil).reverse(); // Reverse untuk menampilkan terbaru di atas
+
+            const tbody = document.getElementById('daftar-pembelian');
+            if (tbody) {
+                tbody.innerHTML = '';
+                pembelianList.forEach((pembelian, index) => {
+                    const row = `
+                        <tr class="hover:bg-gray-100">
+                            <td class="py-2 px-4">${index + 1}</td>
+                            <td class="py-2 px-4">${pembelian.noPembelian}</td>
+                            <td class="py-2 px-4">${formatDate(pembelian.tglPembelian)}</td>
+                            <td class="py-2 px-4">${pembelian.namaBarang}</td>
+                            <td class="py-2 px-4">${pembelian.jumlah}</td>
+                            <td class="py-2 px-4">${pembelian.hargaSatuan}</td>
+                            <td class="py-2 px-4">${pembelian.totalBiaya}</td>
+                            <td class="py-2 px-4">${pembelian.supplier}</td>
+                            <td class="py-2 px-4">${pembelian.catatan || '-'}</td>
+                            <td class="py-2 px-4">
+                                <button onclick="hapusPembelian(${pembelianList.length - 1 - index})" class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition-colors transform hover:scale-105 duration-300 shadow-lg flex items-center">
+                                    <i class="fas fa-trash-alt mr-2"></i> Hapus
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                    tbody.insertAdjacentHTML('beforeend', row);
+                });
+                // Update informasi menampilkan
+                const showingInfo = document.getElementById('showing-info-pembelian');
+                if (showingInfo) {
+                    showingInfo.innerText = `Menampilkan ${pembelianList.length} pembelian.`;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

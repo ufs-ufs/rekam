@@ -1,0 +1,868 @@
+<!-- pasien-kunjungan.html -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <!-- Meta Tags dan Title -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UFS Dental - Kunjungan Pasien</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome CDN dengan Integrity yang Diperbaiki -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-papH8D0zQIdXSAj7i42jwrNw2mGwj1ph5E+G4x3xymLkHkOk4bqR0ztQ6p8L7a0p3E61PRkt7Vgk8C0P6g7Qkg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Animate.css CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <!-- Tailwind CSS Custom Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a8a', // Blue-900
+                        primaryDark: '#1e40af', // Blue-800
+                        secondary: '#f1f5f9', // Gray-100
+                        alertGreen: '#dcfce7', // Green-100
+                        alertGreenBorder: '#22c55e', // Green-500
+                        alertGreenText: '#166534', // Green-700
+                        alertRed: '#fee2e2', // Red-100
+                        alertRedBorder: '#f87171', // Red-400
+                        alertRedText: '#991b1b', // Red-700
+                    },
+                },
+            },
+        }
+    </script>
+    
+    <style>
+        /* Custom Styles */
+        .active {
+            background-color: #1e40af; /* Blue-800 */
+        }
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0; 
+        }
+        /* Sticky Header */
+        thead th {
+            position: sticky;
+            top: 0;
+            background-color: #f3f4f6; /* Gray-100 */
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans leading-normal tracking-normal">
+    <div class="flex">
+        <!-- Sidebar -->
+        <div id="sidebar" class="w-64 bg-primary text-white fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-50">
+            <div class="p-6 text-3xl font-bold border-b border-primaryDark flex items-center justify-between">
+                <span>UFS Dental</span>
+                <button id="close-sidebar" class="md:hidden text-white focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul class="mt-8">
+                <!-- Menu Index -->
+                <li id="menu-index" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-tachometer-alt mr-3 text-lg"></i>
+                    <a href="index.html" class="flex-1">Beranda</a>
+                </li>
+                
+                <!-- Menu Pasien Pendaftaran -->
+                <li id="menu-pendaftaran" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-user-plus mr-3 text-lg"></i>
+                    <a href="pasien-pendaftaran.html" class="flex-1">Pendaftaran Pasien</a>
+                </li>
+                
+                <!-- Menu Pasien Kunjungan -->
+                <li id="menu-kunjungan" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200 active">
+                    <i class="fas fa-notes-medical mr-3 text-lg"></i>
+                    <a href="pasien-kunjungan.html" class="flex-1">Kunjungan Pasien</a>
+                </li>
+                
+                <!-- Menu Pembelian -->
+                <li id="menu-pembelian" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-shopping-cart mr-3 text-lg"></i>
+                    <a href="pembelian.html" class="flex-1">Pembelian</a>
+                </li>
+                
+                <!-- Menu Laporan -->
+                <li id="menu-laporan" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-chart-line mr-3 text-lg"></i>
+                    <a href="laporan.html" class="flex-1">Laporan</a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Overlay untuk Mobile Sidebar -->
+        <div id="overlay" class="fixed inset-0 bg-black opacity-50 hidden z-40"></div>
+        
+        <!-- Mobile Sidebar Toggle -->
+        <div class="w-full md:hidden flex items-center bg-primary p-4">
+            <button id="mobile-menu-button" class="text-white focus:outline-none">
+                <i class="fas fa-bars fa-lg"></i>
+            </button>
+            <div class="ml-4 text-white text-2xl font-bold">UFS Dental</div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 p-6 ml-0 md:ml-64 transition-all duration-300">
+            <!-- Top Bar -->
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                <div class="relative w-full md:w-1/3 mb-4 md:mb-0">
+                    <input type="text" id="search-input" class="w-full p-3 pl-10 pr-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition duration-300 transform hover:scale-105" placeholder="Cari data kunjungan...">
+                    <button id="search-button" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 focus:outline-none">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div id="current-date" class="text-gray-700 mb-4 md:mb-0">Tanggal: <span id="formatted-date">-</span></div>
+                <div class="flex items-center">
+                    <div class="mr-3 text-gray-700">Administrator</div>
+                    <div class="w-10 h-10 rounded-full bg-gray-300"></div>
+                </div>
+            </div>
+            
+            <!-- Alert (Hidden by Default) -->
+            <div id="alert" class="hidden flex items-center bg-alertGreen border border-alertGreenBorder text-alertGreenText px-4 py-3 rounded relative mb-6 animate__animated animate__fadeIn" role="alert">
+                <span class="block sm:inline" id="dynamic-alert">Pesan alert.</span>
+                <button onclick="document.getElementById('alert').classList.add('hidden')" class="absolute top-0 bottom-0 right-0 px-4 py-3 focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Kunjungan Pasien -->
+            <div class="bg-white p-6 rounded-lg shadow mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-semibold text-gray-700">Kunjungan Pasien</h2>
+                    <!-- Tombol Toggle Formulir -->
+                    <button id="toggle-form-button" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 transition-colors transform hover:scale-105 duration-300 shadow-lg flex items-center">
+                        <i class="fas fa-plus mr-2"></i> Tambah Kunjungan
+                    </button>
+                </div>
+                <!-- Formulir Kunjungan (Hidden Secara Default) -->
+                <div id="kunjungan-form-container" class="hidden mb-6 animate__animated animate__fadeIn">
+                    <form id="kunjungan-form" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">No.RM <span class="text-red-500">*</span></label>
+                                <input type="text" id="kunjungan-no-rm" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Nama Pasien</label>
+                                <input type="text" id="kunjungan-nama-pasien" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm bg-gray-100" readonly>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Tanggal Kunjungan <span class="text-red-500">*</span></label>
+                                <input type="datetime-local" id="kunjungan-tgl" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Umur</label>
+                                <input type="number" id="kunjungan-umur" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm bg-gray-100" readonly>
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700">Alamat</label>
+                                <textarea id="kunjungan-alamat" rows="3" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm bg-gray-100" readonly></textarea>
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700">Catatan</label>
+                                <textarea id="kunjungan-catatan" rows="2" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm bg-gray-100" readonly></textarea>
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700">Diagnosa <span class="text-red-500">*</span></label>
+                                <input type="text" id="kunjungan-diagnosa" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required>
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700">Tindakan <span class="text-red-500">*</span></label>
+                                <input type="text" id="kunjungan-tindakan" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Biaya <span class="text-red-500">*</span></label>
+                                <input type="number" id="kunjungan-biaya" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">L/B (L= Pasien Lama, B= Pasien Baru) <span class="text-red-500">*</span></label>
+                                <select id="kunjungan-lb" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required>
+                                    <option value="">Pilih</option>
+                                    <option value="L">L</option>
+                                    <option value="B">B</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primaryDark transition-colors transform hover:scale-105 duration-300 shadow-lg flex items-center">
+                                <i class="fas fa-save mr-2"></i> Simpan Kunjungan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <!-- Feedback Message -->
+                <div id="kunjungan-feedback" class="hidden flex items-center bg-alertGreen border border-alertGreenBorder text-alertGreenText px-4 py-3 rounded relative mt-4 animate__animated animate__fadeIn" role="alert">
+                    <span class="block sm:inline" id="dynamic-feedback">Kunjungan berhasil ditambahkan!</span>
+                    <button onclick="document.getElementById('kunjungan-feedback').classList.add('hidden')" class="absolute top-0 bottom-0 right-0 px-4 py-3 focus:outline-none">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Tabel Kunjungan Pasien -->
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-semibold text-gray-700">Daftar Kunjungan Pasien</h2>
+                    <div class="flex space-x-2">
+                        <button id="export-kunjungan" class="flex items-center bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition transform hover:scale-105 duration-300 shadow-lg">
+                            <i class="fas fa-file-export mr-2"></i> Export CSV
+                        </button>
+                        <label for="import-kunjungan" class="flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition transform hover:scale-105 duration-300 cursor-pointer shadow-lg">
+                            <i class="fas fa-file-import mr-2"></i> Import CSV
+                            <input type="file" id="import-kunjungan" accept=".csv" class="hidden">
+                        </label>
+                    </div>
+                </div>
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4 space-y-2 md:space-y-0">
+                    <!-- Select Jumlah Entri dan Filter Pencarian -->
+                    <div class="flex items-center space-x-2">
+                        <label for="entries-select-kunjungan" class="text-sm text-gray-700">Tampilkan:</label>
+                        <select id="entries-select-kunjungan" class="border border-gray-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition duration-300 transform hover:scale-105">
+                            <option value="5">5</option>
+                            <option value="10" selected>10</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                            <option value="all">Semua</option>
+                        </select>
+                        <label for="filter-kunjungan" class="text-sm text-gray-700">Filter berdasarkan:</label>
+                        <select id="filter-kunjungan" class="border border-gray-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition duration-300 transform hover:scale-105">
+                            <option value="noRM">No.RM</option>
+                            <option value="nama">Nama</option>
+                            <option value="diagnosa">Diagnosa</option>
+                            <option value="tindakan">Tindakan</option>
+                            <option value="lb">L/B</option>
+                        </select>
+                        <input type="text" id="search-kunjungan" class="border border-gray-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition duration-300 transform hover:scale-105" placeholder="Cari...">
+                        <button id="search-button-kunjungan" class="bg-primary text-white px-3 py-2 rounded-md text-sm hover:bg-primaryDark transition-colors transform hover:scale-105 duration-300 shadow-lg">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <!-- Menampilkan Informasi Menampilkan X Kunjungan -->
+                    <div class="text-sm text-gray-600" id="showing-info-kunjungan">Menampilkan 10 kunjungan.</div>
+                </div>
+                <!-- Wrapper untuk membuat tabel scrollable -->
+                <div class="max-h-96 overflow-y-auto">
+                    <table class="min-w-full text-sm">
+                        <thead>
+                            <tr class="bg-gray-200">
+                                <th class="py-2 px-4 text-left">No</th>
+                                <th class="py-2 px-4 text-left">No.RM</th>
+                                <th class="py-2 px-4 text-left">Nama</th>
+                                <th class="py-2 px-4 text-left">TGL</th>
+                                <th class="py-2 px-4 text-left">Umur</th>
+                                <th class="py-2 px-4 text-left">Alamat</th>
+                                <th class="py-2 px-4 text-left">Catatan</th>
+                                <th class="py-2 px-4 text-left">Diagnosa</th>
+                                <th class="py-2 px-4 text-left">Tindakan</th>
+                                <th class="py-2 px-4 text-left">Biaya</th>
+                                <th class="py-2 px-4 text-left">L/B</th>
+                                <th class="py-2 px-4 text-left">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="daftar-kunjungan" class="divide-y divide-gray-300">
+                            <!-- Data Kunjungan akan diisi oleh JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript untuk Navigation and Functionality -->
+    <script>
+        // Mengatur Tanggal Saat Ini dalam format DD/MM/YY
+        function setCurrentDate() {
+            const today = new Date();
+            const day = String(today.getDate()).padStart(2, '0');
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const year = String(today.getFullYear()).slice(-2);
+            const formattedDate = `${day}/${month}/${year}`;
+            document.getElementById('formatted-date').innerText = formattedDate;
+        }
+        setCurrentDate();
+
+        // Fungsi untuk mengatur menu aktif berdasarkan URL
+        function setActiveMenu() {
+            const path = window.location.pathname;
+            const page = path.split("/").pop().split(".")[0]; // Mendapatkan nama halaman tanpa ekstensi
+
+            // Daftar menu dan halaman yang sesuai
+            const menuMapping = {
+                'index': 'menu-index',
+                'pasien-pendaftaran': 'menu-pendaftaran',
+                'pasien-kunjungan': 'menu-kunjungan',
+                'pembelian': 'menu-pembelian',
+                'laporan': 'menu-laporan'
+            };
+
+            // Menghapus kelas 'active' dari semua menu
+            document.querySelectorAll('#sidebar ul li').forEach(li => {
+                li.classList.remove('active');
+            });
+
+            // Menambahkan kelas 'active' pada menu yang sesuai
+            const activeMenuId = menuMapping[page];
+            if (activeMenuId) {
+                const activeMenu = document.getElementById(activeMenuId);
+                if (activeMenu) {
+                    activeMenu.classList.add('active');
+                }
+            }
+        }
+
+        // Mengatur menu aktif saat halaman dimuat
+        window.onload = function() {
+            setActiveMenu();
+            initializeKunjunganForm();
+            loadKunjungan();
+        };
+
+        // Mengelola toggle sidebar pada perangkat mobile
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const sidebar = document.getElementById('sidebar');
+        const closeSidebarButton = document.getElementById('close-sidebar');
+        const overlay = document.getElementById('overlay');
+
+        if (mobileMenuButton && sidebar && overlay) {
+            mobileMenuButton.addEventListener('click', () => {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+            });
+        }
+
+        if (closeSidebarButton && sidebar && overlay) {
+            closeSidebarButton.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            });
+        }
+
+        // Menutup sidebar ketika klik pada overlay
+        if (overlay && sidebar) {
+            overlay.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            });
+        }
+
+        // ===========================
+        // Fungsi untuk Menampilkan Feedback Pesan
+        // ===========================
+        function showFeedback(message, type, elementId) {
+            const feedback = document.getElementById(elementId);
+            if (feedback) {
+                feedback.querySelector('#dynamic-feedback').innerText = message;
+                if (type === 'error') {
+                    feedback.classList.remove('bg-alertGreen', 'text-alertGreenText');
+                    feedback.classList.add('bg-alertRed', 'text-alertRedText');
+                } else {
+                    feedback.classList.remove('bg-alertRed', 'text-alertRedText');
+                    feedback.classList.add('bg-alertGreen', 'text-alertGreenText');
+                }
+                feedback.classList.remove('hidden');
+                // Sembunyikan setelah 3 detik
+                setTimeout(() => {
+                    feedback.classList.add('hidden');
+                }, 3000);
+            }
+        }
+
+        // ===========================
+        // Manajemen Data Kunjungan
+        // ===========================
+
+        // Fungsi untuk menghitung umur berdasarkan tanggal lahir
+        function calculateAgeFromDOB(dob) {
+            const today = new Date();
+            const birthDate = new Date(dob);
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
+        // Fungsi untuk mengonversi tanggal dari DD-MM-YY ke YYYY-MM-DDTHH:MM
+        function parseDateDDMMYY(dateStr) {
+            const parts = dateStr.split('-');
+            if (parts.length !== 3) return '-';
+            let day = parseInt(parts[0], 10);
+            let month = parseInt(parts[1], 10);
+            let year = parseInt(parts[2], 10);
+            if (year < 100) {
+                year += 2000;
+            }
+            // Validasi tanggal
+            if (isNaN(day) || isNaN(month) || isNaN(year)) return '-';
+            return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T00:00`;
+        }
+
+        // Format Tanggal dari YYYY-MM-DD atau YYYY-MM-DD HH:MM ke DD/MM/YY atau DD/MM/YYYY HH:MM
+        function formatDateKunjungan(dateStr, withTime = false) {
+            if (!dateStr || dateStr === '-') return '-';
+            const date = new Date(dateStr);
+            if (isNaN(date)) return '-'; // Cek validitas tanggal
+            if (withTime) {
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = String(date.getFullYear());
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                return `${day}/${month}/${year} ${hours}:${minutes}`;
+            } else {
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = String(date.getFullYear()).slice(-2);
+                return `${day}/${month}/${year}`;
+            }
+        }
+
+        // Fungsi untuk menghapus kunjungan berdasarkan indeks
+        function hapusKunjungan(index) {
+            let kunjunganList = JSON.parse(localStorage.getItem('kunjungans')) || [];
+            if (index < 0 || index >= kunjunganList.length) {
+                showFeedback('Data kunjungan tidak ditemukan.', 'error', 'kunjungan-feedback');
+                return;
+            }
+            if (confirm(`Apakah Anda yakin ingin menghapus kunjungan pasien dengan No.RM ${kunjunganList[index].noRM}?`)) {
+                kunjunganList.splice(index, 1);
+                localStorage.setItem('kunjungans', JSON.stringify(kunjunganList));
+                loadKunjungan();
+                showFeedback('Kunjungan berhasil dihapus!', 'success', 'kunjungan-feedback');
+            }
+        }
+
+        // Fungsi untuk mengedit kunjungan berdasarkan indeks
+        function editKunjungan(index) {
+            let kunjunganList = JSON.parse(localStorage.getItem('kunjungans')) || [];
+            if (index < 0 || index >= kunjunganList.length) {
+                showFeedback('Data kunjungan tidak ditemukan.', 'error', 'kunjungan-feedback');
+                return;
+            }
+            const kunjungan = kunjunganList[index];
+
+            // Tampilkan prompt untuk mengedit data
+            const newDiagnosa = prompt("Ubah Diagnosa:", kunjungan.diagnosa);
+            if (newDiagnosa === null || newDiagnosa.trim() === "") {
+                showFeedback('Diagnosa tidak boleh kosong.', 'error', 'kunjungan-feedback');
+                return;
+            }
+
+            const newTindakan = prompt("Ubah Tindakan:", kunjungan.tindakan);
+            if (newTindakan === null || newTindakan.trim() === "") {
+                showFeedback('Tindakan tidak boleh kosong.', 'error', 'kunjungan-feedback');
+                return;
+            }
+
+            const newBiaya = prompt("Ubah Biaya:", kunjungan.biaya);
+            if (newBiaya === null || newBiaya.trim() === "" || isNaN(newBiaya)) {
+                showFeedback('Biaya harus berupa angka.', 'error', 'kunjungan-feedback');
+                return;
+            }
+
+            const newLB = prompt("Ubah L/B (L= Pasien Lama, B= Pasien Baru):", kunjungan.lb);
+            if (newLB === null || !['L', 'B'].includes(newLB.toUpperCase())) {
+                showFeedback('L/B harus "L" atau "B".', 'error', 'kunjungan-feedback');
+                return;
+            }
+
+            // Update data kunjungan
+            kunjunganList[index].diagnosa = newDiagnosa.trim();
+            kunjunganList[index].tindakan = newTindakan.trim();
+            kunjunganList[index].biaya = parseFloat(newBiaya.trim());
+            kunjunganList[index].lb = newLB.toUpperCase();
+
+            localStorage.setItem('kunjungans', JSON.stringify(kunjunganList));
+            loadKunjungan();
+            showFeedback('Kunjungan berhasil diubah!', 'success', 'kunjungan-feedback');
+        }
+
+        // ===========================
+        // Form Kunjungan Pasien
+        // ===========================
+        const kunjunganForm = document.getElementById('kunjungan-form');
+        if (kunjunganForm) {
+            kunjunganForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const noRM = document.getElementById('kunjungan-no-rm').value.trim().toUpperCase();
+                const nama = document.getElementById('kunjungan-nama-pasien').value.trim();
+                const tgl = document.getElementById('kunjungan-tgl').value;
+                const umur = document.getElementById('kunjungan-umur').value.trim();
+                const alamat = document.getElementById('kunjungan-alamat').value.trim();
+                const catatan = document.getElementById('kunjungan-catatan').value.trim();
+                const diagnosa = document.getElementById('kunjungan-diagnosa').value.trim();
+                const tindakan = document.getElementById('kunjungan-tindakan').value.trim();
+                const biaya = document.getElementById('kunjungan-biaya').value.trim();
+                const lb = document.getElementById('kunjungan-lb').value;
+
+                // Validasi
+                if (!noRM || !diagnosa || !tindakan || !biaya || !lb) {
+                    showFeedback('Silakan lengkapi semua field yang wajib.', 'error', 'kunjungan-feedback');
+                    return;
+                }
+
+                let kunjunganList = JSON.parse(localStorage.getItem('kunjungans')) || [];
+                let pendaftaranList = JSON.parse(localStorage.getItem('pendaftarans')) || [];
+
+                // Cek apakah No.RM ada di pendaftaran
+                const pasien = pendaftaranList.find(p => p.noRM.toUpperCase() === noRM);
+                if (!pasien) {
+                    showFeedback('No.RM tidak ditemukan. Pastikan pasien sudah terdaftar.', 'error', 'kunjungan-feedback');
+                    return;
+                }
+
+                // Tambahkan kunjungan
+                const kunjungan = { noRM, nama, tgl, umur, alamat, catatan, diagnosa, tindakan, biaya: parseFloat(biaya), lb };
+                kunjunganList.push(kunjungan);
+                localStorage.setItem('kunjungans', JSON.stringify(kunjunganList));
+
+                // Reset Form
+                kunjunganForm.reset();
+                // Reset fields yang auto-populate
+                document.getElementById('kunjungan-nama-pasien').value = '';
+                document.getElementById('kunjungan-umur').value = '';
+                document.getElementById('kunjungan-alamat').value = '';
+                document.getElementById('kunjungan-catatan').value = '';
+                // Tampilkan data terbaru
+                loadKunjungan();
+                // Tampilkan feedback
+                showFeedback('Kunjungan berhasil ditambahkan!', 'success', 'kunjungan-feedback');
+            });
+        }
+
+        // Fungsi untuk inisialisasi form kunjungan
+        function initializeKunjunganForm() {
+            const noRMInput = document.getElementById('kunjungan-no-rm');
+            const namaInput = document.getElementById('kunjungan-nama-pasien');
+            const umurInput = document.getElementById('kunjungan-umur');
+            const alamatInput = document.getElementById('kunjungan-alamat');
+            const catatanInput = document.getElementById('kunjungan-catatan');
+            const tglInput = document.getElementById('kunjungan-tgl');
+            const toggleFormButton = document.getElementById('toggle-form-button');
+            const kunjunganFormContainer = document.getElementById('kunjungan-form-container');
+
+            if (noRMInput && namaInput && umurInput && alamatInput && catatanInput && tglInput && toggleFormButton && kunjunganFormContainer) {
+                // Event listener untuk mengisi data pasien saat No.RM diinput
+                noRMInput.addEventListener('blur', () => {
+                    const noRM = noRMInput.value.trim().toUpperCase();
+                    if (noRM) {
+                        let pendaftaranList = JSON.parse(localStorage.getItem('pendaftarans')) || [];
+                        const pasien = pendaftaranList.find(p => p.noRM.toUpperCase() === noRM);
+                        if (pasien) {
+                            namaInput.value = pasien.nama;
+                            umurInput.value = pasien.umur || '';
+                            alamatInput.value = pasien.alamat || '';
+                            catatanInput.value = pasien.catatan || '';
+                        } else {
+                            namaInput.value = '';
+                            umurInput.value = '';
+                            alamatInput.value = '';
+                            catatanInput.value = '';
+                            showFeedback('No.RM tidak ditemukan. Pastikan pasien sudah terdaftar.', 'error', 'kunjungan-feedback');
+                        }
+                    } else {
+                        namaInput.value = '';
+                        umurInput.value = '';
+                        alamatInput.value = '';
+                        catatanInput.value = '';
+                    }
+                });
+
+                // Event listener untuk toggle formulir
+                toggleFormButton.addEventListener('click', () => {
+                    kunjunganFormContainer.classList.toggle('hidden');
+                    if (!kunjunganFormContainer.classList.contains('hidden')) {
+                        // Set Tanggal Kunjungan dengan tanggal dan waktu saat ini (waktu lokal)
+                        const now = new Date();
+                        const pad = (num) => String(num).padStart(2, '0');
+                        const localDatetime = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
+                        tglInput.value = localDatetime;
+                    } else {
+                        // Reset form ketika disembunyikan
+                        kunjunganForm.reset();
+                        namaInput.value = '';
+                        umurInput.value = '';
+                        alamatInput.value = '';
+                        catatanInput.value = '';
+                        tglInput.value = '';
+                    }
+                });
+            }
+        }
+
+        // ===========================
+        // Load Data Kunjungan dengan Filter dan Jumlah Entri
+        // ===========================
+        function loadKunjungan() {
+            let kunjunganList = JSON.parse(localStorage.getItem('kunjungans')) || [];
+            const filterBy = document.getElementById('filter-kunjungan').value;
+            const searchQuery = document.getElementById('search-kunjungan').value.trim().toLowerCase();
+            const entriesSelect = document.getElementById('entries-select-kunjungan').value;
+
+            // Apply filter dan tambahkan originalIndex
+            let filteredList = [];
+            kunjunganList.forEach((kunjungan, index) => {
+                let match = true;
+                if (searchQuery) {
+                    if (filterBy === 'noRM') {
+                        match = kunjungan.noRM.toLowerCase() === searchQuery;
+                    } else if (filterBy === 'nama') {
+                        match = kunjungan.nama.toLowerCase().includes(searchQuery);
+                    } else if (filterBy === 'diagnosa') {
+                        match = kunjungan.diagnosa.toLowerCase().includes(searchQuery);
+                    } else if (filterBy === 'tindakan') {
+                        match = kunjungan.tindakan.toLowerCase().includes(searchQuery);
+                    } else if (filterBy === 'lb') {
+                        match = kunjungan.lb.toLowerCase() === searchQuery;
+                    }
+                }
+                if (match) {
+                    filteredList.push({ ...kunjungan, originalIndex: index });
+                }
+            });
+
+            // Tentukan jumlah entri yang ditampilkan
+            let jumlahTampil;
+            if (entriesSelect === 'all') {
+                jumlahTampil = filteredList.length;
+            } else {
+                jumlahTampil = parseInt(entriesSelect);
+            }
+
+            // Ambil kunjungan sesuai jumlahTampil
+            const displayList = filteredList.slice(-jumlahTampil).reverse();
+
+            const tbody = document.getElementById('daftar-kunjungan');
+            if (tbody) {
+                tbody.innerHTML = '';
+                displayList.forEach((kunjungan, displayIndex) => {
+                    const row = `
+                        <tr class="hover:bg-gray-100">
+                            <td class="py-2 px-4">${displayIndex + 1}</td>
+                            <td class="py-2 px-4">${kunjungan.noRM}</td>
+                            <td class="py-2 px-4">${kunjungan.nama}</td>
+                            <td class="py-2 px-4">${formatDateKunjungan(kunjungan.tgl, true)}</td>
+                            <td class="py-2 px-4">${kunjungan.umur || '-'}</td>
+                            <td class="py-2 px-4">${kunjungan.alamat || '-'}</td>
+                            <td class="py-2 px-4">${kunjungan.catatan || '-'}</td>
+                            <td class="py-2 px-4">${kunjungan.diagnosa || '-'}</td>
+                            <td class="py-2 px-4">${kunjungan.tindakan || '-'}</td>
+                            <td class="py-2 px-4">${kunjungan.biaya || '-'}</td>
+                            <td class="py-2 px-4">${kunjungan.lb || '-'}</td>
+                            <td class="py-2 px-4 flex space-x-2">
+                                <button onclick="editKunjungan(${kunjungan.originalIndex})" class="bg-yellow-500 text-white px-2 py-1 rounded-md hover:bg-yellow-600 transition-colors transform hover:scale-105 duration-300 shadow-lg">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button onclick="hapusKunjungan(${kunjungan.originalIndex})" class="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600 transition-colors transform hover:scale-105 duration-300 shadow-lg">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                    tbody.insertAdjacentHTML('beforeend', row);
+                });
+                // Update informasi menampilkan
+                const showingInfo = document.getElementById('showing-info-kunjungan');
+                if (showingInfo) {
+                    showingInfo.innerText = `Menampilkan ${displayList.length} kunjungan.`;
+                }
+            }
+        }
+
+        // ===========================
+        // Pencarian dan Filter (Kunjungan)
+        // ===========================
+        const searchButtonKunjungan = document.getElementById('search-button-kunjungan');
+        const searchInputKunjungan = document.getElementById('search-kunjungan');
+        const filterKunjunganSelect = document.getElementById('filter-kunjungan');
+        const entriesSelectKunjungan = document.getElementById('entries-select-kunjungan');
+
+        if (searchButtonKunjungan && searchInputKunjungan) {
+            searchButtonKunjungan.addEventListener('click', () => {
+                loadKunjungan();
+            });
+        }
+
+        if (searchInputKunjungan) {
+            searchInputKunjungan.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    loadKunjungan();
+                }
+            });
+        }
+
+        if (filterKunjunganSelect || entriesSelectKunjungan) {
+            if (filterKunjunganSelect) {
+                filterKunjunganSelect.addEventListener('change', loadKunjungan);
+            }
+            if (entriesSelectKunjungan) {
+                entriesSelectKunjungan.addEventListener('change', loadKunjungan);
+            }
+        }
+
+        // ===========================
+        // Export dan Import Data ke CSV (Kunjungan)
+        // ===========================
+
+        // Fungsi untuk mengkonversi data JSON ke CSV
+        function convertToCSVKunjungan(arr) {
+            if (arr.length === 0) {
+                return '';
+            }
+            const keys = ['No.RM', 'Nama', 'TGL', 'Umur', 'Alamat', 'Catatan', 'Diagnosa', 'Tindakan', 'Biaya', 'L/B'];
+            const csvContent = [keys.join(',')].concat(arr.map(row => 
+                [
+                    row.noRM,
+                    row.nama,
+                    formatDateKunjungan(row.tgl),
+                    row.umur,
+                    row.alamat,
+                    row.catatan,
+                    row.diagnosa,
+                    row.tindakan,
+                    row.biaya,
+                    row.lb
+                ].map(value => `"${value || ''}"`).join(',')
+            )).join('\n');
+            return csvContent;
+        }
+
+        // Fungsi untuk parsing CSV dengan format tanggal DD-MM-YY
+        function parseCSVKunjungan(text) {
+            const lines = text.trim().split('\n');
+            const headers = lines[0].split(',').map(header => header.trim().replace(/^"|"$/g, ''));
+            const data = lines.slice(1).map(line => {
+                const values = line.split(',').map(value => value.trim().replace(/^"|"$/g, ''));
+                let obj = {};
+                headers.forEach((header, index) => {
+                    obj[header] = values[index];
+                });
+                return obj;
+            });
+            return data;
+        }
+
+        // Fungsi untuk mengunduh file CSV
+        function downloadCSVKunjungan(csv, filename) {
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Export Daftar Kunjungan
+        const exportKunjunganBtn = document.getElementById('export-kunjungan');
+        if (exportKunjunganBtn) {
+            exportKunjunganBtn.addEventListener('click', function() {
+                const kunjunganList = JSON.parse(localStorage.getItem('kunjungans')) || [];
+                if (kunjunganList.length === 0) {
+                    showFeedback('Tidak ada data kunjungan untuk diekspor.', 'error', 'kunjungan-feedback');
+                    return;
+                }
+                const csv = convertToCSVKunjungan(kunjunganList);
+                downloadCSVKunjungan(csv, 'daftar_kunjungan.csv');
+                showFeedback('Data kunjungan berhasil diekspor!', 'success', 'kunjungan-feedback');
+            });
+        }
+
+        // Import Kunjungan
+        const importKunjunganInput = document.getElementById('import-kunjungan');
+        if (importKunjunganInput) {
+            importKunjunganInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file && (file.type === 'text/csv' || file.name.endsWith('.csv'))) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const text = event.target.result;
+                        const data = parseCSVKunjungan(text);
+                        if (data && data.length > 0) {
+                            let kunjunganList = JSON.parse(localStorage.getItem('kunjungans')) || [];
+                            let pendaftaranList = JSON.parse(localStorage.getItem('pendaftarans')) || [];
+                            let berhasilDiimpor = 0;
+                            data.forEach(kunjungan => {
+                                // Sesuaikan nama field sesuai CSV yang ada
+                                let mappedKunjungan = {
+                                    noRM: kunjungan['No.RM'] || '-',
+                                    nama: kunjungan['Nama'] || '-',
+                                    tgl: parseDateDDMMYY(kunjungan['TGL']),
+                                    umur: kunjungan['Umur'] || '-',
+                                    alamat: kunjungan['Alamat'] || '-',
+                                    catatan: kunjungan['Catatan'] || '-',
+                                    diagnosa: kunjungan['Diagnosa'] || '-',
+                                    tindakan: kunjungan['Tindakan'] || '-',
+                                    biaya: kunjungan['Biaya'] ? parseFloat(kunjungan['Biaya']) : 0,
+                                    lb: kunjungan['L/B'] || '-'
+                                };
+                                // Cek apakah No.RM ada di pendaftaran
+                                if (mappedKunjungan.noRM !== '-' && pendaftaranList.find(p => p.noRM.toUpperCase() === mappedKunjungan.noRM.toUpperCase())) {
+                                    kunjunganList.push(mappedKunjungan);
+                                    berhasilDiimpor++;
+                                } else if (mappedKunjungan.noRM === '-') {
+                                    // Jika No.RM adalah '-', tambahkan tanpa cek
+                                    kunjunganList.push(mappedKunjungan);
+                                    berhasilDiimpor++;
+                                }
+                            });
+                            localStorage.setItem('kunjungans', JSON.stringify(kunjunganList));
+                            loadKunjungan();
+                            if (berhasilDiimpor > 0) {
+                                showFeedback(`${berhasilDiimpor} data kunjungan berhasil diimpor!`, 'success', 'kunjungan-feedback');
+                            } else {
+                                showFeedback('Tidak ada data kunjungan yang diimpor. Pastikan format CSV sesuai atau No.RM sudah terdaftar.', 'error', 'kunjungan-feedback');
+                            }
+                        } else {
+                            showFeedback('Format CSV tidak valid atau kosong.', 'error', 'kunjungan-feedback');
+                        }
+                    };
+                    reader.readAsText(file);
+                } else {
+                    showFeedback('Silakan pilih file CSV yang valid.', 'error', 'kunjungan-feedback');
+                }
+            });
+        }
+
+        // ===========================
+        // Toggle Formulir Kunjungan
+        // ===========================
+        // Sudah dihandle dalam initializeKunjunganForm()
+
+        // ===========================
+        // Load Data Kunjungan dengan Filter dan Jumlah Entri
+        // ===========================
+        // Sudah diimplementasikan di fungsi loadKunjungan()
+
+        // ===========================
+        // Edit Kunjungan
+        // ===========================
+        // Sudah dihandle dalam fungsi editKunjungan
+
+    </script>
+</body>
+</html>

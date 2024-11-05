@@ -1,0 +1,1009 @@
+<!-- laporan.html -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <!-- Meta Tags dan Title -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UFS Dental - Laporan</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-papH8D0zQIdXSAj7i42jwrNw2mGwj1ph5E+G4x3xymLkHkOk4bqR0ztQ6p8L7a0p3E61PRkt7Vgk8C0P6g7Qkg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Animate.css CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <!-- Tailwind CSS Custom Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a8a', // Blue-900
+                        primaryDark: '#1e40af', // Blue-800
+                        secondary: '#f1f5f9', // Gray-100
+                        alertGreen: '#dcfce7', // Green-100
+                        alertGreenBorder: '#22c55e', // Green-500
+                        alertGreenText: '#166534', // Green-700
+                        alertRed: '#fee2e2', // Red-100
+                        alertRedBorder: '#f87171', // Red-400
+                        alertRedText: '#991b1b', // Red-700
+                    },
+                },
+            },
+        }
+    </script>
+    
+    <style>
+        /* Custom Styles */
+        .active {
+            background-color: #1e40af; /* Blue-800 */
+        }
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0; 
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans leading-normal tracking-normal">
+    <div class="flex">
+        <!-- Sidebar -->
+        <div id="sidebar" class="w-64 bg-primary text-white fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-50">
+            <div class="p-6 text-3xl font-bold border-b border-primaryDark flex items-center justify-between">
+                <span>UFS Dental</span>
+                <button id="close-sidebar" class="md:hidden text-white focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul class="mt-8">
+                <!-- Menu Beranda -->
+                <li id="menu-index" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-tachometer-alt mr-3 text-lg"></i>
+                    <a href="index.html" class="flex-1">Beranda</a>
+                </li>
+                
+                <!-- Menu Pasien Pendaftaran -->
+                <li id="menu-pendaftaran" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-user-plus mr-3 text-lg"></i>
+                    <a href="pasien-pendaftaran.html" class="flex-1">Pendaftaran Pasien</a>
+                </li>
+                
+                <!-- Menu Pasien Kunjungan -->
+                <li id="menu-kunjungan" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-notes-medical mr-3 text-lg"></i>
+                    <a href="pasien-kunjungan.html" class="flex-1">Kunjungan Pasien</a>
+                </li>
+                
+                <!-- Menu Pembelian -->
+                <li id="menu-pembelian" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-shopping-cart mr-3 text-lg"></i>
+                    <a href="pembelian.html" class="flex-1">Pembelian</a>
+                </li>
+                
+                <!-- Menu Laporan -->
+                <li id="menu-laporan" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200 active">
+                    <i class="fas fa-chart-line mr-3 text-lg"></i>
+                    <a href="laporan.html" class="flex-1">Laporan</a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Overlay untuk Mobile Sidebar -->
+        <div id="overlay" class="fixed inset-0 bg-black opacity-50 hidden z-40"></div>
+        
+        <!-- Mobile Sidebar Toggle -->
+        <div class="w-full md:hidden flex items-center bg-primary p-4">
+            <button id="mobile-menu-button" class="text-white focus:outline-none">
+                <i class="fas fa-bars fa-lg"></i>
+            </button>
+            <div class="ml-4 text-white text-2xl font-bold">UFS Dental</div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 p-6 ml-0 md:ml-64 transition-all duration-300">
+            <!-- Top Bar -->
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                <div class="relative w-full md:w-1/3 mb-4 md:mb-0">
+                    <input type="text" id="search-input" class="w-full p-3 pl-10 pr-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition duration-300 transform hover:scale-105" placeholder="Cari laporan...">
+                    <button id="search-button" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 focus:outline-none">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div id="current-date" class="text-gray-700 mb-4 md:mb-0">Tanggal: <span id="formatted-date">-</span></div>
+                <div class="flex items-center">
+                    <div class="mr-3 text-gray-700">Administrator</div>
+                    <div class="w-10 h-10 rounded-full bg-gray-300"></div>
+                </div>
+            </div>
+            
+            <!-- Alert (Hidden by Default) -->
+            <div id="alert" class="hidden flex items-center bg-alertGreen border border-alertGreenBorder text-alertGreenText px-4 py-3 rounded relative mb-6 animate__animated animate__fadeIn" role="alert">
+                <span class="block sm:inline" id="dynamic-alert">Pesan alert.</span>
+                <button onclick="document.getElementById('alert').classList.add('hidden')" class="absolute top-0 bottom-0 right-0 px-4 py-3 focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Laporan -->
+            <div class="space-y-6">
+                <!-- Filter Laporan -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold text-gray-700 mb-4">Filter Laporan</h2>
+                    <div class="flex flex-col md:flex-row md:items-center md:space-x-4 space-y-4 md:space-y-0">
+                        <div>
+                            <label for="filter-month" class="block text-sm font-medium text-gray-700">Bulan:</label>
+                            <select id="filter-month" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-2 focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105">
+                                <option value="all">Semua Bulan</option>
+                                <option value="1">Januari</option>
+                                <option value="2">Februari</option>
+                                <option value="3">Maret</option>
+                                <option value="4">April</option>
+                                <option value="5">Mei</option>
+                                <option value="6">Juni</option>
+                                <option value="7">Juli</option>
+                                <option value="8">Agustus</option>
+                                <option value="9">September</option>
+                                <option value="10">Oktober</option>
+                                <option value="11">November</option>
+                                <option value="12">Desember</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="filter-year" class="block text-sm font-medium text-gray-700">Tahun:</label>
+                            <select id="filter-year" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-2 focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105">
+                                <option value="all">Semua Tahun</option>
+                                <!-- Dynamically populate years -->
+                            </select>
+                        </div>
+                        <div>
+                            <label for="filter-date" class="block text-sm font-medium text-gray-700">Tanggal:</label>
+                            <input type="date" id="filter-date" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-2 focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105">
+                        </div>
+                        <div class="self-end">
+                            <button id="apply-filter" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primaryDark transition-colors transform hover:scale-105 duration-300 shadow-lg flex items-center">
+                                <i class="fas fa-filter mr-2"></i> Terapkan Filter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tombol Grafik -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold text-gray-700 mb-4">Grafik Laporan</h2>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="grafik-button bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors transform hover:scale-105 duration-300 shadow-lg flex items-center" data-target="jumlah-pasien">
+                            <i class="fas fa-user mr-2"></i> Jumlah Pasien Bulanan
+                        </button>
+                        <button class="grafik-button bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors transform hover:scale-105 duration-300 shadow-lg flex items-center" data-target="prediksi-pasien">
+                            <i class="fas fa-chart-line mr-2"></i> Prediksi Pasien
+                        </button>
+                        <button class="grafik-button bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors transform hover:scale-105 duration-300 shadow-lg flex items-center" data-target="rata-biaya">
+                            <i class="fas fa-dollar-sign mr-2"></i> Rata-rata Biaya
+                        </button>
+                        <button class="grafik-button bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors transform hover:scale-105 duration-300 shadow-lg flex items-center" data-target="pendapatan">
+                            <i class="fas fa-money-bill-wave mr-2"></i> Pendapatan Bulanan
+                        </button>
+                        <button class="grafik-button bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors transform hover:scale-105 duration-300 shadow-lg flex items-center" data-target="prediksi-pendapatan">
+                            <i class="fas fa-chart-area mr-2"></i> Prediksi Pendapatan
+                        </button>
+                        <button class="grafik-button bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600 transition-colors transform hover:scale-105 duration-300 shadow-lg flex items-center" data-target="kunjungan-layanan">
+                            <i class="fas fa-medkit mr-2"></i> Kunjungan Layanan
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Grafik Container -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <canvas id="chart-container" class="hidden"></canvas>
+                </div>
+                
+                <!-- Rangkuman Laporan -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold text-gray-700 mb-4">Rangkuman Laporan</h2>
+                    <p id="rangkuman-laporan" class="text-gray-700">
+                        <!-- Rangkuman akan ditampilkan di sini -->
+                        Tidak ada data untuk ditampilkan.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript untuk Navigation and Functionality -->
+    <script>
+        // Mengatur Tanggal Saat Ini dalam format DD/MM/YY
+        function setCurrentDate() {
+            const today = new Date();
+            const day = String(today.getDate()).padStart(2, '0');
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const year = String(today.getFullYear()).slice(-2);
+            const formattedDate = `${day}/${month}/${year}`;
+            document.getElementById('formatted-date').innerText = formattedDate;
+        }
+        setCurrentDate();
+
+        // Fungsi untuk mengatur menu aktif berdasarkan URL
+        function setActiveMenu() {
+            const path = window.location.pathname;
+            const page = path.split("/").pop().split(".")[0]; // Mendapatkan nama halaman tanpa ekstensi
+
+            // Daftar menu dan halaman yang sesuai
+            const menuMapping = {
+                'index': 'menu-index',
+                'pasien-pendaftaran': 'menu-pendaftaran',
+                'pasien-kunjungan': 'menu-kunjungan',
+                'pembelian': 'menu-pembelian',
+                'laporan': 'menu-laporan'
+            };
+
+            // Menghapus kelas 'active' dari semua menu
+            document.querySelectorAll('#sidebar ul li').forEach(li => {
+                li.classList.remove('active');
+            });
+
+            // Menambahkan kelas 'active' pada menu yang sesuai
+            const activeMenuId = menuMapping[page];
+            if (activeMenuId) {
+                const activeMenu = document.getElementById(activeMenuId);
+                if (activeMenu) {
+                    activeMenu.classList.add('active');
+                }
+            }
+        }
+
+        // Mengatur menu aktif saat halaman dimuat
+        window.onload = function() {
+            setActiveMenu();
+            populateYearFilter();
+            loadLaporan();
+        };
+
+        // Mengelola toggle sidebar pada perangkat mobile
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const sidebar = document.getElementById('sidebar');
+        const closeSidebarButton = document.getElementById('close-sidebar');
+        const overlay = document.getElementById('overlay');
+
+        if (mobileMenuButton && sidebar && overlay) {
+            mobileMenuButton.addEventListener('click', () => {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+            });
+        }
+
+        if (closeSidebarButton && sidebar && overlay) {
+            closeSidebarButton.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            });
+        }
+
+        // Menutup sidebar ketika klik pada overlay
+        if (overlay && sidebar) {
+            overlay.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            });
+        }
+
+        // ===========================
+        // Fungsi untuk Menampilkan Feedback Pesan
+        // ===========================
+        function showFeedback(message, type) {
+            const feedback = document.getElementById('alert');
+            if (feedback) {
+                feedback.querySelector('#dynamic-alert').innerText = message;
+                if (type === 'error') {
+                    feedback.classList.remove('bg-alertGreen', 'text-alertGreenText');
+                    feedback.classList.add('bg-alertRed', 'text-alertRedText');
+                } else {
+                    feedback.classList.remove('bg-alertRed', 'text-alertRedText');
+                    feedback.classList.add('bg-alertGreen', 'text-alertGreenText');
+                }
+                feedback.classList.remove('hidden');
+                // Sembunyikan setelah 3 detik
+                setTimeout(() => {
+                    feedback.classList.add('hidden');
+                }, 3000);
+            }
+        }
+
+        // ===========================
+        // Fungsi Populasi Filter Tahun
+        // ===========================
+        function populateYearFilter() {
+            const filterYear = document.getElementById('filter-year');
+            if (filterYear) {
+                const currentYear = new Date().getFullYear();
+                for (let i = currentYear; i >= currentYear - 10; i--) {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.text = i;
+                    filterYear.appendChild(option);
+                }
+            }
+        }
+
+        // ===========================
+        // Fungsi Prediksi dengan Regresi Linear Sederhana
+        // ===========================
+        function linearRegression(data) {
+            const n = data.length;
+            if (n === 0) return { slope: 0, intercept: 0 };
+            const sumX = data.reduce((acc, val, idx) => acc + (idx + 1), 0);
+            const sumY = data.reduce((acc, val) => acc + val, 0);
+            const sumXY = data.reduce((acc, val, idx) => acc + ((idx + 1) * val), 0);
+            const sumX2 = data.reduce((acc, _, idx) => acc + Math.pow(idx + 1, 2), 0);
+
+            const denominator = (n * sumX2 - Math.pow(sumX, 2));
+            if (denominator === 0) return { slope: 0, intercept: 0 };
+            const slope = (n * sumXY - sumX * sumY) / denominator;
+            const intercept = (sumY - slope * sumX) / n;
+
+            return { slope, intercept };
+        }
+
+        // ===========================
+        // Fungsi Load dan Render Laporan
+        // ===========================
+        function loadLaporan(filters = {}) {
+            // Mengambil data dari localStorage
+            let kunjunganList = JSON.parse(localStorage.getItem('kunjungans')) || [];
+            let pembelianList = JSON.parse(localStorage.getItem('pembelians')) || [];
+
+            // Terapkan filter
+            if (filters.month && filters.month !== 'all') {
+                kunjunganList = kunjunganList.filter(k => {
+                    const date = new Date(k.tgl);
+                    return (date.getMonth() + 1) === parseInt(filters.month);
+                });
+                pembelianList = pembelianList.filter(p => {
+                    const date = new Date(p.tglPembelian);
+                    return (date.getMonth() + 1) === parseInt(filters.month);
+                });
+            }
+
+            if (filters.year && filters.year !== 'all') {
+                kunjunganList = kunjunganList.filter(k => {
+                    const date = new Date(k.tgl);
+                    return date.getFullYear() === parseInt(filters.year);
+                });
+                pembelianList = pembelianList.filter(p => {
+                    const date = new Date(p.tglPembelian);
+                    return date.getFullYear() === parseInt(filters.year);
+                });
+            }
+
+            if (filters.date) {
+                kunjunganList = kunjunganList.filter(k => {
+                    const date = new Date(k.tgl);
+                    const filterDate = new Date(filters.date);
+                    return date.toDateString() === filterDate.toDateString();
+                });
+                pembelianList = pembelianList.filter(p => {
+                    const date = new Date(p.tglPembelian);
+                    const filterDate = new Date(filters.date);
+                    return date.toDateString() === filterDate.toDateString();
+                });
+            }
+
+            // 1. Jumlah Pasien Bulanan
+            const jumlahPasienBulanan = getJumlahPasienBulanan(kunjunganList);
+
+            // 2. Prediksi Jumlah Pasien Bulan Mendatang
+            const prediksiPasien = prediksiJumlahPasien(jumlahPasienBulanan);
+
+            // 3. Rata-rata Biaya Per Kunjungan
+            const rataBiaya = getRataBiayaPerKunjungan(kunjunganList);
+
+            // 4. Pendapatan Bulanan
+            const pendapatanBulanan = getPendapatanBulanan(pembelianList);
+
+            // 5. Prediksi Pendapatan Bulanan
+            const prediksiPendapatan = prediksiPendapatanBulanan(pendapatanBulanan);
+
+            // 6. Jumlah Kunjungan per Kategori Layanan
+            const kunjunganLayanan = getKunjunganPerLayanan(kunjunganList);
+
+            // Rangkuman Laporan
+            const rangkuman = generateRangkuman(jumlahPasienBulanan, prediksiPasien, rataBiaya, pendapatanBulanan, prediksiPendapatan, kunjunganLayanan);
+            document.getElementById('rangkuman-laporan').innerText = rangkuman;
+        }
+
+        // ===========================
+        // Helper Functions untuk Laporan
+        // ===========================
+
+        // 1. Jumlah Pasien Bulanan
+        function getJumlahPasienBulanan(kunjunganList) {
+            const bulanTahunMap = {};
+            kunjunganList.forEach(k => {
+                const date = new Date(k.tgl);
+                const bulan = date.getMonth() + 1;
+                const tahun = date.getFullYear();
+                const key = `${bulan}-${tahun}`;
+                if (bulanTahunMap[key]) {
+                    bulanTahunMap[key]++;
+                } else {
+                    bulanTahunMap[key] = 1;
+                }
+            });
+
+            // Sort berdasarkan tahun dan bulan
+            const sortedKeys = Object.keys(bulanTahunMap).sort((a, b) => {
+                const [bulanA, tahunA] = a.split('-').map(Number);
+                const [bulanB, tahunB] = b.split('-').map(Number);
+                return tahunA === tahunB ? bulanA - bulanB : tahunA - tahunB;
+            });
+
+            const labels = sortedKeys.map(k => {
+                const [bulan, tahun] = k.split('-');
+                return `${getMonthName(bulan)} ${tahun}`;
+            });
+
+            const data = sortedKeys.map(k => bulanTahunMap[k]);
+
+            return { labels, data };
+        }
+
+        function getMonthName(monthNumber) {
+            const date = new Date();
+            date.setMonth(monthNumber - 1);
+            return date.toLocaleString('default', { month: 'short' });
+        }
+
+        // 2. Prediksi Jumlah Pasien Bulan Mendatang
+        function prediksiJumlahPasien(jumlahPasienBulanan) {
+            const data = jumlahPasienBulanan.data;
+            if (data.length < 2) {
+                return { prediksi: 0, predictionText: 'Data tidak cukup untuk melakukan prediksi.' };
+            }
+            const { slope, intercept } = linearRegression(data);
+            const nextIndex = data.length + 1;
+            const prediksi = Math.round(slope * nextIndex + intercept);
+            const predictionText = `Dari hasil prediksi, jumlah kunjungan pasien diperkirakan akan mencapai ${prediksi} pada bulan mendatang.`;
+
+            return { prediksi, predictionText };
+        }
+
+        // 3. Rata-rata Biaya Per Kunjungan
+        function getRataBiayaPerKunjungan(kunjunganList) {
+            const bulanTahunMap = {};
+            kunjunganList.forEach(k => {
+                const date = new Date(k.tgl);
+                const bulan = date.getMonth() + 1;
+                const tahun = date.getFullYear();
+                const key = `${bulan}-${tahun}`;
+                const biaya = parseFloat(k.biaya) || 0;
+                if (bulanTahunMap[key]) {
+                    bulanTahunMap[key].total += biaya;
+                    bulanTahunMap[key].count += 1;
+                } else {
+                    bulanTahunMap[key] = { total: biaya, count: 1 };
+                }
+            });
+
+            // Sort berdasarkan tahun dan bulan
+            const sortedKeys = Object.keys(bulanTahunMap).sort((a, b) => {
+                const [bulanA, tahunA] = a.split('-').map(Number);
+                const [bulanB, tahunB] = b.split('-').map(Number);
+                return tahunA === tahunB ? bulanA - bulanB : tahunA - tahunB;
+            });
+
+            const labels = sortedKeys.map(k => {
+                const [bulan, tahun] = k.split('-');
+                return `${getMonthName(bulan)} ${tahun}`;
+            });
+
+            const data = sortedKeys.map(k => {
+                const avg = bulanTahunMap[k].total / bulanTahunMap[k].count;
+                return avg.toFixed(2);
+            });
+
+            return { labels, data };
+        }
+
+        // 4. Pendapatan Bulanan
+        function getPendapatanBulanan(pembelianList) {
+            const bulanTahunMap = {};
+            pembelianList.forEach(p => {
+                const date = new Date(p.tglPembelian);
+                const bulan = date.getMonth() + 1;
+                const tahun = date.getFullYear();
+                const key = `${bulan}-${tahun}`;
+                const biaya = parseFloat(p.totalBiaya) || 0;
+                if (bulanTahunMap[key]) {
+                    bulanTahunMap[key] += biaya;
+                } else {
+                    bulanTahunMap[key] = biaya;
+                }
+            });
+
+            // Sort berdasarkan tahun dan bulan
+            const sortedKeys = Object.keys(bulanTahunMap).sort((a, b) => {
+                const [bulanA, tahunA] = a.split('-').map(Number);
+                const [bulanB, tahunB] = b.split('-').map(Number);
+                return tahunA === tahunB ? bulanA - bulanB : tahunA - tahunB;
+            });
+
+            const labels = sortedKeys.map(k => {
+                const [bulan, tahun] = k.split('-');
+                return `${getMonthName(bulan)} ${tahun}`;
+            });
+
+            const data = sortedKeys.map(k => bulanTahunMap[k].toFixed(2));
+
+            return { labels, data };
+        }
+
+        // 5. Prediksi Pendapatan Bulanan
+        function prediksiPendapatanBulanan(pendapatanBulanan) {
+            const data = pendapatanBulanan.data.map(Number);
+            if (data.length < 2) {
+                return { prediksi: 0, predictionText: 'Data tidak cukup untuk melakukan prediksi.' };
+            }
+            const { slope, intercept } = linearRegression(data);
+            const nextIndex = data.length + 1;
+            const prediksi = Math.round(slope * nextIndex + intercept);
+            const predictionText = `Dari hasil prediksi, pendapatan diperkirakan akan mencapai IDR ${prediksi.toLocaleString()} pada bulan mendatang.`;
+
+            return { prediksi, predictionText };
+        }
+
+        // 6. Jumlah Kunjungan per Kategori Layanan
+        function getKunjunganPerLayanan(kunjunganList) {
+            const layananMap = {};
+            kunjunganList.forEach(k => {
+                const layanan = k.tindakan || 'Lainnya';
+                if (layananMap[layanan]) {
+                    layananMap[layanan]++;
+                } else {
+                    layananMap[layanan] = 1;
+                }
+            });
+
+            const labels = Object.keys(layananMap);
+            const data = Object.values(layananMap);
+
+            return { labels, data };
+        }
+
+        // ===========================
+        // Fungsi Generate Rangkuman Laporan
+        // ===========================
+        function generateRangkuman(jumlahPasienBulanan, prediksiPasien, rataBiaya, pendapatanBulanan, prediksiPendapatan, kunjunganLayanan) {
+            let rangkuman = '';
+
+            // Jumlah Pasien
+            const totalPasien = jumlahPasienBulanan.data.reduce((acc, val) => acc + parseInt(val), 0);
+            rangkuman += `Total kunjungan pasien dalam periode yang dipilih adalah ${totalPasien} pasien. `;
+
+            // Prediksi Pasien
+            if (prediksiPasien.prediksi > 0) {
+                rangkuman += `${prediksiPasien.predictionText} `;
+            }
+
+            // Rata-rata Biaya
+            const avgBiaya = rataBiaya.data.length > 0 ? (rataBiaya.data.reduce((acc, val) => acc + parseFloat(val), 0) / rataBiaya.data.length).toFixed(2) : 0;
+            rangkuman += `Rata-rata biaya per kunjungan adalah IDR ${avgBiaya}. `;
+
+            // Pendapatan
+            const totalPendapatan = pendapatanBulanan.data.reduce((acc, val) => acc + parseFloat(val), 0);
+            rangkuman += `Total pendapatan dalam periode yang dipilih adalah IDR ${totalPendapatan.toLocaleString()}. `;
+
+            // Prediksi Pendapatan
+            if (prediksiPendapatan.prediksi > 0) {
+                rangkuman += `${prediksiPendapatan.predictionText} `;
+            }
+
+            // Kunjungan Layanan
+            rangkuman += `Jumlah kunjungan per kategori layanan adalah sebagai berikut: `;
+            kunjunganLayanan.labels.forEach((layanan, idx) => {
+                rangkuman += `${layanan} (${kunjunganLayanan.data[idx]}), `;
+            });
+            rangkuman = rangkuman.slice(0, -2) + '.';
+
+            return rangkuman;
+        }
+
+        // ===========================
+        // Event Listener untuk Tombol Filter
+        // ===========================
+        const applyFilterButton = document.getElementById('apply-filter');
+        applyFilterButton.addEventListener('click', () => {
+            const filters = getFilters();
+            loadLaporan(filters);
+            resetChart();
+        });
+
+        // ===========================
+        // Fungsi Mendapatkan Filter Saat Ini
+        // ===========================
+        function getFilters() {
+            const month = document.getElementById('filter-month').value;
+            const year = document.getElementById('filter-year').value;
+            const date = document.getElementById('filter-date').value;
+            return { month, year, date };
+        }
+
+        // ===========================
+        // Fungsi Toggle Grafik dan Rangkuman
+        // ===========================
+        const grafikButtons = document.querySelectorAll('.grafik-button');
+        const chartContainer = document.getElementById('chart-container');
+        let currentChart = null;
+
+        grafikButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const target = button.getAttribute('data-target');
+                if (currentChart) {
+                    currentChart.destroy();
+                    currentChart = null;
+                }
+                showChart(target);
+            });
+        });
+
+        function showChart(target) {
+            chartContainer.classList.remove('hidden');
+            let ctx = chartContainer.getContext('2d');
+
+            switch(target) {
+                case 'jumlah-pasien':
+                    const jumlahPasienBulanan = getJumlahPasienBulananFiltered();
+                    currentChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: jumlahPasienBulanan.labels,
+                            datasets: [{
+                                label: 'Jumlah Pasien',
+                                data: jumlahPasienBulanan.data,
+                                backgroundColor: 'rgba(30, 58, 138, 0.2)',
+                                borderColor: 'rgba(30, 58, 138, 1)',
+                                borderWidth: 2,
+                                fill: true,
+                                tension: 0.3
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { display: true },
+                                tooltip: { enabled: true }
+                            },
+                            scales: {
+                                y: { beginAtZero: true, title: { display: true, text: 'Jumlah Pasien' } },
+                                x: { title: { display: true, text: 'Bulan' } }
+                            }
+                        }
+                    });
+                    break;
+                case 'prediksi-pasien':
+                    const jumlahPasienBulananPrediksi = getJumlahPasienBulananFiltered();
+                    const prediksiPasienData = prediksiJumlahPasien(jumlahPasienBulananPrediksi);
+                    currentChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: [...jumlahPasienBulananPrediksi.labels, 'Prediksi'],
+                            datasets: [{
+                                label: 'Jumlah Pasien',
+                                data: [...jumlahPasienBulananPrediksi.data, prediksiPasienData.prediksi],
+                                backgroundColor: [
+                                    'rgba(30, 58, 138, 0.6)',
+                                    'rgba(30, 58, 138, 0.6)',
+                                    'rgba(30, 58, 138, 0.6)',
+                                    'rgba(30, 58, 138, 0.6)',
+                                    'rgba(30, 58, 138, 0.6)',
+                                    'rgba(30, 58, 138, 0.6)',
+                                    'rgba(34, 197, 94, 0.8)' // Prediksi warna hijau
+                                ],
+                                borderColor: 'rgba(30, 58, 138, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: { enabled: true }
+                            },
+                            scales: {
+                                y: { beginAtZero: true, title: { display: true, text: 'Jumlah Pasien' } },
+                                x: { title: { display: true, text: 'Bulan' } }
+                            }
+                        }
+                    });
+                    break;
+                case 'rata-biaya':
+                    const rataBiaya = getRataBiayaPerKunjunganFiltered();
+                    currentChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: rataBiaya.labels,
+                            datasets: [{
+                                label: 'Rata-rata Biaya',
+                                data: rataBiaya.data,
+                                backgroundColor: 'rgba(34, 197, 94, 0.6)',
+                                borderColor: 'rgba(34, 197, 94, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: { enabled: true }
+                            },
+                            scales: {
+                                y: { beginAtZero: true, title: { display: true, text: 'Rata-rata Biaya (IDR)' } },
+                                x: { title: { display: true, text: 'Bulan' } }
+                            }
+                        }
+                    });
+                    break;
+                case 'pendapatan':
+                    const pendapatanBulanan = getPendapatanBulananFiltered();
+                    currentChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: pendapatanBulanan.labels,
+                            datasets: [{
+                                label: 'Pendapatan (IDR)',
+                                data: pendapatanBulanan.data,
+                                backgroundColor: 'rgba(239, 68, 68, 0.2)', // Red-500
+                                borderColor: 'rgba(239, 68, 68, 1)', // Red-500
+                                borderWidth: 2,
+                                fill: true,
+                                tension: 0.3
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { display: true },
+                                tooltip: { enabled: true }
+                            },
+                            scales: {
+                                y: { beginAtZero: true, title: { display: true, text: 'Pendapatan (IDR)' } },
+                                x: { title: { display: true, text: 'Bulan' } }
+                            }
+                        }
+                    });
+                    break;
+                case 'prediksi-pendapatan':
+                    const pendapatanBulananPrediksi = getPendapatanBulananFiltered();
+                    const prediksiPendapatan = prediksiPendapatanBulanan(pendapatanBulananPrediksi);
+                    currentChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: [...pendapatanBulananPrediksi.labels, 'Prediksi'],
+                            datasets: [{
+                                label: 'Pendapatan (IDR)',
+                                data: [...pendapatanBulananPrediksi.data, prediksiPendapatan.prediksi],
+                                backgroundColor: [
+                                    'rgba(239, 68, 68, 0.6)',
+                                    'rgba(239, 68, 68, 0.6)',
+                                    'rgba(239, 68, 68, 0.6)',
+                                    'rgba(239, 68, 68, 0.6)',
+                                    'rgba(239, 68, 68, 0.6)',
+                                    'rgba(239, 68, 68, 0.6)',
+                                    'rgba(34, 197, 94, 0.8)' // Prediksi warna hijau
+                                ],
+                                borderColor: 'rgba(239, 68, 68, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: { enabled: true }
+                            },
+                            scales: {
+                                y: { beginAtZero: true, title: { display: true, text: 'Pendapatan (IDR)' } },
+                                x: { title: { display: true, text: 'Bulan' } }
+                            }
+                        }
+                    });
+                    break;
+                case 'kunjungan-layanan':
+                    const kunjunganLayanan = getKunjunganPerLayananFiltered();
+                    currentChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: kunjunganLayanan.labels,
+                            datasets: [{
+                                label: 'Jumlah Kunjungan',
+                                data: kunjunganLayanan.data,
+                                backgroundColor: 'rgba(255, 193, 7, 0.6)', // Yellow-500
+                                borderColor: 'rgba(255, 193, 7, 1)', // Yellow-500
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: { enabled: true }
+                            },
+                            indexAxis: 'y',
+                            scales: {
+                                y: { beginAtZero: true, title: { display: true, text: 'Kategori Layanan' } },
+                                x: { title: { display: true, text: 'Jumlah Kunjungan' } }
+                            }
+                        }
+                    });
+                    break;
+                default:
+                    chartContainer.classList.add('hidden');
+            }
+
+            // Update Rangkuman
+            const jumlahPasienBulananFiltered = getJumlahPasienBulananFiltered();
+            const prediksiPasienData = prediksiJumlahPasien(jumlahPasienBulananFiltered);
+            const rataBiayaData = getRataBiayaPerKunjunganFiltered();
+            const pendapatanBulananData = getPendapatanBulananFiltered();
+            const prediksiPendapatanData = prediksiPendapatanBulanan(pendapatanBulananData);
+            const kunjunganLayananData = getKunjunganPerLayananFiltered();
+
+            const rangkuman = generateRangkuman(jumlahPasienBulananFiltered, prediksiPasienData, rataBiayaData, pendapatanBulananData, prediksiPendapatanData, kunjunganLayananData);
+            document.getElementById('rangkuman-laporan').innerText = rangkuman;
+        }
+
+        // ===========================
+        // Reset dan Sembunyikan Grafik
+        // ===========================
+        function resetChart() {
+            if (currentChart) {
+                currentChart.destroy();
+                currentChart = null;
+            }
+            chartContainer.classList.add('hidden');
+        }
+
+        // ===========================
+        // Filtered Data Functions
+        // ===========================
+        function getJumlahPasienBulananFiltered() {
+            const filters = getFilters();
+            let kunjunganList = JSON.parse(localStorage.getItem('kunjungans')) || [];
+
+            // Terapkan filter
+            if (filters.month && filters.month !== 'all') {
+                kunjunganList = kunjunganList.filter(k => {
+                    const date = new Date(k.tgl);
+                    return (date.getMonth() + 1) === parseInt(filters.month);
+                });
+            }
+
+            if (filters.year && filters.year !== 'all') {
+                kunjunganList = kunjunganList.filter(k => {
+                    const date = new Date(k.tgl);
+                    return date.getFullYear() === parseInt(filters.year);
+                });
+            }
+
+            if (filters.date) {
+                kunjunganList = kunjunganList.filter(k => {
+                    const date = new Date(k.tgl);
+                    const filterDate = new Date(filters.date);
+                    return date.toDateString() === filterDate.toDateString();
+                });
+            }
+
+            return getJumlahPasienBulanan(kunjunganList);
+        }
+
+        function getRataBiayaPerKunjunganFiltered() {
+            const filters = getFilters();
+            let kunjunganList = JSON.parse(localStorage.getItem('kunjungans')) || [];
+
+            // Terapkan filter
+            if (filters.month && filters.month !== 'all') {
+                kunjunganList = kunjunganList.filter(k => {
+                    const date = new Date(k.tgl);
+                    return (date.getMonth() + 1) === parseInt(filters.month);
+                });
+            }
+
+            if (filters.year && filters.year !== 'all') {
+                kunjunganList = kunjunganList.filter(k => {
+                    const date = new Date(k.tgl);
+                    return date.getFullYear() === parseInt(filters.year);
+                });
+            }
+
+            if (filters.date) {
+                kunjunganList = kunjunganList.filter(k => {
+                    const date = new Date(k.tgl);
+                    const filterDate = new Date(filters.date);
+                    return date.toDateString() === filterDate.toDateString();
+                });
+            }
+
+            return getRataBiayaPerKunjungan(kunjunganList);
+        }
+
+        function getPendapatanBulananFiltered() {
+            const filters = getFilters();
+            let pembelianList = JSON.parse(localStorage.getItem('pembelians')) || [];
+
+            // Terapkan filter
+            if (filters.month && filters.month !== 'all') {
+                pembelianList = pembelianList.filter(p => {
+                    const date = new Date(p.tglPembelian);
+                    return (date.getMonth() + 1) === parseInt(filters.month);
+                });
+            }
+
+            if (filters.year && filters.year !== 'all') {
+                pembelianList = pembelianList.filter(p => {
+                    const date = new Date(p.tglPembelian);
+                    return date.getFullYear() === parseInt(filters.year);
+                });
+            }
+
+            if (filters.date) {
+                pembelianList = pembelianList.filter(p => {
+                    const date = new Date(p.tglPembelian);
+                    const filterDate = new Date(filters.date);
+                    return date.toDateString() === filterDate.toDateString();
+                });
+            }
+
+            return getPendapatanBulanan(pembelianList);
+        }
+
+        function getKunjunganPerLayananFiltered() {
+            const filters = getFilters();
+            let kunjunganList = JSON.parse(localStorage.getItem('kunjungans')) || [];
+
+            // Terapkan filter
+            if (filters.month && filters.month !== 'all') {
+                kunjunganList = kunjunganList.filter(k => {
+                    const date = new Date(k.tgl);
+                    return (date.getMonth() + 1) === parseInt(filters.month);
+                });
+            }
+
+            if (filters.year && filters.year !== 'all') {
+                kunjunganList = kunjunganList.filter(k => {
+                    const date = new Date(k.tgl);
+                    return date.getFullYear() === parseInt(filters.year);
+                });
+            }
+
+            if (filters.date) {
+                kunjunganList = kunjunganList.filter(k => {
+                    const date = new Date(k.tgl);
+                    const filterDate = new Date(filters.date);
+                    return date.toDateString() === filterDate.toDateString();
+                });
+            }
+
+            return getKunjunganPerLayanan(kunjunganList);
+        }
+
+        // ===========================
+        // Fungsi Toggle Grafik
+        // ===========================
+        // Sudah diimplementasikan di atas
+    </script>
+</body>
+</html>

@@ -1,0 +1,926 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <!-- Meta Tags dan Title -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UFS Dental - Beranda</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome CDN dengan Integrity yang Diperbaiki -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-iBBXm8fW90+nuLcSKVB8Nv3KHBodOPw8r+8a3PqejUJ0KkKXBbbV3X0qlYJGwsgcX4tcV4lQ0sy3GqvJ3UoM4A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Animate.css CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <!-- Tailwind CSS Custom Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a8a', // Blue-900
+                        primaryDark: '#1e40af', // Blue-800
+                        secondary: '#f1f5f9', // Gray-100
+                        alertGreen: '#dcfce7', // Green-100
+                        alertGreenBorder: '#22c55e', // Green-500
+                        alertGreenText: '#166534', // Green-700
+                        alertRed: '#fee2e2', // Red-100
+                        alertRedBorder: '#f87171', // Red-400
+                        alertRedText: '#991b1b', // Red-700
+                    },
+                },
+            },
+        }
+    </script>
+    
+    <style>
+        /* Custom Styles */
+        .active {
+            background-color: #1e40af; /* Blue-800 */
+        }
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0; 
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans leading-normal tracking-normal">
+    <div class="flex">
+        <!-- Sidebar -->
+        <div id="sidebar" class="w-64 bg-primary text-white fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-50">
+            <div class="p-6 text-3xl font-bold border-b border-primaryDark flex items-center justify-between">
+                <span>UFS Dental</span>
+                <button id="close-sidebar" class="md:hidden text-white focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul class="mt-8">
+                <!-- Menu Beranda -->
+                <li id="menu-index" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200 active">
+                    <i class="fas fa-home mr-3 text-lg"></i>
+                    <a href="index.html" class="flex-1">Beranda</a>
+                </li>
+                
+                <!-- Menu Pasien Pendaftaran -->
+                <li id="menu-pendaftaran" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-user-plus mr-3 text-lg"></i>
+                    <a href="pasien-pendaftaran.html" class="flex-1">Pendaftaran Pasien</a>
+                </li>
+                
+                <!-- Menu Pasien Kunjungan -->
+                <li id="menu-kunjungan" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-notes-medical mr-3 text-lg"></i>
+                    <a href="pasien-kunjungan.html" class="flex-1">Kunjungan Pasien</a>
+                </li>
+                
+                <!-- Menu Pembelian -->
+                <li id="menu-pembelian" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-shopping-cart mr-3 text-lg"></i>
+                    <a href="pembelian.html" class="flex-1">Pembelian</a>
+                </li>
+                
+                <!-- Menu Laporan -->
+                <li id="menu-laporan" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-chart-line mr-3 text-lg"></i>
+                    <a href="laporan.html" class="flex-1">Laporan</a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Overlay untuk Mobile Sidebar -->
+        <div id="overlay" class="fixed inset-0 bg-black opacity-50 hidden z-40"></div>
+        
+        <!-- Mobile Sidebar Toggle -->
+        <div class="w-full md:hidden flex items-center bg-primary p-4">
+            <button id="mobile-menu-button" class="text-white focus:outline-none">
+                <i class="fas fa-bars fa-lg"></i>
+            </button>
+            <div class="ml-4 text-white text-2xl font-bold">UFS Dental</div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 p-6 ml-0 md:ml-64 transition-all duration-300">
+            <!-- Top Bar -->
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                <div class="flex flex-wrap gap-4 w-full md:w-1/2">
+                    <!-- Filter Tahun -->
+                    <div>
+                        <label for="filter-tahun" class="block text-sm font-medium text-gray-700">Tahun</label>
+                        <select id="filter-tahun" class="mt-1 block w-full p-2 border border-gray-300 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition duration-300 transform hover:scale-105">
+                            <option value="">Semua Tahun</option>
+                            <!-- Tahun akan diisi oleh JavaScript -->
+                        </select>
+                    </div>
+                    
+                    <!-- Filter Bulan -->
+                    <div>
+                        <label for="filter-bulan" class="block text-sm font-medium text-gray-700">Bulan</label>
+                        <select id="filter-bulan" class="mt-1 block w-full p-2 border border-gray-300 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition duration-300 transform hover:scale-105">
+                            <option value="">Semua Bulan</option>
+                            <option value="1">Januari</option>
+                            <option value="2">Februari</option>
+                            <option value="3">Maret</option>
+                            <option value="4">April</option>
+                            <option value="5">Mei</option>
+                            <option value="6">Juni</option>
+                            <option value="7">Juli</option>
+                            <option value="8">Agustus</option>
+                            <option value="9">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Filter Tanggal -->
+                    <div>
+                        <label for="filter-tanggal" class="block text-sm font-medium text-gray-700">Tanggal</label>
+                        <input type="date" id="filter-tanggal" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition duration-300 transform hover:scale-105">
+                    </div>
+                    
+                    <!-- Tombol Reset Filter -->
+                    <div class="flex items-end">
+                        <button id="reset-filter-button" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition transform hover:scale-105 duration-300 shadow-lg">
+                            <i class="fas fa-undo mr-2"></i> Reset
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="current-date" class="text-gray-700 mt-4 md:mt-0">Tanggal: <span id="formatted-date">-</span></div>
+                <div class="flex items-center mt-4 md:mt-0">
+                    <div class="mr-3 text-gray-700">Administrator</div>
+                    <div class="w-10 h-10 rounded-full bg-gray-300"></div>
+                </div>
+            </div>
+            
+            <!-- Alert (Hidden by Default) -->
+            <div id="alert" class="hidden flex items-center bg-alertGreen border border-alertGreenBorder text-alertGreenText px-4 py-3 rounded relative mb-6 animate__animated animate__fadeIn" role="alert">
+                <span class="block sm:inline" id="dynamic-alert">Pesan alert.</span>
+                <button onclick="document.getElementById('alert').classList.add('hidden')" class="absolute top-0 bottom-0 right-0 px-4 py-3 focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Hero Section -->
+            <div class="bg-white p-8 rounded-lg shadow-lg animate__animated animate__fadeInDown">
+                <h1 class="text-4xl font-bold text-gray-800 mb-4">Selamat Datang di UFS Dental</h1>
+                <p class="text-gray-600">Kami berkomitmen untuk memberikan layanan kesehatan gigi terbaik untuk Anda.</p>
+            </div>
+            
+            <!-- Ringkasan Statistik -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                <!-- Jumlah Pasien Hari Ini -->
+                <div class="bg-white p-6 rounded-lg shadow-lg animate__animated animate__fadeInUp">
+                    <div class="flex items-center">
+                        <i class="fas fa-user-plus text-4xl text-primary mr-4"></i>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800" id="total-pasien">0</h2>
+                            <p class="text-gray-600">Pasien Hari Ini</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Jumlah Kunjungan Hari Ini -->
+                <div class="bg-white p-6 rounded-lg shadow-lg animate__animated animate__fadeInUp delay-100">
+                    <div class="flex items-center">
+                        <i class="fas fa-notes-medical text-4xl text-green-500 mr-4"></i>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800" id="total-kunjungan">0</h2>
+                            <p class="text-gray-600">Kunjungan Hari Ini</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pendapatan Hari Ini -->
+                <div class="bg-white p-6 rounded-lg shadow-lg animate__animated animate__fadeInUp delay-200">
+                    <div class="flex items-center">
+                        <i class="fas fa-money-bill-wave text-4xl text-yellow-500 mr-4"></i>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800" id="total-pendapatan">IDR 0</h2>
+                            <p class="text-gray-600">Pendapatan Hari Ini</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Grafik Mini -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <!-- Grafik Jumlah Pasien -->
+                <div class="bg-white p-6 rounded-lg shadow-lg animate__animated animate__fadeInLeft">
+                    <h2 class="text-xl font-semibold text-gray-700 mb-4">Tren Jumlah Pasien</h2>
+                    <canvas id="grafik-pasien"></canvas>
+                </div>
+                
+                <!-- Grafik Pendapatan -->
+                <div class="bg-white p-6 rounded-lg shadow-lg animate__animated animate__fadeInRight">
+                    <h2 class="text-xl font-semibold text-gray-700 mb-4">Tren Pendapatan</h2>
+                    <canvas id="grafik-pendapatan"></canvas>
+                </div>
+            </div>
+            
+            <!-- Shortcut Navigasi Cepat -->
+            <div class="bg-white p-6 rounded-lg shadow-lg mt-6 animate__animated animate__fadeInUp">
+                <h2 class="text-xl font-semibold text-gray-700 mb-4">Navigasi Cepat</h2>
+                <div class="flex flex-wrap gap-4">
+                    <a href="pasien-pendaftaran.html" class="flex items-center bg-primary text-white px-4 py-2 rounded-lg hover:bg-primaryDark transition transform hover:scale-105 duration-300 shadow-lg">
+                        <i class="fas fa-user-plus mr-2"></i> Pendaftaran Pasien
+                    </a>
+                    <a href="pasien-kunjungan.html" class="flex items-center bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition transform hover:scale-105 duration-300 shadow-lg">
+                        <i class="fas fa-notes-medical mr-2"></i> Kunjungan Pasien
+                    </a>
+                    <a href="pembelian.html" class="flex items-center bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition transform hover:scale-105 duration-300 shadow-lg">
+                        <i class="fas fa-shopping-cart mr-2"></i> Pembelian
+                    </a>
+                    <a href="laporan.html" class="flex items-center bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition transform hover:scale-105 duration-300 shadow-lg">
+                        <i class="fas fa-chart-line mr-2"></i> Laporan
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Pesan Alert Customizable -->
+            <div class="bg-white p-6 rounded-lg shadow-lg mt-6 animate__animated animate__fadeInUp">
+                <h2 class="text-xl font-semibold text-gray-700 mb-4">Pengingat</h2>
+                <div class="flex flex-col md:flex-row md:items-center md:space-x-4 space-y-4 md:space-y-0">
+                    <input type="text" id="alert-message-input" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition duration-300 transform hover:scale-105" placeholder="Masukkan pesan pengingat...">
+                    <button id="add-alert-button" class="bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 transition transform hover:scale-105 duration-300 shadow-lg flex items-center">
+                        <i class="fas fa-plus mr-2"></i> Tambah Pengingat
+                    </button>
+                    <button id="edit-alert-button" class="bg-yellow-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-600 transition transform hover:scale-105 duration-300 shadow-lg flex items-center">
+                        <i class="fas fa-edit mr-2"></i> Edit Pengingat
+                    </button>
+                    <button id="delete-alert-button" class="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition transform hover:scale-105 duration-300 shadow-lg flex items-center">
+                        <i class="fas fa-trash mr-2"></i> Hapus Pengingat
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript untuk Navigation and Functionality -->
+    <script>
+        // Mengatur Tanggal Saat Ini dalam format DD/MM/YY
+        function setCurrentDate() {
+            const today = new Date();
+            const day = String(today.getDate()).padStart(2, '0');
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const year = String(today.getFullYear()).slice(-2);
+            const formattedDate = `${day}/${month}/${year}`;
+            document.getElementById('formatted-date').innerText = formattedDate;
+        }
+        setCurrentDate();
+
+        // Fungsi untuk mengatur menu aktif berdasarkan URL
+        function setActiveMenu() {
+            const path = window.location.pathname;
+            const page = path.split("/").pop().split(".")[0]; // Mendapatkan nama halaman tanpa ekstensi
+
+            // Daftar menu dan halaman yang sesuai
+            const menuMapping = {
+                'index': 'menu-index',
+                'pasien-pendaftaran': 'menu-pendaftaran',
+                'pasien-kunjungan': 'menu-kunjungan',
+                'pembelian': 'menu-pembelian',
+                'laporan': 'menu-laporan'
+            };
+
+            // Menghapus kelas 'active' dari semua menu
+            document.querySelectorAll('#sidebar ul li').forEach(li => {
+                li.classList.remove('active');
+            });
+
+            // Menambahkan kelas 'active' pada menu yang sesuai
+            const activeMenuId = menuMapping[page];
+            if (activeMenuId) {
+                const activeMenu = document.getElementById(activeMenuId);
+                if (activeMenu) {
+                    activeMenu.classList.add('active');
+                }
+            }
+        }
+
+        // Mengatur menu aktif saat halaman dimuat
+        window.onload = function() {
+            setActiveMenu();
+            populateFilterTahun();
+            loadStatistics();
+            renderGrafikPasien();
+            renderGrafikPendapatan();
+            loadAlertMessage();
+            checkAlertMessage();
+        };
+
+        // Mengelola toggle sidebar pada perangkat mobile
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const sidebar = document.getElementById('sidebar');
+        const closeSidebarButton = document.getElementById('close-sidebar');
+        const overlay = document.getElementById('overlay');
+
+        if (mobileMenuButton && sidebar && overlay) {
+            mobileMenuButton.addEventListener('click', () => {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+            });
+        }
+
+        if (closeSidebarButton && sidebar && overlay) {
+            closeSidebarButton.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            });
+        }
+
+        // Menutup sidebar ketika klik pada overlay
+        if (overlay && sidebar) {
+            overlay.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            });
+        }
+
+        // ===========================
+        // Fungsi untuk Menampilkan Feedback Pesan
+        // ===========================
+        function showFeedback(message, type) {
+            const feedback = document.getElementById('alert');
+            if (feedback) {
+                feedback.querySelector('#dynamic-alert').innerText = message;
+                if (type === 'error') {
+                    feedback.classList.remove('bg-alertGreen', 'text-alertGreenText');
+                    feedback.classList.add('bg-alertRed', 'text-alertRedText');
+                } else {
+                    feedback.classList.remove('bg-alertRed', 'text-alertRedText');
+                    feedback.classList.add('bg-alertGreen', 'text-alertGreenText');
+                }
+                feedback.classList.remove('hidden');
+                feedback.classList.add('animate__bounceIn');
+                
+                // Sembunyikan setelah 3 detik
+                setTimeout(() => {
+                    feedback.classList.remove('animate__bounceIn');
+                    feedback.classList.add('animate__fadeOut');
+                    setTimeout(() => {
+                        feedback.classList.add('hidden');
+                        feedback.classList.remove('animate__fadeOut');
+                    }, 500);
+                }, 3000);
+            }
+        }
+
+        // ===========================
+        // Fungsi Populate Filter Tahun
+        // ===========================
+        function populateFilterTahun() {
+            const filterTahun = document.getElementById('filter-tahun');
+            const pendaftaranList = JSON.parse(localStorage.getItem('pendaftarans')) || [];
+            const kunjunganList = JSON.parse(localStorage.getItem('kunjungans')) || [];
+            const pembelianList = JSON.parse(localStorage.getItem('pembelians')) || [];
+            
+            // Mengumpulkan semua tahun dari ketiga list
+            const tahunSet = new Set();
+            pendaftaranList.forEach(p => {
+                const date = new Date(p.tglDaftar);
+                if (!isNaN(date)) {
+                    tahunSet.add(date.getFullYear());
+                }
+            });
+            kunjunganList.forEach(k => {
+                const date = new Date(k.tgl);
+                if (!isNaN(date)) {
+                    tahunSet.add(date.getFullYear());
+                }
+            });
+            pembelianList.forEach(p => {
+                const date = new Date(p.tglPembelian);
+                if (!isNaN(date)) {
+                    tahunSet.add(date.getFullYear());
+                }
+            });
+            
+            // Mengonversi set ke array dan mengurutkannya
+            const tahunArray = Array.from(tahunSet).sort((a, b) => b - a);
+            
+            // Mengisi dropdown tahun
+            tahunArray.forEach(tahun => {
+                const option = document.createElement('option');
+                option.value = tahun;
+                option.text = tahun;
+                filterTahun.appendChild(option);
+            });
+        }
+
+        // ===========================
+        // Fungsi Load Statistik dengan Filter
+        // ===========================
+        function loadStatistics() {
+            // Mengambil data dari localStorage
+            let kunjunganList = JSON.parse(localStorage.getItem('kunjungans')) || [];
+            let pendaftaranList = JSON.parse(localStorage.getItem('pendaftarans')) || [];
+            // let pembelianList = JSON.parse(localStorage.getItem('pembelians')) || []; // Tidak digunakan untuk pendapatan
+
+            // Log data untuk debugging
+            console.log("Data Kunjungan:", kunjunganList);
+            console.log("Data Pendaftaran:", pendaftaranList);
+            // console.log("Data Pembelian:", pembelianList); // Tidak digunakan untuk pendapatan
+
+            // Mendapatkan nilai filter
+            const filterTahun = document.getElementById('filter-tahun').value;
+            const filterBulan = document.getElementById('filter-bulan').value;
+            const filterTanggal = document.getElementById('filter-tanggal').value;
+
+            console.log(`Filters - Tahun: ${filterTahun}, Bulan: ${filterBulan}, Tanggal: ${filterTanggal}`);
+
+            // Filter fungsi untuk memeriksa apakah sebuah tanggal cocok dengan filter
+            function isDateInFilter(dateStr) {
+                const date = new Date(dateStr);
+                if (isNaN(date)) {
+                    console.log("Invalid date:", dateStr);
+                    return false; // Invalid date
+                }
+
+                if (filterTahun && date.getFullYear() !== parseInt(filterTahun)) {
+                    return false;
+                }
+                if (filterBulan && (date.getMonth() + 1) !== parseInt(filterBulan)) {
+                    return false;
+                }
+                if (filterTanggal) {
+                    const filterDate = new Date(filterTanggal);
+                    if (isNaN(filterDate)) {
+                        console.log("Invalid filter date:", filterTanggal);
+                        return false; // Invalid filter date
+                    }
+                    if (date.getDate() !== filterDate.getDate() ||
+                        date.getMonth() !== filterDate.getMonth() ||
+                        date.getFullYear() !== filterDate.getFullYear()) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            // Menghitung total pasien berdasarkan filter
+            const totalPasien = pendaftaranList.filter(p => isDateInFilter(p.tglDaftar)).length;
+
+            // Menghitung total kunjungan berdasarkan filter
+            const totalKunjungan = kunjunganList.filter(k => isDateInFilter(k.tgl)).length;
+
+            // Menghitung total pendapatan berdasarkan filter dari 'kunjungans'
+            const totalPendapatan = kunjunganList
+                .filter(k => isDateInFilter(k.tgl))
+                .reduce((acc, k) => acc + parseFloat(k.biaya || 0), 0);
+
+            // Log hasil perhitungan
+            console.log("Total Pasien:", totalPasien);
+            console.log("Total Kunjungan:", totalKunjungan);
+            console.log("Total Pendapatan:", totalPendapatan);
+
+            // Memperbarui elemen statistik
+            document.getElementById('total-pasien').innerText = totalPasien;
+            document.getElementById('total-kunjungan').innerText = totalKunjungan;
+            document.getElementById('total-pendapatan').innerText = `IDR ${totalPendapatan.toLocaleString()}`;
+        }
+
+        // ===========================
+        // Fungsi Render Grafik Pasien dengan Filter
+        // ===========================
+        function renderGrafikPasien() {
+            let kunjunganList = JSON.parse(localStorage.getItem('kunjungans')) || [];
+            const bulanTahunMap = {};
+
+            // Mendapatkan nilai filter
+            const filterTahun = document.getElementById('filter-tahun').value;
+            const filterBulan = document.getElementById('filter-bulan').value;
+            const filterTanggal = document.getElementById('filter-tanggal').value;
+
+            // Log data untuk debugging
+            console.log("Grafik Pasien - Data Kunjungan:", kunjunganList);
+
+            // Filter fungsi untuk memeriksa apakah sebuah tanggal cocok dengan filter
+            function isDateInFilter(dateStr) {
+                const date = new Date(dateStr);
+                if (isNaN(date)) {
+                    console.log("Invalid date:", dateStr);
+                    return false; // Invalid date
+                }
+
+                if (filterTahun && date.getFullYear() !== parseInt(filterTahun)) {
+                    return false;
+                }
+                if (filterBulan && (date.getMonth() + 1) !== parseInt(filterBulan)) {
+                    return false;
+                }
+                if (filterTanggal) {
+                    const filterDate = new Date(filterTanggal);
+                    if (isNaN(filterDate)) {
+                        console.log("Invalid filter date:", filterTanggal);
+                        return false; // Invalid filter date
+                    }
+                    if (date.getDate() !== filterDate.getDate() ||
+                        date.getMonth() !== filterDate.getMonth() ||
+                        date.getFullYear() !== filterDate.getFullYear()) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            // Mengumpulkan data berdasarkan filter
+            kunjunganList.forEach(k => {
+                if (isDateInFilter(k.tgl)) {
+                    const date = new Date(k.tgl);
+                    const bulan = date.getMonth() + 1;
+                    const tahun = date.getFullYear();
+                    const key = `${bulan}-${tahun}`;
+                    if (bulanTahunMap[key]) {
+                        bulanTahunMap[key]++;
+                    } else {
+                        bulanTahunMap[key] = 1;
+                    }
+                }
+            });
+
+            // Log hasil pengumpulan data
+            console.log("Grafik Pasien - Bulan-Tahun Map:", bulanTahunMap);
+
+            // Sort berdasarkan tahun dan bulan
+            const sortedKeys = Object.keys(bulanTahunMap).sort((a, b) => {
+                const [bulanA, tahunA] = a.split('-').map(Number);
+                const [bulanB, tahunB] = b.split('-').map(Number);
+                return tahunA === tahunB ? bulanA - bulanB : tahunA - tahunB;
+            });
+
+            const labels = sortedKeys.map(k => {
+                const [bulan, tahun] = k.split('-');
+                return `${getMonthName(bulan)} ${tahun}`;
+            });
+
+            const data = sortedKeys.map(k => bulanTahunMap[k]);
+
+            // Log labels dan data
+            console.log("Grafik Pasien - Labels:", labels);
+            console.log("Grafik Pasien - Data:", data);
+
+            // Menghapus grafik sebelumnya jika ada
+            if (window.grafikPasien) {
+                window.grafikPasien.destroy();
+            }
+
+            // Memeriksa apakah ada data untuk grafik
+            if (labels.length === 0 || data.length === 0) {
+                console.warn("Tidak ada data pasien untuk ditampilkan.");
+                // Tampilkan pesan jika tidak ada data
+                const grafikPasienContainer = document.getElementById('grafik-pasien').parentElement;
+                grafikPasienContainer.querySelector('h2').innerText = "Tren Jumlah Pasien (Tidak ada data)";
+                return;
+            } else {
+                // Reset judul grafik jika sebelumnya diubah
+                const grafikPasienContainer = document.getElementById('grafik-pasien').parentElement;
+                grafikPasienContainer.querySelector('h2').innerText = "Tren Jumlah Pasien";
+            }
+
+            const ctx = document.getElementById('grafik-pasien').getContext('2d');
+            window.grafikPasien = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Jumlah Pasien',
+                        data: data,
+                        backgroundColor: 'rgba(30, 58, 138, 0.2)',
+                        borderColor: 'rgba(30, 58, 138, 1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: true },
+                        tooltip: { enabled: true }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, title: { display: true, text: 'Jumlah Pasien' } },
+                        x: { title: { display: true, text: 'Bulan' } }
+                    }
+                }
+            });
+        }
+
+        // ===========================
+        // Fungsi Render Grafik Pendapatan dengan Filter dari `kunjungans`
+        // ===========================
+        function renderGrafikPendapatan() {
+            let kunjunganList = JSON.parse(localStorage.getItem('kunjungans')) || [];
+            const bulanTahunMap = {};
+
+            // Mendapatkan nilai filter
+            const filterTahun = document.getElementById('filter-tahun').value;
+            const filterBulan = document.getElementById('filter-bulan').value;
+            const filterTanggal = document.getElementById('filter-tanggal').value;
+
+            // Log data untuk debugging
+            console.log("Grafik Pendapatan - Data Kunjungan:", kunjunganList);
+
+            // Filter fungsi untuk memeriksa apakah sebuah tanggal cocok dengan filter
+            function isDateInFilter(dateStr) {
+                const date = new Date(dateStr);
+                if (isNaN(date)) {
+                    console.log("Invalid date:", dateStr);
+                    return false; // Invalid date
+                }
+
+                if (filterTahun && date.getFullYear() !== parseInt(filterTahun)) {
+                    return false;
+                }
+                if (filterBulan && (date.getMonth() + 1) !== parseInt(filterBulan)) {
+                    return false;
+                }
+                if (filterTanggal) {
+                    const filterDate = new Date(filterTanggal);
+                    if (isNaN(filterDate)) {
+                        console.log("Invalid filter date:", filterTanggal);
+                        return false; // Invalid filter date
+                    }
+                    if (date.getDate() !== filterDate.getDate() ||
+                        date.getMonth() !== filterDate.getMonth() ||
+                        date.getFullYear() !== filterDate.getFullYear()) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            // Mengumpulkan data berdasarkan filter dari 'kunjungans'
+            kunjunganList.forEach(k => {
+                if (isDateInFilter(k.tgl)) {
+                    const date = new Date(k.tgl);
+                    const bulan = date.getMonth() + 1;
+                    const tahun = date.getFullYear();
+                    const key = `${bulan}-${tahun}`;
+                    const biaya = parseFloat(k.biaya) || 0;
+                    if (bulanTahunMap[key]) {
+                        bulanTahunMap[key] += biaya;
+                    } else {
+                        bulanTahunMap[key] = biaya;
+                    }
+                }
+            });
+
+            // Log hasil pengumpulan data
+            console.log("Grafik Pendapatan - Bulan-Tahun Map:", bulanTahunMap);
+
+            // Sort berdasarkan tahun dan bulan
+            const sortedKeys = Object.keys(bulanTahunMap).sort((a, b) => {
+                const [bulanA, tahunA] = a.split('-').map(Number);
+                const [bulanB, tahunB] = b.split('-').map(Number);
+                return tahunA === tahunB ? bulanA - bulanB : tahunA - tahunB;
+            });
+
+            const labels = sortedKeys.map(k => {
+                const [bulan, tahun] = k.split('-');
+                return `${getMonthName(bulan)} ${tahun}`;
+            });
+
+            const data = sortedKeys.map(k => bulanTahunMap[k].toFixed(2));
+
+            // Log labels dan data
+            console.log("Grafik Pendapatan - Labels:", labels);
+            console.log("Grafik Pendapatan - Data:", data);
+
+            // Menghapus grafik sebelumnya jika ada
+            if (window.grafikPendapatan) {
+                window.grafikPendapatan.destroy();
+            }
+
+            // Memeriksa apakah ada data untuk grafik
+            if (labels.length === 0 || data.length === 0) {
+                console.warn("Tidak ada data pendapatan untuk ditampilkan.");
+                // Tampilkan pesan jika tidak ada data
+                const grafikPendapatanContainer = document.getElementById('grafik-pendapatan').parentElement;
+                grafikPendapatanContainer.querySelector('h2').innerText = "Tren Pendapatan (Tidak ada data)";
+                return;
+            } else {
+                // Reset judul grafik jika sebelumnya diubah
+                const grafikPendapatanContainer = document.getElementById('grafik-pendapatan').parentElement;
+                grafikPendapatanContainer.querySelector('h2').innerText = "Tren Pendapatan";
+            }
+
+            const ctx = document.getElementById('grafik-pendapatan').getContext('2d');
+            window.grafikPendapatan = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Pendapatan (IDR)',
+                        data: data,
+                        backgroundColor: 'rgba(239, 68, 68, 0.2)', // Red-500
+                        borderColor: 'rgba(239, 68, 68, 1)', // Red-500
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: true },
+                        tooltip: { enabled: true }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, title: { display: true, text: 'Pendapatan (IDR)' } },
+                        x: { title: { display: true, text: 'Bulan' } }
+                    }
+                }
+            });
+        }
+
+        // ===========================
+        // Fungsi Mendapatkan Nama Bulan
+        // ===========================
+        function getMonthName(monthNumber) {
+            const date = new Date();
+            date.setMonth(monthNumber - 1);
+            return date.toLocaleString('default', { month: 'short' });
+        }
+
+        // ===========================
+        // Fungsi Pesan Alert Customizable
+        // ===========================
+        // Menambahkan pesan pengingat
+        const addAlertButton = document.getElementById('add-alert-button');
+        const alertMessageInput = document.getElementById('alert-message-input');
+        const editAlertButton = document.getElementById('edit-alert-button');
+        const deleteAlertButton = document.getElementById('delete-alert-button');
+
+        addAlertButton.addEventListener('click', () => {
+            const message = alertMessageInput.value.trim();
+            if (message === '') {
+                showFeedback('Pesan pengingat tidak boleh kosong.', 'error');
+                return;
+            }
+            // Menyimpan pesan di localStorage
+            localStorage.setItem('alertMessage', message);
+            showFeedback('Pesan pengingat berhasil ditambahkan.', 'success');
+            alertMessageInput.value = '';
+            checkAlertMessage();
+        });
+
+        editAlertButton.addEventListener('click', () => {
+            const currentMessage = localStorage.getItem('alertMessage') || '';
+            const newMessage = prompt('Ubah pesan pengingat:', currentMessage);
+            if (newMessage !== null) {
+                if (newMessage.trim() === '') {
+                    showFeedback('Pesan pengingat tidak boleh kosong.', 'error');
+                    return;
+                }
+                localStorage.setItem('alertMessage', newMessage.trim());
+                showFeedback('Pesan pengingat berhasil diubah.', 'success');
+                checkAlertMessage();
+            }
+        });
+
+        deleteAlertButton.addEventListener('click', () => {
+            if (confirm('Apakah Anda yakin ingin menghapus pesan pengingat ini?')) {
+                localStorage.removeItem('alertMessage');
+                showFeedback('Pesan pengingat berhasil dihapus.', 'success');
+                document.getElementById('alert').classList.add('hidden');
+            }
+        });
+
+        // Memeriksa dan menampilkan pesan pengingat
+        function checkAlertMessage() {
+            const message = localStorage.getItem('alertMessage');
+            if (message) {
+                showAlert(message);
+            }
+        }
+
+        // Menampilkan alert di halaman
+        function showAlert(message) {
+            const alertBox = document.getElementById('alert');
+            const alertText = document.getElementById('dynamic-alert');
+            alertText.innerText = message;
+            alertBox.classList.remove('hidden', 'bg-alertRed', 'bg-alertGreen', 'text-alertGreenText', 'text-alertRedText');
+            alertBox.classList.add('bg-alertGreen', 'text-alertGreenText', 'animate__bounceIn');
+            
+            // Tetap ditampilkan sampai diubah atau dihapus
+        }
+
+        // ===========================
+        // Fungsi Load Pesan Pengingat
+        // ===========================
+        function loadAlertMessage() {
+            const message = localStorage.getItem('alertMessage');
+            if (message) {
+                showAlert(message);
+            }
+        }
+
+        // ===========================
+        // Event Listeners untuk Filter
+        // ===========================
+        const filterTahun = document.getElementById('filter-tahun');
+        const filterBulan = document.getElementById('filter-bulan');
+        const filterTanggal = document.getElementById('filter-tanggal');
+        const resetFilterButton = document.getElementById('reset-filter-button');
+
+        filterTahun.addEventListener('change', () => {
+            console.log("Filter Tahun Diubah:", filterTahun.value);
+            loadStatistics();
+            renderGrafikPasien();
+            renderGrafikPendapatan();
+        });
+
+        filterBulan.addEventListener('change', () => {
+            console.log("Filter Bulan Diubah:", filterBulan.value);
+            loadStatistics();
+            renderGrafikPasien();
+            renderGrafikPendapatan();
+        });
+
+        filterTanggal.addEventListener('change', () => {
+            console.log("Filter Tanggal Diubah:", filterTanggal.value);
+            loadStatistics();
+            renderGrafikPasien();
+            renderGrafikPendapatan();
+        });
+
+        resetFilterButton.addEventListener('click', () => {
+            console.log("Filter Direset");
+            filterTahun.value = '';
+            filterBulan.value = '';
+            filterTanggal.value = '';
+            loadStatistics();
+            renderGrafikPasien();
+            renderGrafikPendapatan();
+        });
+
+        // ===========================
+        // Fungsi Tambah Pembelian (Opsional)
+        // ===========================
+        // Tambahkan Pembelian Baru
+        const addPembelianButton = document.getElementById('add-pembelian-button');
+        const pembelianTglInput = document.getElementById('pembelian-tgl');
+        const pembelianBiayaInput = document.getElementById('pembelian-biaya');
+
+        addPembelianButton.addEventListener('click', () => {
+            const tglPembelian = pembelianTglInput.value;
+            const totalBiaya = pembelianBiayaInput.value.trim();
+
+            if (tglPembelian === '' || totalBiaya === '') {
+                showFeedback('Tanggal Pembelian dan Total Biaya harus diisi.', 'error');
+                return;
+            }
+
+            // Validasi format tanggal
+            const date = new Date(tglPembelian);
+            if (isNaN(date)) {
+                showFeedback('Format tanggal tidak valid.', 'error');
+                return;
+            }
+
+            // Ambil data pembelian yang sudah ada
+            let pembelians = JSON.parse(localStorage.getItem('pembelians')) || [];
+
+            // Tambahkan pembelian baru
+            pembelians.push({
+                "tglPembelian": tglPembelian,
+                "totalBiaya": totalBiaya
+            });
+
+            // Simpan kembali ke localStorage
+            localStorage.setItem('pembelians', JSON.stringify(pembelians));
+
+            showFeedback('Pembelian berhasil ditambahkan.', 'success');
+
+            // Reset input
+            pembelianTglInput.value = '';
+            pembelianBiayaInput.value = '';
+
+            // Refresh statistik dan grafik jika pembelian mempengaruhi
+            loadStatistics();
+            renderGrafikPendapatan();
+        });
+    </script>
+</body>
+</html>
