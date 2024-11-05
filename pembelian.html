@@ -1,7 +1,31 @@
+
 <!-- pembelian.html -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-database.js"></script>
+
+<script>
+  // Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDwiDXJjXDfsO9iJa36lS3QaEU9fB9xBv4",
+    authDomain: "gigiq-ufs.firebaseapp.com",
+    projectId: "gigiq-ufs",
+    storageBucket: "gigiq-ufs.firebasestorage.app",
+    messagingSenderId: "627950603630",
+    appId: "1:627950603630:web:ca3f77637bb4e5338ac57f",
+    measurementId: "G-GZTW0KN6M8"
+  };
+
+  // Initialize Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const analytics = firebase.analytics(app);
+  const database = firebase.database();
+</script>
+
     <!-- Meta Tags dan Title -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -753,5 +777,21 @@
             }
         }
     </script>
+
+<script>
+  function simpanPembelian() {
+    const noPembelian = document.getElementById("pembelian-no").value;
+    const namaBarang = document.getElementById("pembelian-nama-barang").value;
+
+    firebase.database().ref('pembelian/' + noPembelian).set({
+      noPembelian: noPembelian,
+      namaBarang: namaBarang
+    }).then(() => {
+      alert("Data pembelian berhasil disimpan!");
+    }).catch((error) => {
+      console.error("Gagal menyimpan data: ", error);
+    });
+  }
+</script>
 </body>
 </html>
