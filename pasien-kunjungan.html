@@ -3,29 +3,6 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-analytics.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-database.js"></script>
-
-<script>
-  // Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyDwiDXJjXDfsO9iJa36lS3QaEU9fB9xBv4",
-    authDomain: "gigiq-ufs.firebaseapp.com",
-    projectId: "gigiq-ufs",
-    storageBucket: "gigiq-ufs.firebasestorage.app",
-    messagingSenderId: "627950603630",
-    appId: "1:627950603630:web:ca3f77637bb4e5338ac57f",
-    measurementId: "G-GZTW0KN6M8"
-  };
-
-  // Initialize Firebase
-  const app = firebase.initializeApp(firebaseConfig);
-  const analytics = firebase.analytics(app);
-  const database = firebase.database();
-</script>
-
     <!-- Meta Tags dan Title -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -95,40 +72,40 @@
     <div class="flex">
         <!-- Sidebar -->
         <div id="sidebar" class="w-64 bg-primary text-white fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-50">
-            <div class="p-6 text-3xl font-bold border-b border-primaryDark flex items-center justify-between">
+            <div class="p-4 text-2xl font-bold border-b border-primaryDark flex items-center justify-between">
                 <span>UFS Dental</span>
                 <button id="close-sidebar" class="md:hidden text-white focus:outline-none">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <ul class="mt-8">
+            <ul class="mt-6">
                 <!-- Menu Index -->
-                <li id="menu-index" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
-                    <i class="fas fa-tachometer-alt mr-3 text-lg"></i>
+                <li id="menu-index" class="flex items-center py-2 px-4 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-tachometer-alt mr-2 text-lg"></i>
                     <a href="index.html" class="flex-1">Beranda</a>
                 </li>
                 
                 <!-- Menu Pasien Pendaftaran -->
-                <li id="menu-pendaftaran" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
-                    <i class="fas fa-user-plus mr-3 text-lg"></i>
-                    <a href="pasien-pendaftaran.html" class="flex-1">Pendaftaran Pasien</a>
+                <li id="menu-pendaftaran" class="flex items-center py-2 px-4 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-user-plus mr-2 text-lg"></i>
+                    <a href="pasien-pendaftaran.html" class="flex-1">Pendaftaran</a>
                 </li>
                 
                 <!-- Menu Pasien Kunjungan -->
-                <li id="menu-kunjungan" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200 active">
-                    <i class="fas fa-notes-medical mr-3 text-lg"></i>
-                    <a href="pasien-kunjungan.html" class="flex-1">Kunjungan Pasien</a>
+                <li id="menu-kunjungan" class="flex items-center py-2 px-4 hover:bg-primaryDark cursor-pointer transition-colors duration-200 active">
+                    <i class="fas fa-notes-medical mr-2 text-lg"></i>
+                    <a href="pasien-kunjungan.html" class="flex-1">Kunjungan</a>
                 </li>
                 
                 <!-- Menu Pembelian -->
-                <li id="menu-pembelian" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
-                    <i class="fas fa-shopping-cart mr-3 text-lg"></i>
+                <li id="menu-pembelian" class="flex items-center py-2 px-4 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-shopping-cart mr-2 text-lg"></i>
                     <a href="pembelian.html" class="flex-1">Pembelian</a>
                 </li>
                 
                 <!-- Menu Laporan -->
-                <li id="menu-laporan" class="flex items-center py-3 px-6 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
-                    <i class="fas fa-chart-line mr-3 text-lg"></i>
+                <li id="menu-laporan" class="flex items-center py-2 px-4 hover:bg-primaryDark cursor-pointer transition-colors duration-200">
+                    <i class="fas fa-chart-line mr-2 text-lg"></i>
                     <a href="laporan.html" class="flex-1">Laporan</a>
                 </li>
             </ul>
@@ -138,147 +115,147 @@
         <div id="overlay" class="fixed inset-0 bg-black opacity-50 hidden z-40"></div>
         
         <!-- Mobile Sidebar Toggle -->
-        <div class="w-full md:hidden flex items-center bg-primary p-4">
+        <div class="w-full md:hidden flex items-center bg-primary p-3">
             <button id="mobile-menu-button" class="text-white focus:outline-none">
                 <i class="fas fa-bars fa-lg"></i>
             </button>
-            <div class="ml-4 text-white text-2xl font-bold">UFS Dental</div>
+            <div class="ml-3 text-white text-xl font-bold">UFS Dental</div>
         </div>
         
         <!-- Main Content -->
-        <div class="flex-1 p-6 ml-0 md:ml-64 transition-all duration-300">
+        <div class="flex-1 p-4 ml-0 md:ml-64 transition-all duration-300">
             <!-- Top Bar -->
-            <div class="flex flex-col md:flex-row justify-between items-center mb-6">
-                <div class="relative w-full md:w-1/3 mb-4 md:mb-0">
-                    <input type="text" id="search-input" class="w-full p-3 pl-10 pr-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition duration-300 transform hover:scale-105" placeholder="Cari data kunjungan...">
-                    <button id="search-button" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 focus:outline-none">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-4">
+                <div class="relative w-full md:w-1/3 mb-3 md:mb-0">
+                    <input type="text" id="search-input" class="w-full p-2 pl-8 pr-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primaryDark transition duration-300 hover:scale-100" placeholder="Cari kunjungan...">
+                    <button id="search-button" class="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500 focus:outline-none">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
-                <div id="current-date" class="text-gray-700 mb-4 md:mb-0">Tanggal: <span id="formatted-date">-</span></div>
+                <div id="current-date" class="text-gray-700 mb-3 md:mb-0">Tanggal: <span id="formatted-date">-</span></div>
                 <div class="flex items-center">
-                    <div class="mr-3 text-gray-700">Administrator</div>
-                    <div class="w-10 h-10 rounded-full bg-gray-300"></div>
+                    <div class="mr-2 text-gray-700 text-sm">Administrator</div>
+                    <div class="w-8 h-8 rounded-full bg-gray-300"></div>
                 </div>
             </div>
             
             <!-- Alert (Hidden by Default) -->
-            <div id="alert" class="hidden flex items-center bg-alertGreen border border-alertGreenBorder text-alertGreenText px-4 py-3 rounded relative mb-6 animate__animated animate__fadeIn" role="alert">
+            <div id="alert" class="hidden flex items-center bg-alertGreen border border-alertGreenBorder text-alertGreenText px-3 py-2 rounded relative mb-4 animate__animated animate__fadeIn" role="alert">
                 <span class="block sm:inline" id="dynamic-alert">Pesan alert.</span>
-                <button onclick="document.getElementById('alert').classList.add('hidden')" class="absolute top-0 bottom-0 right-0 px-4 py-3 focus:outline-none">
-                    <i class="fas fa-times"></i>
+                <button onclick="document.getElementById('alert').classList.add('hidden')" class="absolute top-1 right-1 px-2 py-1 focus:outline-none">
+                    <i class="fas fa-times text-sm"></i>
                 </button>
             </div>
             
             <!-- Kunjungan Pasien -->
-            <div class="bg-white p-6 rounded-lg shadow mb-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-lg font-semibold text-gray-700">Kunjungan Pasien</h2>
+            <div class="bg-white p-4 rounded shadow mb-4">
+                <div class="flex justify-between items-center mb-3">
+                    <h2 class="text-md font-semibold text-gray-700">Kunjungan Pasien</h2>
                     <!-- Tombol Toggle Formulir -->
-                    <button id="toggle-form-button" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 transition-colors transform hover:scale-105 duration-300 shadow-lg flex items-center">
-                        <i class="fas fa-plus mr-2"></i> Tambah Kunjungan
+                    <button id="toggle-form-button" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 transition hover:scale-105 shadow flex items-center text-sm">
+                        <i class="fas fa-plus mr-1"></i> Tambah
                     </button>
                 </div>
                 <!-- Formulir Kunjungan (Hidden Secara Default) -->
-                <div id="kunjungan-form-container" class="hidden mb-6 animate__animated animate__fadeIn">
-                    <form id="kunjungan-form" class="space-y-4">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">No.RM <span class="text-red-500">*</span></label>
-                                <input type="text" id="kunjungan-no-rm" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required>
+                <div id="kunjungan-form-container" class="hidden mb-4 animate__animated animate__fadeIn flex justify-center">
+                    <div class="w-full max-w-md">
+                        <form id="kunjungan-form" class="space-y-3">
+                            <div class="flex flex-col">
+                                <label class="text-sm font-medium text-gray-700">No.RM <span class="text-red-500">*</span></label>
+                                <input type="text" id="kunjungan-no-rm" class="mt-1 p-2 border border-gray-300 rounded focus:ring-primaryDark focus:border-primaryDark" required>
                             </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Nama Pasien</label>
-                                <input type="text" id="kunjungan-nama-pasien" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm bg-gray-100" readonly>
+                            <div class="flex flex-col">
+                                <label class="text-sm font-medium text-gray-700">Nama Pasien</label>
+                                <input type="text" id="kunjungan-nama-pasien" class="mt-1 p-2 border border-gray-300 rounded bg-gray-100" readonly>
                             </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Tanggal Kunjungan <span class="text-red-500">*</span></label>
-                                <input type="datetime-local" id="kunjungan-tgl" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required>
+                            <div class="flex flex-col">
+                                <label class="text-sm font-medium text-gray-700">Tanggal Kunjungan <span class="text-red-500">*</span></label>
+                                <input type="datetime-local" id="kunjungan-tgl" class="mt-1 p-2 border border-gray-300 rounded focus:ring-primaryDark focus:border-primaryDark" required>
                             </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Umur</label>
-                                <input type="number" id="kunjungan-umur" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm bg-gray-100" readonly>
+                            <div class="flex flex-col">
+                                <label class="text-sm font-medium text-gray-700">Umur</label>
+                                <input type="number" id="kunjungan-umur" class="mt-1 p-2 border border-gray-300 rounded bg-gray-100" readonly>
                             </div>
-                            <div class="sm:col-span-2">
-                                <label class="block text-sm font-medium text-gray-700">Alamat</label>
-                                <textarea id="kunjungan-alamat" rows="3" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm bg-gray-100" readonly></textarea>
+                            <div class="flex flex-col">
+                                <label class="text-sm font-medium text-gray-700">Alamat</label>
+                                <textarea id="kunjungan-alamat" rows="2" class="mt-1 p-2 border border-gray-300 rounded bg-gray-100" readonly></textarea>
                             </div>
-                            <div class="sm:col-span-2">
-                                <label class="block text-sm font-medium text-gray-700">Catatan</label>
-                                <textarea id="kunjungan-catatan" rows="2" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm bg-gray-100" readonly></textarea>
+                            <div class="flex flex-col">
+                                <label class="text-sm font-medium text-gray-700">Catatan</label>
+                                <textarea id="kunjungan-catatan" rows="2" class="mt-1 p-2 border border-gray-300 rounded"></textarea>
                             </div>
-                            <div class="sm:col-span-2">
-                                <label class="block text-sm font-medium text-gray-700">Diagnosa <span class="text-red-500">*</span></label>
-                                <input type="text" id="kunjungan-diagnosa" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required>
+                            <div class="flex flex-col">
+                                <label class="text-sm font-medium text-gray-700">Diagnosa <span class="text-red-500">*</span></label>
+                                <input type="text" id="kunjungan-diagnosa" class="mt-1 p-2 border border-gray-300 rounded focus:ring-primaryDark focus:border-primaryDark" required>
                             </div>
-                            <div class="sm:col-span-2">
-                                <label class="block text-sm font-medium text-gray-700">Tindakan <span class="text-red-500">*</span></label>
-                                <input type="text" id="kunjungan-tindakan" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required>
+                            <div class="flex flex-col">
+                                <label class="text-sm font-medium text-gray-700">Tindakan <span class="text-red-500">*</span></label>
+                                <input type="text" id="kunjungan-tindakan" class="mt-1 p-2 border border-gray-300 rounded focus:ring-primaryDark focus:border-primaryDark" required>
                             </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Biaya <span class="text-red-500">*</span></label>
-                                <input type="number" id="kunjungan-biaya" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required>
+                            <div class="flex flex-col">
+                                <label class="text-sm font-medium text-gray-700">Biaya <span class="text-red-500">*</span></label>
+                                <input type="number" id="kunjungan-biaya" class="mt-1 p-2 border border-gray-300 rounded focus:ring-primaryDark focus:border-primaryDark" required>
                             </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">L/B (L= Pasien Lama, B= Pasien Baru) <span class="text-red-500">*</span></label>
-                                <select id="kunjungan-lb" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required>
+                            <div class="flex flex-col">
+                                <label class="text-sm font-medium text-gray-700">L/B <span class="text-red-500">*</span></label>
+                                <select id="kunjungan-lb" class="mt-1 p-2 border border-gray-300 rounded focus:ring-primaryDark focus:border-primaryDark" required>
                                     <option value="">Pilih</option>
                                     <option value="L">L</option>
                                     <option value="B">B</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="flex justify-end">
-                            <button type="submit" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primaryDark transition-colors transform hover:scale-105 duration-300 shadow-lg flex items-center">
-                                <i class="fas fa-save mr-2"></i> Simpan Kunjungan
-                            </button>
-                        </div>
-                    </form>
+                            <div class="flex justify-end">
+                                <button type="submit" class="bg-primary text-white px-3 py-1 rounded hover:bg-primaryDark transition hover:scale-105 shadow flex items-center text-sm">
+                                    <i class="fas fa-save mr-1"></i> Simpan
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
                 <!-- Feedback Message -->
-                <div id="kunjungan-feedback" class="hidden flex items-center bg-alertGreen border border-alertGreenBorder text-alertGreenText px-4 py-3 rounded relative mt-4 animate__animated animate__fadeIn" role="alert">
+                <div id="kunjungan-feedback" class="hidden flex items-center bg-alertGreen border border-alertGreenBorder text-alertGreenText px-3 py-2 rounded relative mt-2 animate__animated animate__fadeIn" role="alert">
                     <span class="block sm:inline" id="dynamic-feedback">Kunjungan berhasil ditambahkan!</span>
-                    <button onclick="document.getElementById('kunjungan-feedback').classList.add('hidden')" class="absolute top-0 bottom-0 right-0 px-4 py-3 focus:outline-none">
-                        <i class="fas fa-times"></i>
+                    <button onclick="document.getElementById('kunjungan-feedback').classList.add('hidden')" class="absolute top-1 right-1 px-2 py-1 focus:outline-none">
+                        <i class="fas fa-times text-sm"></i>
                     </button>
                 </div>
             </div>
             
             <!-- Tabel Kunjungan Pasien -->
-            <div class="bg-white p-6 rounded-lg shadow">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-lg font-semibold text-gray-700">Daftar Kunjungan Pasien</h2>
+            <div class="bg-white p-4 rounded shadow">
+                <div class="flex justify-between items-center mb-3">
+                    <h2 class="text-md font-semibold text-gray-700">Daftar Kunjungan Pasien</h2>
                     <div class="flex space-x-2">
-                        <button id="export-kunjungan" class="flex items-center bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition transform hover:scale-105 duration-300 shadow-lg">
-                            <i class="fas fa-file-export mr-2"></i> Export CSV
+                        <button id="export-kunjungan" class="flex items-center bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition hover:scale-105 shadow">
+                            <i class="fas fa-file-export mr-1"></i> Export
                         </button>
-                        <label for="import-kunjungan" class="flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition transform hover:scale-105 duration-300 cursor-pointer shadow-lg">
-                            <i class="fas fa-file-import mr-2"></i> Import CSV
+                        <label for="import-kunjungan" class="flex items-center bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600 transition hover:scale-105 cursor-pointer shadow">
+                            <i class="fas fa-file-import mr-1"></i> Import
                             <input type="file" id="import-kunjungan" accept=".csv" class="hidden">
                         </label>
                     </div>
                 </div>
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4 space-y-2 md:space-y-0">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-3 space-y-2 md:space-y-0">
                     <!-- Select Jumlah Entri dan Filter Pencarian -->
                     <div class="flex items-center space-x-2">
                         <label for="entries-select-kunjungan" class="text-sm text-gray-700">Tampilkan:</label>
-                        <select id="entries-select-kunjungan" class="border border-gray-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition duration-300 transform hover:scale-105">
+                        <select id="entries-select-kunjungan" class="border border-gray-300 rounded p-1 text-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition hover:scale-100">
                             <option value="5">5</option>
                             <option value="10" selected>10</option>
                             <option value="30">30</option>
                             <option value="50">50</option>
                             <option value="all">Semua</option>
                         </select>
-                        <label for="filter-kunjungan" class="text-sm text-gray-700">Filter berdasarkan:</label>
-                        <select id="filter-kunjungan" class="border border-gray-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition duration-300 transform hover:scale-105">
+                        <label for="filter-kunjungan" class="text-sm text-gray-700">Filter:</label>
+                        <select id="filter-kunjungan" class="border border-gray-300 rounded p-1 text-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition hover:scale-100">
                             <option value="noRM">No.RM</option>
                             <option value="nama">Nama</option>
                             <option value="diagnosa">Diagnosa</option>
                             <option value="tindakan">Tindakan</option>
                             <option value="lb">L/B</option>
                         </select>
-                        <input type="text" id="search-kunjungan" class="border border-gray-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition duration-300 transform hover:scale-105" placeholder="Cari...">
-                        <button id="search-button-kunjungan" class="bg-primary text-white px-3 py-2 rounded-md text-sm hover:bg-primaryDark transition-colors transform hover:scale-105 duration-300 shadow-lg">
+                        <input type="text" id="search-kunjungan" class="border border-gray-300 rounded p-1 text-sm focus:outline-none focus:ring-2 focus:ring-primaryDark transition hover:scale-100" placeholder="Cari...">
+                        <button id="search-button-kunjungan" class="bg-primary text-white px-2 py-1 rounded text-sm hover:bg-primaryDark transition hover:scale-105 shadow">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
@@ -286,22 +263,22 @@
                     <div class="text-sm text-gray-600" id="showing-info-kunjungan">Menampilkan 10 kunjungan.</div>
                 </div>
                 <!-- Wrapper untuk membuat tabel scrollable -->
-                <div class="max-h-96 overflow-y-auto">
+                <div class="max-h-80 overflow-y-auto">
                     <table class="min-w-full text-sm">
                         <thead>
                             <tr class="bg-gray-200">
-                                <th class="py-2 px-4 text-left">No</th>
-                                <th class="py-2 px-4 text-left">No.RM</th>
-                                <th class="py-2 px-4 text-left">Nama</th>
-                                <th class="py-2 px-4 text-left">TGL</th>
-                                <th class="py-2 px-4 text-left">Umur</th>
-                                <th class="py-2 px-4 text-left">Alamat</th>
-                                <th class="py-2 px-4 text-left">Catatan</th>
-                                <th class="py-2 px-4 text-left">Diagnosa</th>
-                                <th class="py-2 px-4 text-left">Tindakan</th>
-                                <th class="py-2 px-4 text-left">Biaya</th>
-                                <th class="py-2 px-4 text-left">L/B</th>
-                                <th class="py-2 px-4 text-left">Aksi</th>
+                                <th class="py-2 px-3 text-left">No</th>
+                                <th class="py-2 px-3 text-left">No.RM</th>
+                                <th class="py-2 px-3 text-left">Nama</th>
+                                <th class="py-2 px-3 text-left">TGL</th>
+                                <th class="py-2 px-3 text-left">Umur</th>
+                                <th class="py-2 px-3 text-left">Alamat</th>
+                                <th class="py-2 px-3 text-left">Catatan</th>
+                                <th class="py-2 px-3 text-left">Diagnosa</th>
+                                <th class="py-2 px-3 text-left">Tindakan</th>
+                                <th class="py-2 px-3 text-left">Biaya</th>
+                                <th class="py-2 px-3 text-left">L/B</th>
+                                <th class="py-2 px-3 text-left">Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="daftar-kunjungan" class="divide-y divide-gray-300">
@@ -315,6 +292,20 @@
 
     <!-- JavaScript untuk Navigation and Functionality -->
     <script>
+        // ===========================
+        // Fungsi untuk Mendapatkan No.RM Berikutnya
+        // ===========================
+        function getNextNoRM() {
+            const pendaftaranList = JSON.parse(localStorage.getItem('pendaftarans')) || [];
+            if (pendaftaranList.length === 0) return '1'; // Mulai dari 1 jika belum ada pendaftaran
+            // Mengasumsikan No.RM adalah numerik
+            const maxNoRM = pendaftaranList.reduce((max, p) => {
+                const num = parseInt(p.noRM, 10);
+                return num > max ? num : max;
+            }, 0);
+            return String(maxNoRM + 1);
+        }
+
         // Mengatur Tanggal Saat Ini dalam format DD/MM/YY
         function setCurrentDate() {
             const today = new Date();
@@ -416,18 +407,6 @@
         // Manajemen Data Kunjungan
         // ===========================
 
-        // Fungsi untuk menghitung umur berdasarkan tanggal lahir
-        function calculateAgeFromDOB(dob) {
-            const today = new Date();
-            const birthDate = new Date(dob);
-            let age = today.getFullYear() - birthDate.getFullYear();
-            const m = today.getMonth() - birthDate.getMonth();
-            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
-            }
-            return age;
-        }
-
         // Fungsi untuk mengonversi tanggal dari DD-MM-YY ke YYYY-MM-DDTHH:MM
         function parseDateDDMMYY(dateStr) {
             const parts = dateStr.split('-');
@@ -443,7 +422,7 @@
             return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T00:00`;
         }
 
-        // Format Tanggal dari YYYY-MM-DD atau YYYY-MM-DD HH:MM ke DD/MM/YY atau DD/MM/YYYY HH:MM
+        // Format Tanggal dari ISO ke DD/MM/YYYY HH:MM
         function formatDateKunjungan(dateStr, withTime = false) {
             if (!dateStr || dateStr === '-') return '-';
             const date = new Date(dateStr);
@@ -551,10 +530,13 @@
                 let pendaftaranList = JSON.parse(localStorage.getItem('pendaftarans')) || [];
 
                 // Cek apakah No.RM ada di pendaftaran
-                const pasien = pendaftaranList.find(p => p.noRM.toUpperCase() === noRM);
+                let pasien = pendaftaranList.find(p => p.noRM.toUpperCase() === noRM);
                 if (!pasien) {
-                    showFeedback('No.RM tidak ditemukan. Pastikan pasien sudah terdaftar.', 'error', 'kunjungan-feedback');
-                    return;
+                    // Jika No.RM belum ada, tambahkan ke pendaftaran
+                    pasien = { noRM, nama, umur, alamat };
+                    pendaftaranList.push(pasien);
+                    localStorage.setItem('pendaftarans', JSON.stringify(pendaftaranList));
+                    showFeedback('No.RM baru ditambahkan ke pendaftaran.', 'success', 'kunjungan-feedback');
                 }
 
                 // Tambahkan kunjungan
@@ -568,9 +550,12 @@
                 document.getElementById('kunjungan-nama-pasien').value = '';
                 document.getElementById('kunjungan-umur').value = '';
                 document.getElementById('kunjungan-alamat').value = '';
-                document.getElementById('kunjungan-catatan').value = '';
+                // Jangan reset catatanInput agar pengguna bisa mengisi manual
+                document.getElementById('kunjungan-tgl').value = '';
                 // Tampilkan data terbaru
                 loadKunjungan();
+                // Sembunyikan form setelah submit
+                document.getElementById('kunjungan-form-container').classList.add('hidden');
                 // Tampilkan feedback
                 showFeedback('Kunjungan berhasil ditambahkan!', 'success', 'kunjungan-feedback');
             });
@@ -582,12 +567,11 @@
             const namaInput = document.getElementById('kunjungan-nama-pasien');
             const umurInput = document.getElementById('kunjungan-umur');
             const alamatInput = document.getElementById('kunjungan-alamat');
-            const catatanInput = document.getElementById('kunjungan-catatan');
             const tglInput = document.getElementById('kunjungan-tgl');
             const toggleFormButton = document.getElementById('toggle-form-button');
             const kunjunganFormContainer = document.getElementById('kunjungan-form-container');
 
-            if (noRMInput && namaInput && umurInput && alamatInput && catatanInput && tglInput && toggleFormButton && kunjunganFormContainer) {
+            if (noRMInput && namaInput && umurInput && alamatInput && tglInput && toggleFormButton && kunjunganFormContainer) {
                 // Event listener untuk mengisi data pasien saat No.RM diinput
                 noRMInput.addEventListener('blur', () => {
                     const noRM = noRMInput.value.trim().toUpperCase();
@@ -598,19 +582,19 @@
                             namaInput.value = pasien.nama;
                             umurInput.value = pasien.umur || '';
                             alamatInput.value = pasien.alamat || '';
-                            catatanInput.value = pasien.catatan || '';
+                            // Jangan atur nilai catatanInput agar tetap manual
                         } else {
                             namaInput.value = '';
                             umurInput.value = '';
                             alamatInput.value = '';
-                            catatanInput.value = '';
-                            showFeedback('No.RM tidak ditemukan. Pastikan pasien sudah terdaftar.', 'error', 'kunjungan-feedback');
+                            // Jangan atur nilai catatanInput agar tetap manual
+                            showFeedback('No.RM tidak ditemukan. No.RM baru telah ditambahkan ke pendaftaran.', 'error', 'kunjungan-feedback');
                         }
                     } else {
                         namaInput.value = '';
                         umurInput.value = '';
                         alamatInput.value = '';
-                        catatanInput.value = '';
+                        // Jangan atur nilai catatanInput agar tetap manual
                     }
                 });
 
@@ -623,14 +607,20 @@
                         const pad = (num) => String(num).padStart(2, '0');
                         const localDatetime = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
                         tglInput.value = localDatetime;
+
+                        // Atur No.RM otomatis
+                        noRMInput.value = getNextNoRM();
+                        // Trigger 'blur' event untuk mengisi data pasien jika No.RM sudah ada
+                        noRMInput.dispatchEvent(new Event('blur'));
                     } else {
                         // Reset form ketika disembunyikan
+                        const kunjunganForm = document.getElementById('kunjungan-form');
                         kunjunganForm.reset();
-                        namaInput.value = '';
-                        umurInput.value = '';
-                        alamatInput.value = '';
-                        catatanInput.value = '';
-                        tglInput.value = '';
+                        document.getElementById('kunjungan-nama-pasien').value = '';
+                        document.getElementById('kunjungan-umur').value = '';
+                        document.getElementById('kunjungan-alamat').value = '';
+                        // Jangan reset catatanInput agar tetap manual
+                        document.getElementById('kunjungan-tgl').value = '';
                     }
                 });
             }
@@ -645,25 +635,22 @@
             const searchQuery = document.getElementById('search-kunjungan').value.trim().toLowerCase();
             const entriesSelect = document.getElementById('entries-select-kunjungan').value;
 
-            // Apply filter dan tambahkan originalIndex
-            let filteredList = [];
-            kunjunganList.forEach((kunjungan, index) => {
-                let match = true;
-                if (searchQuery) {
-                    if (filterBy === 'noRM') {
-                        match = kunjungan.noRM.toLowerCase() === searchQuery;
-                    } else if (filterBy === 'nama') {
-                        match = kunjungan.nama.toLowerCase().includes(searchQuery);
-                    } else if (filterBy === 'diagnosa') {
-                        match = kunjungan.diagnosa.toLowerCase().includes(searchQuery);
-                    } else if (filterBy === 'tindakan') {
-                        match = kunjungan.tindakan.toLowerCase().includes(searchQuery);
-                    } else if (filterBy === 'lb') {
-                        match = kunjungan.lb.toLowerCase() === searchQuery;
-                    }
-                }
-                if (match) {
-                    filteredList.push({ ...kunjungan, originalIndex: index });
+            // Filter berdasarkan kriteria pencarian
+            let filteredList = kunjunganList.filter((kunjungan, index) => {
+                if (searchQuery === '') return true;
+                switch (filterBy) {
+                    case 'noRM':
+                        return kunjungan.noRM.toLowerCase() === searchQuery;
+                    case 'nama':
+                        return kunjungan.nama.toLowerCase().includes(searchQuery);
+                    case 'diagnosa':
+                        return kunjungan.diagnosa.toLowerCase().includes(searchQuery);
+                    case 'tindakan':
+                        return kunjungan.tindakan.toLowerCase().includes(searchQuery);
+                    case 'lb':
+                        return kunjungan.lb.toLowerCase() === searchQuery;
+                    default:
+                        return true;
                 }
             });
 
@@ -684,22 +671,22 @@
                 displayList.forEach((kunjungan, displayIndex) => {
                     const row = `
                         <tr class="hover:bg-gray-100">
-                            <td class="py-2 px-4">${displayIndex + 1}</td>
-                            <td class="py-2 px-4">${kunjungan.noRM}</td>
-                            <td class="py-2 px-4">${kunjungan.nama}</td>
-                            <td class="py-2 px-4">${formatDateKunjungan(kunjungan.tgl, true)}</td>
-                            <td class="py-2 px-4">${kunjungan.umur || '-'}</td>
-                            <td class="py-2 px-4">${kunjungan.alamat || '-'}</td>
-                            <td class="py-2 px-4">${kunjungan.catatan || '-'}</td>
-                            <td class="py-2 px-4">${kunjungan.diagnosa || '-'}</td>
-                            <td class="py-2 px-4">${kunjungan.tindakan || '-'}</td>
-                            <td class="py-2 px-4">${kunjungan.biaya || '-'}</td>
-                            <td class="py-2 px-4">${kunjungan.lb || '-'}</td>
-                            <td class="py-2 px-4 flex space-x-2">
-                                <button onclick="editKunjungan(${kunjungan.originalIndex})" class="bg-yellow-500 text-white px-2 py-1 rounded-md hover:bg-yellow-600 transition-colors transform hover:scale-105 duration-300 shadow-lg">
+                            <td class="py-1 px-2">${displayIndex + 1}</td>
+                            <td class="py-1 px-2">${kunjungan.noRM}</td>
+                            <td class="py-1 px-2">${kunjungan.nama}</td>
+                            <td class="py-1 px-2">${formatDateKunjungan(kunjungan.tgl, true)}</td>
+                            <td class="py-1 px-2">${kunjungan.umur || '-'}</td>
+                            <td class="py-1 px-2">${kunjungan.alamat || '-'}</td>
+                            <td class="py-1 px-2">${kunjungan.catatan || '-'}</td>
+                            <td class="py-1 px-2">${kunjungan.diagnosa || '-'}</td>
+                            <td class="py-1 px-2">${kunjungan.tindakan || '-'}</td>
+                            <td class="py-1 px-2">${kunjungan.biaya || '-'}</td>
+                            <td class="py-1 px-2">${kunjungan.lb || '-'}</td>
+                            <td class="py-1 px-2 flex space-x-1">
+                                <button onclick="editKunjungan(${kunjunganList.indexOf(kunjungan)})" class="bg-yellow-500 text-white px-2 py-0.5 rounded text-xs hover:bg-yellow-600 transition hover:scale-105 shadow">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button onclick="hapusKunjungan(${kunjungan.originalIndex})" class="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600 transition-colors transform hover:scale-105 duration-300 shadow-lg">
+                                <button onclick="hapusKunjungan(${kunjunganList.indexOf(kunjungan)})" class="bg-red-500 text-white px-2 py-0.5 rounded text-xs hover:bg-red-600 transition hover:scale-105 shadow">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>
@@ -768,20 +755,39 @@
                     row.tindakan,
                     row.biaya,
                     row.lb
-                ].map(value => `"${value || ''}"`).join(',')
+                ].map(value => `"${String(value).replace(/"/g, '""') || ''}"`).join(',')
             )).join('\n');
             return csvContent;
         }
 
-        // Fungsi untuk parsing CSV dengan format tanggal DD-MM-YY
+        // Fungsi untuk parsing CSV dengan format yang lebih baik
         function parseCSVKunjungan(text) {
             const lines = text.trim().split('\n');
             const headers = lines[0].split(',').map(header => header.trim().replace(/^"|"$/g, ''));
             const data = lines.slice(1).map(line => {
-                const values = line.split(',').map(value => value.trim().replace(/^"|"$/g, ''));
+                const values = [];
+                let current = '';
+                let inQuotes = false;
+                for (let i = 0; i < line.length; i++) {
+                    const char = line[i];
+                    if (char === '"' && inQuotes && line[i+1] === '"') {
+                        current += '"';
+                        i++; // skip the escaped quote
+                    } else if (char === '"' && inQuotes) {
+                        inQuotes = false;
+                    } else if (char === '"' && !inQuotes) {
+                        inQuotes = true;
+                    } else if (char === ',' && !inQuotes) {
+                        values.push(current);
+                        current = '';
+                    } else {
+                        current += char;
+                    }
+                }
+                values.push(current);
                 let obj = {};
                 headers.forEach((header, index) => {
-                    obj[header] = values[index];
+                    obj[header] = values[index] ? values[index] : '';
                 });
                 return obj;
             });
@@ -844,7 +850,7 @@
                                     biaya: kunjungan['Biaya'] ? parseFloat(kunjungan['Biaya']) : 0,
                                     lb: kunjungan['L/B'] || '-'
                                 };
-                                // Cek apakah No.RM ada di pendaftaran
+                                // Cek apakah No.RM ada di pendaftaran atau '-' untuk tanpa No.RM
                                 if (mappedKunjungan.noRM !== '-' && pendaftaranList.find(p => p.noRM.toUpperCase() === mappedKunjungan.noRM.toUpperCase())) {
                                     kunjunganList.push(mappedKunjungan);
                                     berhasilDiimpor++;
@@ -861,6 +867,8 @@
                             } else {
                                 showFeedback('Tidak ada data kunjungan yang diimpor. Pastikan format CSV sesuai atau No.RM sudah terdaftar.', 'error', 'kunjungan-feedback');
                             }
+                            // Reset input file setelah impor
+                            importKunjunganInput.value = '';
                         } else {
                             showFeedback('Format CSV tidak valid atau kosong.', 'error', 'kunjungan-feedback');
                         }
@@ -886,23 +894,6 @@
         // Edit Kunjungan
         // ===========================
         // Sudah dihandle dalam fungsi editKunjungan
-
     </script>
-
-<script>
-  function simpanKunjunganPasien() {
-    const noRM = document.getElementById("kunjungan-no-rm").value;
-    const namaPasien = document.getElementById("kunjungan-nama-pasien").value;
-
-    firebase.database().ref('kunjungan_pasien/' + noRM).set({
-      noRM: noRM,
-      namaPasien: namaPasien
-    }).then(() => {
-      alert("Data kunjungan pasien berhasil disimpan!");
-    }).catch((error) => {
-      console.error("Gagal menyimpan data: ", error);
-    });
-  }
-</script>
 </body>
 </html>
