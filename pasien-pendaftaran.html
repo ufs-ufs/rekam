@@ -3,29 +3,6 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-analytics.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-database.js"></script>
-
-<script>
-  // Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyDwiDXJjXDfsO9iJa36lS3QaEU9fB9xBv4",
-    authDomain: "gigiq-ufs.firebaseapp.com",
-    projectId: "gigiq-ufs",
-    storageBucket: "gigiq-ufs.firebasestorage.app",
-    messagingSenderId: "627950603630",
-    appId: "1:627950603630:web:ca3f77637bb4e5338ac57f",
-    measurementId: "G-GZTW0KN6M8"
-  };
-
-  // Initialize Firebase
-  const app = firebase.initializeApp(firebaseConfig);
-  const analytics = firebase.analytics(app);
-  const database = firebase.database();
-</script>
-
     <!-- Meta Tags dan Title -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -171,18 +148,18 @@
             </div>
             
             <!-- Pendaftaran Pasien -->
-            <div class="bg-white p-6 rounded-lg shadow mb-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-lg font-semibold text-gray-700">Pendaftaran Pasien</h2>
-                    <!-- Tombol Toggle Formulir -->
-                    <button id="toggle-form-button" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 transition-colors transform hover:scale-105 duration-300 shadow-lg flex items-center">
-                        <i class="fas fa-plus mr-2"></i> Tambah Pendaftaran
-                    </button>
-                </div>
-                <!-- Formulir Pendaftaran (Hidden Secara Default) -->
-                <div id="pendaftaran-form-container" class="hidden mb-6 animate__animated animate__fadeIn">
-                    <form id="pendaftaran-form" class="space-y-4">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="flex justify-center">
+                <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-semibold text-gray-700">Pendaftaran Pasien</h2>
+                        <!-- Tombol Toggle Formulir -->
+                        <button id="toggle-form-button" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 transition-colors transform hover:scale-105 duration-300 shadow-lg flex items-center">
+                            <i class="fas fa-plus mr-2"></i> Tambah
+                        </button>
+                    </div>
+                    <!-- Formulir Pendaftaran (Hidden Secara Default) -->
+                    <div id="pendaftaran-form-container" class="hidden mb-6 animate__animated animate__fadeIn">
+                        <form id="pendaftaran-form" class="space-y-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">No.RM <span class="text-red-500">*</span></label>
                                 <input type="text" id="pendaftaran-no-rm" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required>
@@ -199,11 +176,11 @@
                                 <label class="block text-sm font-medium text-gray-700">Umur</label>
                                 <input type="number" id="pendaftaran-umur" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm bg-gray-100" readonly>
                             </div>
-                            <div class="sm:col-span-2">
+                            <div>
                                 <label class="block text-sm font-medium text-gray-700">Alamat <span class="text-red-500">*</span></label>
                                 <textarea id="pendaftaran-alamat" rows="3" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required></textarea>
                             </div>
-                            <div class="sm:col-span-2">
+                            <div>
                                 <label class="block text-sm font-medium text-gray-700">Tanggal Daftar</label>
                                 <input type="datetime-local" id="pendaftaran-tgl-daftar" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm bg-gray-100" readonly>
                             </div>
@@ -211,24 +188,24 @@
                                 <label class="block text-sm font-medium text-gray-700">No HP <span class="text-red-500">*</span></label>
                                 <input type="tel" id="pendaftaran-no-hp" pattern="[0-9]{10,15}" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105" required placeholder="contoh: 081234567890">
                             </div>
-                            <div class="sm:col-span-2">
+                            <div>
                                 <label class="block text-sm font-medium text-gray-700">Catatan</label>
                                 <input type="text" id="pendaftaran-catatan" class="mt-1 p-2 border border-gray-300 rounded w-full text-sm focus:ring-primaryDark focus:border-primaryDark transition duration-300 transform hover:scale-105">
                             </div>
-                        </div>
-                        <div class="flex justify-end">
-                            <button type="submit" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primaryDark transition-colors transform hover:scale-105 duration-300 shadow-lg flex items-center">
-                                <i class="fas fa-save mr-2"></i> Simpan Pendaftaran
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                <!-- Feedback Message -->
-                <div id="pendaftaran-feedback" class="hidden flex items-center bg-alertGreen border border-alertGreenBorder text-alertGreenText px-4 py-3 rounded relative mt-4 animate__animated animate__fadeIn" role="alert">
-                    <span class="block sm:inline" id="dynamic-feedback">Pendaftaran berhasil ditambahkan!</span>
-                    <button onclick="document.getElementById('pendaftaran-feedback').classList.add('hidden')" class="absolute top-0 bottom-0 right-0 px-4 py-3 focus:outline-none">
-                        <i class="fas fa-times"></i>
-                    </button>
+                            <div class="flex justify-end">
+                                <button type="submit" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primaryDark transition-colors transform hover:scale-105 duration-300 shadow-lg flex items-center w-full">
+                                    <i class="fas fa-save mr-2"></i> Simpan
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Feedback Message -->
+                    <div id="pendaftaran-feedback" class="hidden flex items-center bg-alertGreen border border-alertGreenBorder text-alertGreenText px-4 py-3 rounded relative mt-4 animate__animated animate__fadeIn" role="alert">
+                        <span class="block sm:inline" id="dynamic-feedback">Pendaftaran berhasil ditambahkan!</span>
+                        <button onclick="document.getElementById('pendaftaran-feedback').classList.add('hidden')" class="absolute top-0 bottom-0 right-0 px-4 py-3 focus:outline-none">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
             
@@ -272,7 +249,7 @@
                     <div class="text-sm text-gray-600" id="showing-info-pendaftaran">Menampilkan 10 pasien.</div>
                 </div>
                 <!-- Wrapper untuk membuat tabel scrollable -->
-                <div class="max-h-96 overflow-y-auto">
+                <div class="overflow-x-auto">
                     <table class="min-w-full text-sm">
                         <thead>
                             <tr class="bg-gray-200">
@@ -412,7 +389,7 @@
             return age;
         }
 
-        // Format Tanggal dari YYYY-MM-DD ke DD/MM/YY atau YYYY-MM-DD HH:MM untuk datetime-local
+        // Format Tanggal dari DD-MM-YY ke DD/MM/YY atau DD-MM-YY HH:MM untuk datetime-local
         function formatDate(dateStr, withTime = false) {
             if (!dateStr || dateStr === '-') return '-';
             const date = new Date(dateStr);
@@ -432,33 +409,42 @@
             }
         }
 
-        // Fungsi untuk menghasilkan No.RM berikutnya
+        // ===========================
+        // Modifikasi: Fungsi untuk menghasilkan No.RM berikutnya
+        // ===========================
         function generateNextNoRM() {
             let pendaftaranList = JSON.parse(localStorage.getItem('pendaftarans')) || [];
             if (pendaftaranList.length === 0) {
-                return 'A1';
+                return 'A4929';  // Nomor awal jika sudah ada data awal hingga A4928
             }
+
             // Ambil semua No.RM yang bukan '-'
             let noRMList = pendaftaranList
                 .filter(p => p.noRM !== '-')
                 .map(p => p.noRM.toUpperCase());
+
             if (noRMList.length === 0) {
-                return 'A1';
+                return 'A4929'; // Jika tidak ada No.RM yang valid, mulai dari A4929
             }
-            // Sort No.RM berdasarkan huruf dan angka
-            noRMList.sort();
-            // Ambil No.RM terakhir
-            let lastNoRM = noRMList[noRMList.length - 1];
-            // Pisahkan huruf dan angka
-            let match = lastNoRM.match(/^([A-Z]+)(\d+)$/);
-            if (match) {
-                let letter = match[1];
-                let number = parseInt(match[2], 10) + 1;
-                return `${letter}${number}`;
-            } else {
-                // Jika format tidak sesuai, mulai dari A1
-                return 'A1';
-            }
+
+            // Ekstrak angka dari No.RM dan temukan angka maksimum
+            let maxNumber = 0;
+            let prefix = 'A';
+            noRMList.forEach(noRM => {
+                let match = noRM.match(/^([A-Za-z]+)(\d+)$/);
+                if (match) {
+                    let currentPrefix = match[1];
+                    let number = parseInt(match[2], 10);
+                    if (number > maxNumber) {
+                        maxNumber = number;
+                        prefix = currentPrefix;
+                    }
+                }
+            });
+
+            // Membuat No.RM baru dengan menambah angka maksimum +1
+            let nextNumber = maxNumber + 1;
+            return `${prefix}${nextNumber}`;
         }
 
         // Fungsi untuk menghapus pendaftaran berdasarkan noRM
@@ -595,6 +581,11 @@
                 loadPendaftaran();
                 // Tampilkan feedback
                 showFeedback('Pendaftaran berhasil ditambahkan!', 'success', 'pendaftaran-feedback');
+                // Sembunyikan Formulir
+                const pendaftaranFormContainer = document.getElementById('pendaftaran-form-container');
+                if (pendaftaranFormContainer) {
+                    pendaftaranFormContainer.classList.add('hidden');
+                }
             });
         }
 
@@ -629,6 +620,8 @@
                         tglDaftarInput.value = localDatetime;
                         // Auto-generate No.RM berikutnya
                         noRMInput.value = generateNextNoRM();
+                        // Scroll ke formulir
+                        pendaftaranFormContainer.scrollIntoView({ behavior: 'smooth' });
                     } else {
                         // Reset Tanggal Daftar ketika form disembunyikan
                         tglDaftarInput.value = '';
@@ -869,21 +862,5 @@
         // Fungsi editPendaftaran sudah ditambahkan di atas
 
     </script>
-
-<script>
-  function simpanPendaftaranPasien() {
-    const noRM = document.getElementById("pendaftaran-no-rm").value;
-    const namaPasien = document.getElementById("pendaftaran-nama-pasien").value;
-
-    firebase.database().ref('pendaftaran_pasien/' + noRM).set({
-      noRM: noRM,
-      namaPasien: namaPasien
-    }).then(() => {
-      alert("Data pendaftaran pasien berhasil disimpan!");
-    }).catch((error) => {
-      console.error("Gagal menyimpan data: ", error);
-    });
-  }
-</script>
 </body>
 </html>
