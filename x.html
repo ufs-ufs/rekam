@@ -1,0 +1,336 @@
+
+<!DOCTYPE html>  
+<html lang="id">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>UFS DORKING!!!</title>  
+    <style>  
+        /* Reset CSS */  
+        * {  
+            margin: 0;  
+            padding: 0;  
+            box-sizing: border-box;  
+        }  
+
+        /* Body Styling - Dark Mode */  
+        body {  
+            font-family: Arial, sans-serif;  
+            background-color: #121212;  
+            color: #e0e0e0;  
+            padding: 20px;  
+        }  
+
+        /* Container Styling */  
+        .container {  
+            max-width: 900px;  
+            margin: auto;  
+            background: #1e1e1e;  
+            padding: 30px;  
+            border-radius: 10px;  
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);  
+        }  
+
+        /* Header Styling */  
+        h2 {  
+            text-align: center;  
+            color: #ffffff;  
+            margin-bottom: 20px;  
+        }  
+
+        /* Form Elements */  
+        label {  
+            display: block;  
+            margin: 15px 0 5px;  
+            color: #cfcfcf;  
+        }  
+
+        input[type="text"], select {  
+            width: 100%;  
+            padding: 12px;  
+            margin-bottom: 20px;  
+            border-radius: 5px;  
+            border: 1px solid #333;  
+            background-color: #2c2c2c;  
+            color: #e0e0e0;  
+        }  
+
+        /* Submit Button */  
+        button {  
+            width: 100%;  
+            padding: 15px;  
+            background-color: #1db954;  
+            border: none;  
+            color: white;  
+            font-size: 18px;  
+            border-radius: 5px;  
+            cursor: pointer;  
+            transition: background-color 0.3s ease;  
+        }  
+
+        button:hover {  
+            background-color: #1aa34a;  
+        }  
+
+        /* Loading Indicator */  
+        .loading {  
+            display: none;  
+            text-align: center;  
+            margin-top: 20px;  
+        }  
+
+        /* Note Section */  
+        .note {  
+            margin-top: 25px;  
+            font-size: 14px;  
+            color: #888;  
+            text-align: center;  
+        }  
+
+        /* Disclaimer */  
+        .disclaimer {  
+            margin-top: 15px;  
+            font-size: 12px;  
+            color: #ffcc00;  
+            text-align: center;  
+        }  
+    </style>  
+</head>  
+<body>  
+
+<div class="container">  
+    <h2>UFS DORKING!!!</h2>  
+    <form id="searchForm">  
+        <!-- Kata Kunci -->  
+        <label for="keywords">Kata Kunci:</label>  
+        <input type="text" id="keywords" name="keywords" placeholder="Masukkan kata kunci..." required>  
+
+        <!-- Pilih Negara -->  
+        <label for="country">Negara:</label>  
+        <select id="country" name="country" required>  
+            <option value="" disabled selected>Pilih negara...</option>  
+            <option value="id">Indonesia</option>  
+            <option value="ru">Rusia</option>  
+            <option value="en">Inggris</option>  
+        </select>  
+
+        <!-- Pilih Search Engine -->  
+        <label for="searchEngine">Search Engine:</label>  
+        <select id="searchEngine" name="searchEngine" required>  
+            <option value="" disabled selected>Pilih search engine...</option>  
+            <option value="google">Google</option>  
+            <option value="bing">Bing</option>  
+            <option value="duckduckgo">DuckDuckGo</option>  
+            <option value="yahoo">Yahoo</option>  
+            <option value="yandex">Yandex</option>  
+        </select>  
+
+        <!-- Kategori File -->  
+        <label for="category">Kategori File:</label>  
+        <select id="category" name="category">  
+            <option value="" selected>Tidak ditentukan (pencarian bebas)</option>  
+            <option value="documents">Dokumen</option>  
+            <option value="media">Media</option>  
+            <option value="database">Database</option>  
+            <option value="scripts">Skrip/Program</option>  
+            <option value="images">Gambar</option>  
+            <option value="archives">Arsip</option>  
+        </select>  
+
+        <!-- Pilihan Jenis File -->  
+        <label for="fileType">Jenis File:</label>  
+        <select id="fileType" name="fileType">  
+            <option value="" disabled selected>Pilih jenis file...</option>  
+            <option value="pdf">PDF (.pdf)</option>  
+            <option value="doc">Dokumen Word (.doc)</option>  
+            <option value="docx">Dokumen Word (.docx)</option>  
+            <option value="xlsx">Spreadsheet Excel (.xlsx)</option>  
+            <option value="ppt">Presentasi PowerPoint (.ppt)</option>  
+            <option value="pptx">Presentasi PowerPoint (.pptx)</option>  
+            <option value="zip">Arsip ZIP (.zip)</option>  
+            <option value="rar">Arsip RAR (.rar)</option>  
+            <option value="jpg">Gambar JPEG (.jpg)</option>  
+            <option value="jpeg">Gambar JPEG (.jpeg)</option>  
+            <option value="png">Gambar PNG (.png)</option>  
+            <option value="gif">Gambar GIF (.gif)</option>  
+            <option value="mp4">Video MP4 (.mp4)</option>  
+            <option value="avi">Video AVI (.avi)</option>  
+            <option value="mov">Video MOV (.mov)</option>  
+            <option value="mp3">Audio MP3 (.mp3)</option>  
+            <option value="wav">Audio WAV (.wav)</option>  
+            <option value="flac">Audio FLAC (.flac)</option>  
+            <option value="ogg">Audio OGG (.ogg)</option>  
+            <!-- Tambah lebih banyak jenis file jika perlu -->  
+        </select>  
+
+        <!-- Opsi Mode VIV -->  
+        <label>  
+            <input type="checkbox" id="vivMode" name="vivMode"> Aktifkan Mode VIV (tidak terdeteksi)  
+        </label>  
+
+        <button type="submit">Cari</button>  
+    </form>  
+
+    <div class="loading" id="loading">  
+        <p>Menghasilkan pencarian...</p>  
+    </div>  
+    <div class="disclaimer">  
+        * Aplikasi ini dibuat untuk tujuan edukasi. Harap digunakan dengan bijak dan sesuai dengan kebijakan yang berlaku. Segala bentuk tindakan kriminal yang dilakukan menggunakan aplikasi ini sepenuhnya menjadi tanggung jawab pengguna, dan saya (UFS) tidak bertanggung jawab atas hal tersebut.  
+    </div>  
+</div>  
+
+<script>  
+    // Daftar Jenis File Berdasarkan Kategori  
+    const fileTypesByCategory = {  
+        documents: [  
+            { value: 'pdf', label: 'PDF (.pdf)' },  
+            { value: 'doc', label: 'Dokumen Word (.doc)' },  
+            { value: 'docx', label: 'Dokumen Word (.docx)' },  
+            { value: 'xls', label: 'Spreadsheet Excel (.xls)' },  
+            { value: 'xlsx', label: 'Spreadsheet Excel (.xlsx)' },  
+            { value: 'ppt', label: 'Presentasi PowerPoint (.ppt)' },  
+            { value: 'pptx', label: 'Presentasi PowerPoint (.pptx)' },  
+            { value: 'txt', label: 'Teks (.txt)' },  
+            { value: 'epub', label: 'EPUB (.epub)' },  
+            { value: 'mobi', label: 'MOBI (.mobi)' },  
+            { value: 'zip', label: 'Arsip ZIP (.zip)' },  
+            { value: 'rar', label: 'Arsip RAR (.rar)' }  
+        ],  
+        media: [  
+            { value: 'mp4', label: 'Video MP4 (.mp4)' },  
+            { value: 'avi', label: 'Video AVI (.avi)' },  
+            { value: 'mkv', label: 'Video MKV (.mkv)' },  
+            { value: 'mov', label: 'Video MOV (.mov)' },  
+            { value: 'mp3', label: 'Audio MP3 (.mp3)' },  
+            { value: 'wav', label: 'Audio WAV (.wav)' },  
+            { value: 'flac', label: 'Audio FLAC (.flac)' },  
+            { value: 'ogg', label: 'Audio OGG (.ogg)' }  
+        ],  
+        database: [  
+            { value: 'sql', label: 'Database (.sql)' },  
+            { value: 'db', label: 'Database (.db)' },  
+            { value: 'mdb', label: 'Microsoft Access (.mdb)' }  
+        ],  
+        scripts: [  
+            { value: 'js', label: 'Skrip JavaScript (.js)' },  
+            { value: 'php', label: 'Skrip PHP (.php)' },  
+            { value: 'py', label: 'Skrip Python (.py)' },  
+            { value: 'html', label: 'HTML (.html)' },  
+            { value: 'css', label: 'CSS (.css)' },  
+            { value: 'rb', label: 'Ruby (.rb)' }  
+        ],  
+        images: [  
+            { value: 'jpg', label: 'Gambar JPEG (.jpg)' },  
+            { value: 'jpeg', label: 'Gambar JPEG (.jpeg)' },  
+            { value: 'png', label: 'Gambar PNG (.png)' },  
+            { value: 'gif', label: 'Gambar GIF (.gif)' },  
+            { value: 'bmp', label: 'Gambar BMP (.bmp)' },  
+            { value: 'svg', label: 'Gambar SVG (.svg)' }  
+        ],  
+        archives: [  
+            { value: 'zip', label: 'Arsip ZIP (.zip)' },  
+            { value: 'rar', label: 'Arsip RAR (.rar)' },  
+            { value: '7z', label: 'Arsip 7-Zip (.7z)' },  
+            { value: 'tar', label: 'Arsip TAR (.tar)' },  
+            { value: 'gz', label: 'GZIP (.gz)' }  
+        ]  
+    };  
+
+    // Event Listener untuk Kategori File  
+    document.getElementById('category').addEventListener('change', function() {  
+        const selectedCategory = this.value;  
+        const fileTypeSelect = document.getElementById('fileType');  
+
+        // Reset pilihan jenis file  
+        fileTypeSelect.innerHTML = `<option value="" disabled selected>Pilih jenis file...</option>`;  
+
+        if (selectedCategory && fileTypesByCategory[selectedCategory]) {  
+            // Menambahkan opsi jenis file berdasarkan kategori yang dipilih  
+            fileTypesByCategory[selectedCategory].forEach(file => {  
+                const option = document.createElement('option');  
+                option.value = file.value;  
+                option.textContent = file.label;  
+                fileTypeSelect.appendChild(option);  
+            });  
+        }  
+    });  
+
+    // Event Listener untuk Submit Form  
+    document.getElementById('searchForm').addEventListener('submit', function(e) {  
+        e.preventDefault();  
+
+        // Menampilkan indikator loading  
+        document.getElementById('loading').style.display = 'block';  
+
+        // Mendapatkan kata kunci dan sanitasi input  
+        let keywords = document.getElementById('keywords').value.trim();  
+        if (keywords === "") {  
+            alert("Silakan masukkan kata kunci.");  
+            document.getElementById('loading').style.display = 'none';  
+            return;  
+        }  
+
+        // Mendapatkan negara yang dipilih  
+        const country = document.getElementById('country').value;  
+        if (!country) {  
+            alert("Silakan pilih negara.");  
+            document.getElementById('loading').style.display = 'none';  
+            return;  
+        }  
+
+        // Mendapatkan search engine yang dipilih  
+        const searchEngine = document.getElementById('searchEngine').value;  
+        if (!searchEngine) {  
+            alert("Silakan pilih search engine.");  
+            document.getElementById('loading').style.display = 'none';  
+            return;  
+        }  
+
+        // Mendapatkan kategori yang dipilih  
+        const category = document.getElementById('category').value;  
+
+        // Mendapatkan jenis file yang dipilih  
+        const fileType = document.getElementById('fileType').value;  
+
+        // Jika tidak ada kategori, tetap melakukan pencarian  
+        let searchQuery = keywords;  
+
+        if (fileType) {  
+            searchQuery += ` filetype:${fileType}`;  
+        }  
+
+        // Membangun URL pencarian  
+        let searchURL = '';  
+        const encodedKeywords = encodeURIComponent(searchQuery);  
+
+        if (searchEngine === 'google') {  
+            searchURL = `https://www.google.com/search?q=${encodedKeywords}`;  
+        } else if (searchEngine === 'yahoo') {  
+            searchURL = `https://search.yahoo.com/search?p=${encodedKeywords}`;  
+        } else if (searchEngine === 'bing') {  
+            searchURL = `https://www.bing.com/search?q=${encodedKeywords}`;  
+        } else if (searchEngine === 'duckduckgo') {  
+            searchURL = `https://duckduckgo.com/?q=${encodedKeywords}`;  
+        } else if (searchEngine === 'yandex') {  
+            const vivMode = document.getElementById('vivMode').checked ? 'enabled' : 'disabled';  
+            searchURL = `https://yandex.com/search/?text=${encodedKeywords}&safe=${vivMode === 'enabled' ? 'off' : 'on'}`;  
+            if (vivMode === 'enabled') {  
+                searchURL += '&geo=213'; // Set geo ke Moskow (213) untuk tidak terdeteksi  
+            }  
+            searchURL += '&safese=d'; // Menambahkan parameter untuk menonaktifkan Safe Search  
+        }  
+
+        // Menambahkan parameter negara ke URL jika perlu  
+        const glParameter = country ? `&gl=${country}` : '';  
+        searchURL += glParameter; // Menambahkan parameter negara  
+
+        // Membuka hasil pencarian di tab baru  
+        setTimeout(() => {  
+            window.open(searchURL, '_blank');  
+            document.getElementById('loading').style.display = 'none';  
+        }, 500);  
+    });  
+</script>  
+
+</body>  
+</html>
