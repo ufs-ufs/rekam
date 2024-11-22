@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPSS Clone - Analisis Data</title>
+    <title>Q-Stat - Analisis Data</title>
     <!-- CSS Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css">
@@ -90,7 +90,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark shadow">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">SPSS Clone</a>
+            <a class="navbar-brand" href="#">Q-Stat (Quick Statistics)</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -106,9 +106,9 @@
     <div class="container">
         <!-- Information Section -->
         <div class="info-section">
-            <h2>Selamat Datang di SPSS Clone</h2>
+            <h2>Selamat Datang di Q-Stat</h2>
             <p>
-                SPSS Clone adalah aplikasi analisis data yang dirancang untuk membantu Anda melakukan analisis statistik dasar dengan mudah dan efisien. Aplikasi ini menyediakan berbagai fitur seperti analisis deskriptif, uji statistik, visualisasi data, dan ekspor hasil analisis.
+                Q-Stat adalah aplikasi analisis data yang dirancang untuk membantu Anda melakukan analisis statistik dasar dengan mudah dan efisien. Aplikasi ini menyediakan berbagai fitur seperti analisis deskriptif, uji statistik, visualisasi data, dan ekspor hasil analisis.
             </p>
             <div class="row">
                 <div class="col-md-4 d-flex align-items-start mb-3">
@@ -247,103 +247,98 @@
                     </div>
                 </div>
                 <hr>
-                <!-- Contoh Format CSV -->
-                <h5><i class="fas fa-file-csv me-2"></i>Contoh Format File CSV</h5>
-                <p>Berikut adalah contoh format file CSV yang dapat diunggah:</p>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Nama</th>
-                                <th>Umur</th>
-                                <th>Jenis Kelamin</th>
-                                <th>Pendidikan Terakhir</th>
-                                <th>Alamat</th>
-                                <th>Soal Pengetahuan 1</th>
-                                <th>Soal Pengetahuan 2</th>
-                                <th>Soal Pengetahuan 3</th>
-                                <th>Soal Pengetahuan 4</th>
-                                <th>Soal Pengetahuan 5</th>
-                                <th>Soal Pengetahuan 6</th>
-                                <th>Soal Pengetahuan 7</th>
-                                <th>Soal Pengetahuan 8</th>
-                                <th>Soal Pengetahuan 9</th>
-                                <th>Soal Pengetahuan 10</th>
-                                <th>Soal Kepatuhan 1</th>
-                                <th>Soal Kepatuhan 2</th>
-                                <th>Soal Kepatuhan 3</th>
-                                <th>Soal Kepatuhan 4</th>
-                                <th>Soal Kepatuhan 5</th>
-                                <th>Soal Kepatuhan 6</th>
-                                <th>Soal Kepatuhan 7</th>
-                                <th>Soal Kepatuhan 8</th>
-                                <th>Soal Kepatuhan 9</th>
-                                <th>Soal Kepatuhan 10</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Responden 1</td>
-                                <td>20</td>
-                                <td>Laki-laki</td>
-                                <td>SMA</td>
-                                <td>Alamat 1</td>
-                                <td>Benar</td>
-                                <td>Benar</td>
-                                <td>Benar</td>
-                                <td>Benar</td>
-                                <td>Benar</td>
-                                <td>Benar</td>
-                                <td>Benar</td>
-                                <td>Benar</td>
-                                <td>Benar</td>
-                                <td>Ya</td>
-                                <td>Ya</td>
-                                <td>Ya</td>
-                                <td>Ya</td>
-                                <td>Ya</td>
-                                <td>Ya</td>
-                                <td>Ya</td>
-                                <td>Ya</td>
-                                <td>Ya</td>
-                            </tr>
-                            <tr>
-                                <td>Responden 2</td>
-                                <td>21</td>
-                                <td>Perempuan</td>
-                                <td>Diploma</td>
-                                <td>Alamat 2</td>
-                                <td>Salah</td>
-                                <td>Salah</td>
-                                <td>Salah</td>
-                                <td>Salah</td>
-                                <td>Salah</td>
-                                <td>Salah</td>
-                                <td>Salah</td>
-                                <td>Salah</td>
-                                <td>Salah</td>
-                                <td>Tidak</td>
-                                <td>Tidak</td>
-                                <td>Tidak</td>
-                                <td>Tidak</td>
-                                <td>Tidak</td>
-                                <td>Tidak</td>
-                                <td>Tidak</td>
-                                <td>Tidak</td>
-                                <td>Tidak</td>
-                            </tr>
-                            <!-- Tambahkan baris data sesuai kebutuhan -->
-                        </tbody>
-                    </table>
-                </div>
-                <p><strong>Catatan:</strong> Pastikan file CSV Anda memiliki header yang jelas dan konsisten. Berikut adalah contoh format dalam format teks:</p>
-                <pre>
-Nama	Umur	Jenis Kelamin	Pendidikan Terakhir	Alamat	Soal Pengetahuan 1	Soal Pengetahuan 2	Soal Pengetahuan 3	Soal Pengetahuan 4	Soal Pengetahuan 5	Soal Pengetahuan 6	Soal Pengetahuan 7	Soal Pengetahuan 8	Soal Pengetahuan 9	Soal Pengetahuan 10	Soal Kepatuhan 1	Soal Kepatuhan 2	Soal Kepatuhan 3	Soal Kepatuhan 4	Soal Kepatuhan 5	Soal Kepatuhan 6	Soal Kepatuhan 7	Soal Kepatuhan 8	Soal Kepatuhan 9	Soal Kepatuhan 10
-Responden 1	20	Laki-laki	SMA	Alamat 1	Benar	Benar	Benar	Benar	Benar	Benar	Benar	Benar	Benar	Benar	Ya	Ya	Ya	Ya	Ya	Ya	Ya	Ya	Ya	Ya
-Responden 2	21	Perempuan	Diploma	Alamat 2	Salah	Salah	Salah	Salah	Salah	Salah	Salah	Salah	Salah	Salah	Tidak	Tidak	Tidak	Tidak	Tidak	Tidak	Tidak	Tidak	Tidak	Tidak
-                </pre>
-            </div>
+<!-- Contoh Format CSV untuk Penelitian Mahasiswa Kesehatan Gigi di Poltekkes -->
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h5><i class="fas fa-file-csv me-2"></i>Contoh Format File CSV</h5>
+        <p>Berikut adalah contoh format file CSV yang dapat diunggah untuk penelitian mahasiswa kesehatan gigi di Poltekkes:</p>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="table-warning">
+                    <tr>
+                        <th>ID Responden</th>
+                        <th>Nama</th>
+                        <th>Umur</th>
+                        <th>Jenis Kelamin</th>
+                        <th>Program Studi</th>
+                        <th>Fakultas</th>
+                        <th>Semester</th>
+                        <th>Penggunaan Alat Gigi</th>
+                        <th>Frekuensi Pemeriksaan Gigi (per tahun)</th>
+                        <th>Tingkat Kepuasan Layanan Gigi (1-5)</th>
+                        <th>Pengetahuan tentang Perawatan Gigi (1-5)</th>
+                        <th>Kebiasaan Menjaga Kebersihan Gigi</th>
+                        <th>Masalah Gigi yang Pernah Dihadapi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>001</td>
+                        <td>Andi Saputra</td>
+                        <td>20</td>
+                        <td>Laki-laki</td>
+                        <td>Kesehatan Gigi</td>
+                        <td>Fakultas Kesehatan</td>
+                        <td>4</td>
+                        <td>Ya</td>
+                        <td>2</td>
+                        <td>4</td>
+                        <td>5</td>
+                        <td>Rutin menyikat gigi 2 kali sehari</td>
+                        <td>Gigi berlubang</td>
+                    </tr>
+                    <tr>
+                        <td>002</td>
+                        <td>Siti Rahmawati</td>
+                        <td>21</td>
+                        <td>Perempuan</td>
+                        <td>Kesehatan Gigi</td>
+                        <td>Fakultas Kesehatan</td>
+                        <td>6</td>
+                        <td>Tidak</td>
+                        <td>0</td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td>Sekali sehari menyikat gigi</td>
+                        <td>Gusi bengkak</td>
+                    </tr>
+                    <!-- Tambahkan baris data sesuai kebutuhan -->
+                </tbody>
+            </table>
         </div>
+        <p><strong>Penjelasan Kolom:</strong></p>
+        <ul>
+            <li><strong>ID Responden:</strong> Nomor unik untuk setiap responden.</li>
+            <li><strong>Nama:</strong> Nama lengkap responden.</li>
+            <li><strong>Umur:</strong> Usia responden dalam tahun.</li>
+            <li><strong>Jenis Kelamin:</strong> Jenis kelamin responden (Laki-laki/Perempuan).</li>
+            <li><strong>Program Studi:</strong> Program studi yang diambil oleh responden.</li>
+            <li><strong>Fakultas:</strong> Fakultas tempat responden terdaftar.</li>
+            <li><strong>Semester:</strong> Semester aktif responden.</li>
+            <li><strong>Penggunaan Alat Gigi:</strong> Indikasi apakah responden rutin menggunakan alat gigi seperti benang gigi atau obat kumur (Ya/Tidak).</li>
+            <li><strong>Frekuensi Pemeriksaan Gigi (per tahun):</strong> Jumlah rata-rata pemeriksaan gigi yang dilakukan responden dalam setahun.</li>
+            <li><strong>Tingkat Kepuasan Layanan Gigi (1-5):strong> Skor kepuasan responden terhadap layanan kesehatan gigi yang diterima, diukur dari 1 (sangat tidak puas) hingga 5 (sangat puas).</li>
+            <li><strong>Pengetahuan tentang Perawatan Gigi (1-5):strong> Skor pengetahuan responden mengenai perawatan gigi, diukur dari 1 (sangat kurang) hingga 5 (sangat baik).</li>
+            <li><strong>Kebiasaan Menjaga Kebersihan Gigi:</strong> Deskripsi singkat mengenai kebiasaan perawatan gigi responden, seperti frekuensi menyikat gigi.</li>
+            <li><strong>Masalah Gigi yang Pernah Dihadapi:</strong> Jenis masalah gigi yang pernah dialami oleh responden, seperti gigi berlubang, gusi bengkak, dll.</li>
+        </ul>
+        <p><strong>Catatan:</strong> Pastikan file CSV Anda memiliki header yang jelas dan konsisten. Berikut adalah contoh format dalam format teks:</p>
+        <pre>
+ID Responden,Nama,Umur,Jenis Kelamin,Program Studi,Fakultas,Semester,Penggunaan Alat Gigi,Frekuensi Pemeriksaan Gigi (per tahun),Tingkat Kepuasan Layanan Gigi (1-5),Pengetahuan tentang Perawatan Gigi (1-5),Kebiasaan Menjaga Kebersihan Gigi,Masalah Gigi yang Pernah Dihadapi
+001,"Andi Saputra",20,Laki-laki,Kesehatan Gigi,"Fakultas Kesehatan",4,Ya,2,4,5,"Rutin menyikat gigi 2 kali sehari","Gigi berlubang"
+002,"Siti Rahmawati",21,Perempuan,Kesehatan Gigi,"Fakultas Kesehatan",6,Tidak,0,3,3,"Sekali sehari menyikat gigi","Gusi bengkak"
+        </pre>
+        <p><strong>Tips:</strong> 
+            <ul>
+                <li>Gunakan tanda kutip ("") untuk mengelilingi teks yang mengandung koma atau karakter khusus.</li>
+                <li>Pastikan setiap baris memiliki jumlah kolom yang sama sesuai header.</li>
+                <li>Hindari nilai kosong dalam data untuk mencegah kesalahan saat parsing.</li>
+                <li>Gunakan format numerik yang konsisten untuk kolom yang memerlukan angka.</li>
+                <li>Periksa kembali data sebelum diunggah untuk memastikan akurasi dan konsistensi.</li>
+            </ul>
+        </p>
+    </div>
+</div>
 
         <!-- Upload Section -->
         <div class="card shadow-sm mt-4">
@@ -458,7 +453,7 @@ Responden 2	21	Perempuan	Diploma	Alamat 2	Salah	Salah	Salah	Salah	Salah	Salah	Sa
     <!-- Footer -->
     <div class="footer">
         <div class="container">
-            &copy; 2024 SPSS Clone By Urai Fajar Santosa. Semua hak cipta dilindungi.
+            &copy; 2024 Q-Stat By: UFS. Semua hak cipta dilindungi.
         </div>
     </div>
 
