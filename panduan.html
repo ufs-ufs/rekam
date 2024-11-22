@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buku Panduan Pengguna Q-Stat</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            padding: 20px;
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            color: #007bff;
+        }
+        .save-pdf-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .table-responsive {
+            margin-bottom: 20px;
+        }
+        .footer {
+            margin-top: 40px;
+            padding: 20px 0;
+            text-align: center;
+            background-color: #ffffff;
+            border-top: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <!-- Tombol Save as PDF -->
+    <button class="btn btn-danger save-pdf-btn" id="savePdfBtn"><i class="fas fa-file-pdf me-2"></i>Simpan sebagai PDF</button>
+
+    <div id="guideContent">
+        <h1 class="text-center">Buku Panduan Pengguna Q-Stat</h1>
+        <hr>
+
+        <h2>Daftar Isi</h2>
+        <ol>
+            <li><a href="#pendahuluan">Pendahuluan</a></li>
+            <li><a href="#persyaratan-sistem">Persyaratan Sistem</a></li>
+            <li><a href="#memulai-penggunaan">Memulai Penggunaan</a></li>
+            <li><a href="#mengunggah-file-csv">Mengunggah File CSV</a></li>
+            <li><a href="#pratinjau-data">Pratinjau Data</a></li>
+            <li><a href="#analisis-deskriptif">Analisis Deskriptif</a></li>
+            <li><a href="#melakukan-uji-statistik">Melakukan Uji Statistik</a>
+                <ul>
+                    <li><a href="#t-test">T-Test</a></li>
+                    <li><a href="#korelasi-pearson">Korelasi Pearson</a></li>
+                    <li><a href="#anova">ANOVA</a></li>
+                    <li><a href="#regresi">Regresi</a></li>
+                    <li><a href="#chi-square">Chi-Square</a></li>
+                </ul>
+            </li>
+            <li><a href="#visualisasi-data">Visualisasi Data</a></li>
+            <li><a href="#mengekspor-hasil">Mengekspor Hasil</a>
+                <ul>
+                    <li><a href="#ekspor-ke-csv">Ekspor ke CSV</a></li>
+                    <li><a href="#ekspor-ke-pdf">Ekspor ke PDF</a></li>
+                </ul>
+            </li>
+            <li><a href="#mapping-encoding-variabel-kategorikal">Mapping Encoding Variabel Kategorikal</a></li>
+            <li><a href="#rangkuman-dan-laporan">Rangkuman dan Laporan</a></li>
+            <li><a href="#perbandingan-q-stat-dengan-spss">Perbandingan Q-Stat dengan SPSS</a></li>
+            <li><a href="#keunggulan-dan-kelemahan-q-stat">Keunggulan dan Kelemahan Q-Stat</a></li>
+            <li><a href="#tips-dan-trik">Tips dan Trik</a></li>
+            <li><a href="#pertanyaan-umum-faq">Pertanyaan Umum (FAQ)</a></li>
+            <li><a href="#kontak-dan-dukungan">Kontak dan Dukungan</a></li>
+        </ol>
+        <hr>
+
+        <h2 id="pendahuluan">1. Pendahuluan</h2>
+        <p>
+            Selamat datang di <strong>Q-Stat (Quick Statistics)</strong>, aplikasi web berbasis HTML dan JavaScript yang dirancang untuk membantu Anda melakukan analisis statistik dasar dengan cepat dan mudah diakses melalui web. Q-Stat menyediakan berbagai fitur seperti analisis deskriptif, uji statistik, visualisasi data, dan ekspor hasil analisis, mirip dengan perangkat lunak statistik profesional seperti SPSS.
+        </p>
+        <hr>
+
+        <h2 id="persyaratan-sistem">2. Persyaratan Sistem</h2>
+        <p>
+            Untuk menggunakan Q-Stat, pastikan perangkat Anda memenuhi persyaratan berikut:
+        </p>
+        <ul>
+            <li><strong>Browser:</strong> Google Chrome, Mozilla Firefox, Microsoft Edge, atau Safari (versi terbaru).</li>
+            <li><strong>Koneksi Internet:</strong> Stabil untuk memuat dependensi dan fitur ekspor PDF.</li>
+            <li><strong>File Data:</strong> File CSV dengan delimiter tab (<code>\t</code>) atau koma (,).</li>
+        </ul>
+        <hr>
+
+        <h2 id="memulai-penggunaan">3. Memulai Penggunaan</h2>
+        <ol>
+            <li><strong>Buka Aplikasi:</strong>
+                <ul>
+                    <li>Buka file <code>https://ufs-ufs.github.io/rekam/Q-Stat.html</code> di browser pilihan Anda.</li>
+                    <li>Anda akan disambut oleh antarmuka pengguna yang bersih dan intuitif.</li>
+                </ul>
+            </li>
+            <li><strong>Navigasi Utama:</strong>
+                <ul>
+                    <li><strong>Navbar:</strong> Terletak di bagian atas, menampilkan judul aplikasi.</li>
+                    <li><strong>Bagian Utama:</strong> Terdiri dari berbagai kartu (cards) yang mengelompokkan fitur-fitur utama seperti unggah data, pratinjau data, analisis, uji statistik, visualisasi, dan ekspor hasil.</li>
+                </ul>
+            </li>
+        </ol>
+        <hr>
+
+        <h2 id="mengunggah-file-csv">4. Mengunggah File CSV</h2>
+        <ol>
+            <li><strong>Pilih File:</strong>
+                <ul>
+                    <li>Klik tombol <strong>"Unggah File CSV"</strong>.</li>
+                    <li>Pilih file CSV yang ingin Anda analisis dari perangkat Anda.</li>
+                </ul>
+            </li>
+            <li><strong>Pengaturan Encoding:</strong>
+                <ul>
+                    <li>Centang kotak <strong>"Encode variabel kategorikal menjadi numerik"</strong> jika Anda ingin mengubah data kategorikal menjadi numerik untuk analisis statistik yang lebih lanjut.</li>
+                </ul>
+            </li>
+            <li><strong>Format File:</strong>
+                <ul>
+                    <li>Pastikan file CSV memiliki header yang jelas dan konsisten.</li>
+                    <li>Contoh format CSV dapat ditemukan di bagian <strong>Pedoman Pemilihan Uji Statistik</strong>.</li>
+                </ul>
+            </li>
+        </ol>
+        <hr>
+
+        <h2 id="pratinjau-data">5. Pratinjau Data</h2>
+        <p>
+            Setelah mengunggah file CSV, data Anda akan ditampilkan dalam tabel interaktif menggunakan DataTables. Anda dapat melakukan:
+        </p>
+        <ul>
+            <li><strong>Sorting:</strong> Klik pada header kolom untuk mengurutkan data.</li>
+            <li><strong>Searching:</strong> Gunakan fitur pencarian untuk menemukan data spesifik.</li>
+            <li><strong>Paging:</strong> Navigasi antar halaman data jika dataset besar.</li>
+        </ul>
+        <hr>
+
+        <h2 id="analisis-deskriptif">6. Analisis Deskriptif</h2>
+        <p>
+            Q-Stat menyediakan analisis deskriptif dasar untuk setiap kolom numerik dalam dataset Anda, termasuk:
+        </p>
+        <ul>
+            <li><strong>Mean (Rata-rata)</strong></li>
+            <li><strong>Median</strong></li>
+            <li><strong>Varians</strong></li>
+            <li><strong>Standar Deviasi</strong></li>
+            <li><strong>Min (Minimum)</strong></li>
+            <li><strong>Max (Maksimum)</strong></li>
+        </ul>
+        <h3>Cara Menggunakan:</h3>
+        <ol>
+            <li><strong>Navigasi ke "Analisis Deskriptif":</strong>
+                <ul>
+                    <li>Klik pada kartu <strong>"Analisis Deskriptif"</strong>.</li>
+                </ul>
+            </li>
+            <li><strong>Lihat Hasil:</strong>
+                <ul>
+                    <li>Hasil analisis akan ditampilkan secara otomatis berdasarkan data yang diunggah.</li>
+                </ul>
+            </li>
+        </ol>
+        <hr>
+
+        <h2 id="melakukan-uji-statistik">7. Melakukan Uji Statistik</h2>
+        <p>
+            Q-Stat mendukung berbagai uji statistik dasar. Berikut adalah panduan untuk masing-masing uji:
+        </p>
+        <h3 id="t-test">a. T-Test</h3>
+        <p><strong>Kapan Menggunakan:</strong> Membandingkan rata-rata dua kelompok independen.</p>
+        <h4>Langkah-langkah:</h4>
+        <ol>
+            <li><strong>Pilih "T-Test" dari Dropdown Uji Statistik.</strong></li>
+            <li><strong>Pilih Grup 1 dan Grup 2:</strong>
+                <ul>
+                    <li>Pilih dua variabel numerik yang ingin dibandingkan.</li>
+                </ul>
+            </li>
+            <li><strong>Jalankan Uji:</strong>
+                <ul>
+                    <li>Klik tombol <strong>"Jalankan Uji"</strong>.</li>
+                </ul>
+            </li>
+            <li><strong>Lihat Hasil:</strong>
+                <ul>
+                    <li>Hasil uji T-Test akan ditampilkan dengan nilai t-statistik, p-value, confidence interval, dan hasil Levene's Test.</li>
+                </ul>
+            </li>
+        </ol>
+        <hr>
+
+        <h3 id="korelasi-pearson">b. Korelasi Pearson</h3>
+        <p><strong>Kapan Menggunakan:</strong> Mengukur hubungan linier antara dua variabel numerik.</p>
+        <h4>Langkah-langkah:</h4>
+        <ol>
+            <li><strong>Pilih "Korelasi Pearson" dari Dropdown Uji Statistik.</strong></li>
+            <li><strong>Pilih Variabel X dan Variabel Y:</strong>
+                <ul>
+                    <li>Pilih dua variabel numerik yang ingin dianalisis.</li>
+                </ul>
+            </li>
+            <li><strong>Jalankan Uji:</strong>
+                <ul>
+                    <li>Klik tombol <strong>"Jalankan Uji"</strong>.</li>
+                </ul>
+            </li>
+            <li><strong>Lihat Hasil:</strong>
+                <ul>
+                    <li>Hasil korelasi akan ditampilkan dengan koefisien korelasi Pearson dan p-value.</li>
+                </ul>
+            </li>
+        </ol>
+        <hr>
+
+        <h3 id="anova">c. ANOVA</h3>
+        <p><strong>Kapan Menggunakan:</strong> Membandingkan rata-rata lebih dari dua kelompok.</p>
+        <h4>Langkah-langkah:</h4>
+        <ol>
+            <li><strong>Pilih "ANOVA" dari Dropdown Uji Statistik.</strong></li>
+            <li><strong>Pilih Grup:</strong>
+                <ul>
+                    <li>Pilih minimal dua variabel numerik yang ingin dibandingkan.</li>
+                </ul>
+            </li>
+            <li><strong>Jalankan Uji:</strong>
+                <ul>
+                    <li>Klik tombol <strong>"Jalankan Uji"</strong>.</li>
+                </ul>
+            </li>
+            <li><strong>Lihat Hasil:</strong>
+                <ul>
+                    <li>Hasil ANOVA akan ditampilkan dengan nilai F-statistik, p-value, dan hasil Levene's Test.</li>
+                </ul>
+            </li>
+        </ol>
+        <hr>
+
+        <h3 id="regresi">d. Regresi</h3>
+        <p><strong>Kapan Menggunakan:</strong> Memprediksi nilai variabel dependen berdasarkan variabel independen.</p>
+        <h4>Langkah-langkah:</h4>
+        <ol>
+            <li><strong>Pilih "Regresi" dari Dropdown Uji Statistik.</strong></li>
+            <li><strong>Pilih Variabel Independen (X) dan Variabel Dependen (Y):</strong>
+                <ul>
+                    <li>Pilih satu variabel numerik sebagai prediktor dan satu variabel numerik sebagai target.</li>
+                </ul>
+            </li>
+            <li><strong>Jalankan Uji:</strong>
+                <ul>
+                    <li>Klik tombol <strong>"Jalankan Uji"</strong>.</li>
+                </ul>
+            </li>
+            <li><strong>Lihat Hasil:</strong>
+                <ul>
+                    <li>Hasil regresi akan ditampilkan dengan slope, intercept, R-squared, p-value, dan confidence interval slope.</li>
+                </ul>
+            </li>
+        </ol>
+        <hr>
+
+        <h3 id="chi-square">e. Chi-Square</h3>
+        <p><strong>Kapan Menggunakan:</strong> Menguji asosiasi antara dua variabel kategorikal.</p>
+        <h4>Langkah-langkah:</h4>
+        <ol>
+            <li><strong>Pilih "Chi-Square" dari Dropdown Uji Statistik.</strong></li>
+            <li><strong>Pilih Variabel X dan Variabel Y:</strong>
+                <ul>
+                    <li>Pilih dua variabel kategorikal yang ingin dianalisis.</li>
+                </ul>
+            </li>
+            <li><strong>Jalankan Uji:</strong>
+                <ul>
+                    <li>Klik tombol <strong>"Jalankan Uji"</strong>.</li>
+                </ul>
+            </li>
+            <li><strong>Lihat Hasil:</strong>
+                <ul>
+                    <li>Hasil Chi-Square akan ditampilkan dengan nilai statistik Chi-Square, degrees of freedom, dan p-value.</li>
+                </ul>
+            </li>
+        </ol>
+        <hr>
+
+        <h2 id="visualisasi-data">8. Visualisasi Data</h2>
+        <p>
+            Q-Stat menyediakan berbagai tipe grafik untuk memvisualisasikan data Anda:
+        </p>
+        <ul>
+            <li><strong>Diagram Batang (Bar Chart)</strong></li>
+            <li><strong>Diagram Garis (Line Chart)</strong></li>
+            <li><strong>Diagram Pie (Pie Chart)</strong></li>
+            <li><strong>Histogram</strong></li>
+            <li><strong>Scatter Plot</strong></li>
+        </ul>
+        <h3>Cara Menggunakan:</h3>
+        <ol>
+            <li><strong>Pilih Tipe Grafik:</strong>
+                <ul>
+                    <li>Pilih jenis grafik yang diinginkan dari dropdown <strong>"Tipe Grafik"</strong>.</li>
+                </ul>
+            </li>
+            <li><strong>Pilih Kolom:</strong>
+                <ul>
+                    <li>Pilih kolom data yang ingin divisualisasikan.</li>
+                </ul>
+            </li>
+            <li><strong>Untuk Scatter Plot:</strong>
+                <ul>
+                    <li>Pilih juga variabel Y untuk grafik Scatter Plot.</li>
+                </ul>
+            </li>
+            <li><strong>Generate Grafik:</strong>
+                <ul>
+                    <li>Klik tombol <strong>"Generate Grafik"</strong> untuk membuat dan menampilkan grafik.</li>
+                </ul>
+            </li>
+            <li><strong>Interaksi dengan Grafik:</strong>
+                <ul>
+                    <li>Grafik yang dihasilkan interaktif dan responsif terhadap ukuran layar.</li>
+                </ul>
+            </li>
+        </ol>
+        <hr>
+
+        <h2 id="mengekspor-hasil">9. Mengekspor Hasil</h2>
+        <p>
+            Q-Stat memungkinkan Anda untuk mengekspor data dan hasil analisis dalam format CSV dan PDF.
+        </p>
+        <h3>a. Ekspor ke CSV</h3>
+        <h4>Langkah-langkah:</h4>
+        <ol>
+            <li><strong>Klik Tombol "Ekspor CSV":</strong>
+                <ul>
+                    <li>Terletak di bagian <strong>"Ekspor Data"</strong>.</li>
+                </ul>
+            </li>
+            <li><strong>Download File:</strong>
+                <ul>
+                    <li>File CSV akan diunduh secara otomatis ke perangkat Anda.</li>
+                </ul>
+            </li>
+        </ol>
+        <hr>
+
+        <h3>b. Ekspor ke PDF</h3>
+        <h4>Langkah-langkah:</h4>
+        <ol>
+            <li><strong>Klik Tombol "Ekspor PDF":</strong>
+                <ul>
+                    <li>Terletak di bagian <strong>"Ekspor Data"</strong>.</li>
+                </ul>
+            </li>
+            <li><strong>Download File:</strong>
+                <ul>
+                    <li>Laporan lengkap dengan tabel dan grafik akan diunduh dalam format PDF.</li>
+                </ul>
+            </li>
+        </ol>
+        <hr>
+
+        <h2 id="mapping-encoding-variabel-kategorikal">10. Mapping Encoding Variabel Kategorikal</h2>
+        <p>
+            Jika Anda memilih opsi <strong>"Encode variabel kategorikal menjadi numerik"</strong>, Q-Stat akan mengubah data kategorikal menjadi numerik untuk analisis statistik yang lebih lanjut.
+        </p>
+        <h3>Cara Menggunakan:</h3>
+        <ol>
+            <li><strong>Aktifkan Encoding:</strong>
+                <ul>
+                    <li>Centang kotak <strong>"Encode variabel kategorikal menjadi numerik"</strong> sebelum mengunggah file CSV.</li>
+                </ul>
+            </li>
+            <li><strong>Lihat Mapping:</strong>
+                <ul>
+                    <li>Setelah data diunggah dan diproses, mapping encoding akan ditampilkan dalam modal.</li>
+                </ul>
+            </li>
+            <li><strong>Contoh Mapping:</strong>
+                <ul>
+                    <li><strong>Jenis Kelamin:</strong>
+                        <ul>
+                            <li>Laki-laki: 0</li>
+                            <li>Perempuan: 1</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ol>
+        <hr>
+
+        <h2 id="rangkuman-dan-laporan">11. Rangkuman dan Laporan</h2>
+        <p>
+            Q-Stat menyediakan fitur <strong>"Laporan/Rangkuman Hasil Analisis"</strong> yang menampilkan ringkasan hasil analisis statistik yang telah dilakukan.
+        </p>
+        <h3>Cara Menggunakan:</h3>
+        <ol>
+            <li><strong>Lihat Rangkuman:</strong>
+                <ul>
+                    <li>Setelah melakukan uji statistik, hasil dan penjelasan akan ditambahkan ke daftar rangkuman.</li>
+                </ul>
+            </li>
+            <li><strong>Navigasi Rangkuman:</strong>
+                <ul>
+                    <li>Klik pada item rangkuman untuk melihat penjelasan mendetail tentang hasil uji statistik.</li>
+                </ul>
+            </li>
+        </ol>
+        <hr>
+
+        <h2 id="perbandingan-q-stat-dengan-spss">12. Perbandingan Q-Stat dengan SPSS</h2>
+        <p>
+            Berikut adalah tabel perbandingan antara Q-Stat dan SPSS untuk memberikan gambaran yang lebih jelas mengenai kemampuan masing-masing:
+        </p>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Aspek</th>
+                        <th>SPSS</th>
+                        <th>Q-Stat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Interface (UI/UX)</strong></td>
+                        <td>Antarmuka desktop dengan menu toolbar yang komprehensif.</td>
+                        <td>Antarmuka web berbasis Bootstrap yang responsif dan intuitif.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Analisis Statistik</strong></td>
+                        <td>Mendukung analisis statistik lanjutan seperti MANOVA, Factor Analysis, Cluster Analysis, Time Series Analysis.</td>
+                        <td>Mendukung analisis statistik dasar seperti T-Test, Korelasi Pearson, ANOVA, Regresi, dan Chi-Square.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pengelolaan Data</strong></td>
+                        <td>Mampu menangani dataset besar dengan berbagai jenis variabel dan pengkodean kompleks.</td>
+                        <td>Bergantung pada ukuran file CSV yang diunggah, dengan pengkodean variabel kategorikal sederhana.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Keandalan Statistika</strong></td>
+                        <td>Menggunakan algoritma statistik yang divalidasi secara akademik, termasuk pengelolaan outlier dan asumsi statistik.</td>
+                        <td>Menggunakan pustaka JavaScript seperti Simple Statistics dan jStat, yang lebih sederhana.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tampilan Grafik</strong></td>
+                        <td>Grafik yang dihasilkan memiliki lebih banyak opsi kustomisasi dan format lanjutan.</td>
+                        <td>Grafik berbasis Chart.js dengan opsi dasar seperti histogram dan scatter plot.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pengelolaan Skrip</strong></td>
+                        <td>Mendukung SPSS Syntax untuk otomatisasi proses analisis.</td>
+                        <td>Tidak mendukung scripting atau otomatisasi proses analisis.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fungsi Interaktif</strong></td>
+                        <td>Interaksi tabel data yang lebih canggih seperti pivot table dan fitur transformasi data lanjutan.</td>
+                        <td>Mendukung manipulasi sederhana seperti encoding kategori dan pencarian dalam tabel.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Integrasi Eksternal</strong></td>
+                        <td>Terintegrasi dengan sumber data seperti SQL Databases, Excel, dan API lainnya.</td>
+                        <td>Terbatas pada file CSV.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kemampuan Multiplatform</strong></td>
+                        <td>Aplikasi desktop yang mendukung berbagai OS seperti Windows dan MacOS.</td>
+                        <td>Berbasis web, berjalan langsung di browser tanpa instalasi tambahan.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ekspor Hasil</strong></td>
+                        <td>Menyediakan opsi ekspor dalam berbagai format dengan laporan yang rinci.</td>
+                        <td>Menyediakan opsi ekspor ke CSV dan PDF dengan laporan dasar.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr>
+
+        <h2 id="keunggulan-dan-kelemahan-q-stat">13. Keunggulan dan Kelemahan Q-Stat</h2>
+        <h3>Keunggulan:</h3>
+        <ul>
+            <li><strong>Gratis dan Mudah Diakses:</strong> Akses langsung melalui browser tanpa perlu instalasi.</li>
+            <li><strong>Antarmuka yang Intuitif:</strong> Desain berbasis Bootstrap yang responsif dan user-friendly.</li>
+            <li><strong>Fitur Dasar yang Lengkap:</strong> Mendukung berbagai uji statistik dasar yang sering digunakan.</li>
+            <li><strong>Visualisasi Data Interaktif:</strong> Berbagai jenis grafik untuk memvisualisasikan data dengan mudah.</li>
+            <li><strong>Ekspor Data dan Laporan:</strong> Kemampuan untuk mengekspor hasil analisis ke CSV dan PDF.</li>
+        </ul>
+        <hr>
+
+        <h3>Kelemahan:</h3>
+        <ul>
+            <li><strong>Fitur Statistik Terbatas:</strong> Tidak mendukung analisis multivariat lanjutan seperti Factor Analysis, Cluster Analysis, dan Time Series.</li>
+            <li><strong>Pengelolaan Data Terbatas:</strong> Bergantung pada pemrosesan di sisi klien, membatasi ukuran dataset yang dapat ditangani.</li>
+            <li><strong>Tidak Ada Scripting atau Automatisasi:</strong> Tidak mendukung penulisan skrip atau otomatisasi proses analisis.</li>
+            <li><strong>Keamanan Data:</strong> Tidak ada fitur keamanan seperti enkripsi data atau kontrol akses.</li>
+            <li><strong>Fitur Diagnostik yang Kurang:</strong> Tidak menyediakan grafik diagnostik seperti residual plots atau QQ-plots.</li>
+        </ul>
+        <hr>
+
+        <h2 id="tips-dan-trik">14. Tips dan Trik</h2>
+        <h3>Persiapkan Data dengan Baik:</h3>
+        <ul>
+            <li>Pastikan file CSV memiliki header yang jelas dan konsisten.</li>
+            <li>Hindari nilai kosong atau tidak sesuai format dalam dataset.</li>
+        </ul>
+
+        <h3>Gunakan Encoding untuk Variabel Kategorikal:</h3>
+        <ul>
+            <li>Aktifkan opsi encoding untuk mengubah data kategorikal menjadi numerik agar dapat dianalisis lebih lanjut.</li>
+        </ul>
+
+        <h3>Periksa Asumsi Statistik:</h3>
+        <ul>
+            <li>Sebelum menjalankan uji statistik, pastikan data memenuhi asumsi normalitas dan homogenitas varians.</li>
+        </ul>
+
+        <h3>Manfaatkan Visualisasi:</h3>
+        <ul>
+            <li>Gunakan berbagai tipe grafik untuk memahami distribusi dan hubungan antar variabel dalam data Anda.</li>
+        </ul>
+
+        <h3>Ekspor Hasil Secara Berkala:</h3>
+        <ul>
+            <li>Simpan hasil analisis Anda secara berkala dalam format CSV atau PDF untuk dokumentasi dan presentasi.</li>
+        </ul>
+        <hr>
+
+        <h2 id="pertanyaan-umum-faq">15. Pertanyaan Umum (FAQ)</h2>
+        <dl>
+            <dt>Q1: Apa saja tipe file yang dapat diunggah ke Q-Stat?</dt>
+            <dd>A1: Q-Stat mendukung file CSV dengan delimiter tab (<code>\t</code>) atau koma (,).</dd>
+
+            <dt>Q2: Bagaimana cara mengatasi error saat mengunggah file CSV?</dt>
+            <dd>A2: Pastikan file CSV memiliki header yang unik dan tidak ada nilai kosong. Periksa kembali format delimiter dan struktur data.</dd>
+
+            <dt>Q3: Apakah Q-Stat dapat menangani dataset besar?</dt>
+            <dd>A3: Q-Stat bergantung pada pemrosesan di sisi klien, sehingga kemampuan menangani dataset besar terbatas. Untuk dataset besar, pertimbangkan menggunakan perangkat lunak statistik profesional.</dd>
+
+            <dt>Q4: Bagaimana cara mengubah kembali data yang telah di-encode?</dt>
+            <dd>A4: Setelah meng-encode variabel kategorikal, Anda dapat melihat mapping encoding di modal <strong>"Mapping Encoding Variabel Kategorikal"</strong>.</dd>
+
+            <dt>Q5: Apakah hasil analisis Q-Stat dapat diverifikasi dengan SPSS?</dt>
+            <dd>A5: Hasil dasar seperti T-Test, Korelasi, ANOVA, Regresi, dan Chi-Square seharusnya konsisten dengan SPSS, tetapi selalu disarankan untuk memverifikasi hasil penting menggunakan perangkat lunak statistik profesional.</dd>
+        </dl>
+        <hr>
+
+        <h2 id="kontak-dan-dukungan">16. Kontak dan Dukungan</h2>
+        <p>
+            Jika Anda mengalami kendala atau memiliki pertanyaan lebih lanjut tentang penggunaan Q-Stat, silakan hubungi tim dukungan kami:
+        </p>
+        <ul>
+            <li><strong>Email:</strong> <a href="mailto:uray.fajar@gmail.com">uray.fajar@gmail.com</a></li>
+        </ul>
+        <hr>
+
+        <h2>Kesimpulan</h2>
+        <p>
+            Q-Stat adalah alat analisis statistik berbasis web yang menawarkan berbagai fitur dasar untuk membantu Anda memahami dan menganalisis data Anda dengan lebih baik. Meskipun memiliki beberapa keterbatasan dibandingkan dengan perangkat lunak statistik profesional seperti SPSS, Q-Stat tetap merupakan solusi yang berguna untuk analisis statistik dasar, terutama bagi pengguna yang mencari alat yang cepat, mudah diakses, dan tidak memerlukan instalasi.
+        </p>
+        <p>
+            Dengan mengikuti panduan ini, Anda diharapkan dapat memanfaatkan Q-Stat secara maksimal dan memahami bagaimana alat ini dapat membantu dalam analisis data Anda. Untuk kebutuhan analisis yang lebih kompleks, pertimbangkan untuk menggunakan perangkat lunak statistik profesional atau melengkapi Q-Stat dengan alat tambahan yang sesuai.
+        </p>
+        <p><strong>Selamat menganalisis!</strong></p>
+        <hr>
+
+        <footer class="footer">
+            &copy; 2024 Q-Stat (Quick Statistics) By: Urai Fajar Santosa. Semua hak cipta dilindungi.
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <!-- Font Awesome JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <!-- html2pdf.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        document.getElementById('savePdfBtn').addEventListener('click', () => {
+            const element = document.getElementById('guideContent');
+            const opt = {
+                margin:       0.5,
+                filename:     'Buku_Panduan_Q-Stat.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save().catch(err => {
+                console.error('Error generating PDF:', err);
+                alert('Terjadi kesalahan saat menghasilkan PDF. Silakan coba lagi.');
+            });
+        });
+    </script>
+</body>
+</html>
