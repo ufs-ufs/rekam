@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UFS DATA ANALISIS - Analisis Data</title>
+    <!-- CSS Dependencies -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #ffffff !important;
+        }
+        .navbar {
+            background-color: #007bff;
+        }
+        .container {
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        .info-section {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .info-section h2 {
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+        .info-section p {
+            font-size: 1.1rem;
+            color: #555555;
+        }
+        .feature-icon {
+            font-size: 2rem;
+            color: #007bff;
+            margin-right: 15px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .footer {
+            background-color: #ffffff;
+            padding: 20px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            color: #555555;
+        }
+        /* Custom Scrollbar for DataTables */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555; 
+        }
+        /* Additional Styles for Report and Explanation */
+        .report-section {
+            margin-top: 20px;
+        }
+        .explanation-section {
+            margin-top: 10px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 5px solid #007bff;
+            border-radius: 5px;
+        }
+        .explanation-title {
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark shadow">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">UFS DATA ANALISIS</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Future navigation items can be added here -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Placeholder for future nav items -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Information Section -->
+        <div class="info-section">
+            <h2>Selamat Datang di UFS DATA ANALISIS</h2>
+            <p>
+                UFS DATA ANALISIS adalah aplikasi analisis data yang dirancang untuk membantu Anda melakukan analisis statistik dasar dengan mudah dan efisien. Aplikasi ini menyediakan berbagai fitur seperti analisis deskriptif, uji statistik, visualisasi data, dan ekspor hasil analisis.
+            </p>
+            <div class="row">
+                <div class="col-md-4 d-flex align-items-start mb-3">
+                    <i class="fas fa-chart-bar feature-icon"></i>
+                    <div>
+                        <h5>Analisis Deskriptif</h5>
+                        <p>Hitung rata-rata, median, varians, dan statistik deskriptif lainnya untuk memahami data Anda.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex align-items-start mb-3">
+                    <i class="fas fa-vial feature-icon"></i>
+                    <div>
+                        <h5>Uji Statistik</h5>
+                        <p>Lakukan berbagai uji statistik seperti T-Test, Korelasi Pearson, ANOVA, Regresi, dan Chi-Square.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex align-items-start mb-3">
+                    <i class="fas fa-chart-pie feature-icon"></i>
+                    <div>
+                        <h5>Visualisasi Data</h5>
+                        <p>Buat grafik dan diagram interaktif untuk memvisualisasikan data Anda dengan berbagai tipe grafik.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <h5>Apa yang Dapat dan Tidak Dapat Dilakukan:</h5>
+                <ul>
+                    <li>Mengunggah dan menganalisis file CSV dengan delimiter tab atau koma.</li>
+                    <li>Melakukan analisis statistik dasar dan lanjutan.</li>
+                    <li>Membuat visualisasi data interaktif.</li>
+                    <li>Mengekspor data dan laporan dalam format CSV dan PDF.</li>
+                    <li><strong>Terbatas pada analisis statistik dasar dan tidak mendukung analisis multivariat yang kompleks.</strong></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Pedoman Uji Statistik -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h4 class="card-title"><i class="fas fa-book me-2"></i>Pedoman Pemilihan Uji Statistik</h4>
+                <div class="accordion" id="statTestAccordion">
+                    <!-- T-Test -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTTest">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTTest" aria-expanded="false" aria-controls="collapseTTest">
+                                T-Test
+                            </button>
+                        </h2>
+                        <div id="collapseTTest" class="accordion-collapse collapse" aria-labelledby="headingTTest" data-bs-parent="#statTestAccordion">
+                            <div class="accordion-body">
+                                <strong>Kapan Menggunakan T-Test?</strong>
+                                <ul>
+                                    <li>Membandingkan rata-rata dua kelompok independen.</li>
+                                    <li>Mengukur apakah ada perbedaan signifikan antara dua metode atau kondisi.</li>
+                                </ul>
+                                <strong>Contoh:</strong>
+                                <p>Membandingkan efektivitas edukasi antara penggunaan aplikasi mobile dan metode konvensional.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Korelasi Pearson -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingCorrelation">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCorrelation" aria-expanded="false" aria-controls="collapseCorrelation">
+                                Korelasi Pearson
+                            </button>
+                        </h2>
+                        <div id="collapseCorrelation" class="accordion-collapse collapse" aria-labelledby="headingCorrelation" data-bs-parent="#statTestAccordion">
+                            <div class="accordion-body">
+                                <strong>Kapan Menggunakan Korelasi Pearson?</strong>
+                                <ul>
+                                    <li>Mengukur hubungan linier antara dua variabel numerik.</li>
+                                    <li>Mengevaluasi kekuatan dan arah hubungan antar variabel.</li>
+                                </ul>
+                                <strong>Contoh:</strong>
+                                <p>Menganalisis hubungan antara frekuensi penggunaan aplikasi dan skor evaluasi hasil belajar.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ANOVA -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingANOVA">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseANOVA" aria-expanded="false" aria-controls="collapseANOVA">
+                                ANOVA
+                            </button>
+                        </h2>
+                        <div id="collapseANOVA" class="accordion-collapse collapse" aria-labelledby="headingANOVA" data-bs-parent="#statTestAccordion">
+                            <div class="accordion-body">
+                                <strong>Kapan Menggunakan ANOVA?</strong>
+                                <ul>
+                                    <li>Membandingkan rata-rata lebih dari dua kelompok.</li>
+                                    <li>Mengevaluasi apakah ada perbedaan signifikan antara tiga metode atau lebih.</li>
+                                </ul>
+                                <strong>Contoh:</strong>
+                                <p>Membandingkan efektivitas edukasi antara tiga metode berbeda: aplikasi mobile, metode konvensional, dan kombinasi keduanya.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Regresi -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingRegression">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRegression" aria-expanded="false" aria-controls="collapseRegression">
+                                Regresi
+                            </button>
+                        </h2>
+                        <div id="collapseRegression" class="accordion-collapse collapse" aria-labelledby="headingRegression" data-bs-parent="#statTestAccordion">
+                            <div class="accordion-body">
+                                <strong>Kapan Menggunakan Regresi?</strong>
+                                <ul>
+                                    <li>Memprediksi nilai variabel dependen berdasarkan variabel independen.</li>
+                                    <li>Menganalisis hubungan kausal antara variabel.</li>
+                                </ul>
+                                <strong>Contoh:</strong>
+                                <p>Memprediksi efektivitas edukasi berdasarkan frekuensi penggunaan aplikasi mobile.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Chi-Square -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingChiSquare">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseChiSquare" aria-expanded="false" aria-controls="collapseChiSquare">
+                                Chi-Square
+                            </button>
+                        </h2>
+                        <div id="collapseChiSquare" class="accordion-collapse collapse" aria-labelledby="headingChiSquare" data-bs-parent="#statTestAccordion">
+                            <div class="accordion-body">
+                                <strong>Kapan Menggunakan Chi-Square?</strong>
+                                <ul>
+                                    <li>Menganalisis asosiasi antara dua variabel kategorikal.</li>
+                                    <li>Mengevaluasi apakah distribusi kategori berbeda dari yang diharapkan.</li>
+                                </ul>
+                                <strong>Contoh:</strong>
+                                <p>Mengevaluasi apakah ada asosiasi antara jenis kelamin dan preferensi metode edukasi.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <!-- Contoh Format CSV -->
+                <h5><i class="fas fa-file-csv me-2"></i>Contoh Format File CSV</h5>
+                <p>Berikut adalah contoh format file CSV yang dapat diunggah:</p>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>Usia</th>
+                                <th>Jenis Kelamin</th>
+                                <th>Frekuensi Penggunaan Aplikasi Mobile</th>
+                                <th>Frekuensi Penggunaan Metode Konvensional</th>
+                                <th>Kemudahan Penggunaan (Lebih Mudah)</th>
+                                <th>Efektivitas (Lebih Efektif)</th>
+                                <th>Kepuasan Pasien (Lebih Memuaskan)</th>
+                                <th>Preferensi Akhir</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Responden_1</td>
+                                <td>38</td>
+                                <td>Laki-Laki</td>
+                                <td>Kadang-Kadang</td>
+                                <td>Tidak Pernah</td>
+                                <td>Keduanya Sama</td>
+                                <td>Aplikasi Mobile</td>
+                                <td>Metode Konvensional</td>
+                                <td>Keduanya Sama</td>
+                            </tr>
+                            <tr>
+                                <td>Responden_10</td>
+                                <td>43</td>
+                                <td>Laki-Laki</td>
+                                <td>Kadang-Kadang</td>
+                                <td>Tidak Pernah</td>
+                                <td>Metode Konvensional</td>
+                                <td>Metode Konvensional</td>
+                                <td>Aplikasi Mobile</td>
+                                <td>Metode Konvensional</td>
+                            </tr>
+                            <!-- Tambahkan baris data sesuai kebutuhan -->
+                        </tbody>
+                    </table>
+                </div>
+                <p><strong>Catatan:</strong> Pastikan file CSV Anda memiliki header yang jelas dan konsisten. Berikut adalah contoh format dalam format teks:</p>
+                <pre>
+Nama	Usia	Jenis Kelamin	Frekuensi Penggunaan Aplikasi Mobile	Frekuensi Penggunaan Metode Konvensional	Kemudahan Penggunaan (Lebih Mudah)	Efektivitas (Lebih Efektif)	Kepuasan Pasien (Lebih Memuaskan)	Preferensi Akhir
+Responden_1	38	Laki-Laki	Kadang-Kadang	Tidak Pernah	Keduanya Sama	Aplikasi Mobile	Metode Konvensional	Keduanya Sama
+Responden_10	43	Laki-Laki	Kadang-Kadang	Tidak Pernah	Metode Konvensional	Metode Konvensional	Aplikasi Mobile	Metode Konvensional
+                </pre>
+            </div>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="card shadow-sm mt-4">
+            <div class="card-body">
+                <h4 class="card-title"><i class="fas fa-upload me-2"></i>Unggah File CSV</h4>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" value="" id="enableEncoding">
+                    <label class="form-check-label" for="enableEncoding">
+                        Encode variabel kategorikal menjadi numerik
+                    </label>
+                </div>
+                <input type="file" id="csvFile" class="form-control" accept=".csv">
+                <small class="text-muted">File harus menggunakan delimiter tab (<code>\t</code>) atau koma (,).</small>
+            </div>
+        </div>
+
+        <!-- Data Preview -->
+        <div class="card shadow-sm mt-4">
+            <div class="card-body">
+                <h4 class="card-title"><i class="fas fa-table me-2"></i>Pratinjau Data</h4>
+                <div class="table-responsive">
+                    <table id="dataTable" class="display table table-striped" style="width:100%">
+                        <thead></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Descriptive Analysis -->
+        <div class="card shadow-sm mt-4">
+            <div class="card-body">
+                <h4 class="card-title"><i class="fas fa-chart-line me-2"></i>Analisis Deskriptif</h4>
+                <div id="descriptiveAnalysis"></div>
+            </div>
+        </div>
+
+        <!-- Statistical Tests -->
+        <div class="card shadow-sm mt-4">
+            <div class="card-body">
+                <h4 class="card-title"><i class="fas fa-vials me-2"></i>Uji Statistik</h4>
+                <label for="statisticalTest" class="form-label">Pilih Uji Statistik:</label>
+                <select id="statisticalTest" class="form-select mb-3">
+                    <option value="">-- Pilih Uji --</option>
+                    <option value="t-test">T-Test</option>
+                    <option value="correlation">Korelasi Pearson</option>
+                    <option value="anova">ANOVA</option>
+                    <option value="regression">Regresi</option>
+                    <option value="chi-square">Chi-Square</option>
+                </select>
+                <div id="testOptions" class="mb-3"></div>
+                <button id="runTest" class="btn btn-primary"><i class="fas fa-play me-2"></i>Jalankan Uji</button>
+                <div id="testResults" class="mt-4"></div>
+            </div>
+        </div>
+
+        <!-- Data Visualization -->
+        <div class="card shadow-sm mt-4">
+            <div class="card-body">
+                <h4 class="card-title"><i class="fas fa-chart-pie me-2"></i>Visualisasi Data</h4>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="chartType" class="form-label">Tipe Grafik:</label>
+                        <select id="chartType" class="form-select">
+                            <option value="bar">Diagram Batang</option>
+                            <option value="line">Diagram Garis</option>
+                            <option value="pie">Diagram Pie</option>
+                            <option value="histogram">Histogram</option>
+                            <option value="scatter">Scatter Plot</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="chartColumn" class="form-label">Kolom:</label>
+                        <select id="chartColumn" class="form-select"></select>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button id="generateChart" class="btn btn-secondary w-100"><i class="fas fa-chart-area me-2"></i>Generate Grafik</button>
+                    </div>
+                </div>
+                <div class="chart-container mt-4">
+                    <canvas id="chartCanvas"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Export Section -->
+        <div class="card shadow-sm mt-4">
+            <div class="card-body">
+                <h4 class="card-title"><i class="fas fa-file-export me-2"></i>Ekspor Data</h4>
+                <button id="exportCSV" class="btn btn-success me-2"><i class="fas fa-file-csv me-2"></i>Ekspor CSV</button>
+                <button id="exportPDF" class="btn btn-danger"><i class="fas fa-file-pdf me-2"></i>Ekspor PDF</button>
+            </div>
+        </div>
+
+        <!-- Summary Report -->
+        <div class="card shadow-sm mt-4">
+            <div class="card-body">
+                <h4 class="card-title"><i class="fas fa-clipboard-check me-2"></i>Laporan/Rangkuman Hasil Analisis</h4>
+                <ul id="summaryList">
+                    <!-- Rangkuman akan ditambahkan di sini -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            &copy; 2024 UFS DATA ANALISIS. Semua hak cipta dilindungi.
+        </div>
+    </div>
+
+    <!-- Modal for Encoding Mapping -->
+    <div class="modal fade" id="encodingModal" tabindex="-1" aria-labelledby="encodingModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="encodingModalLabel">Mapping Encoding Variabel Kategorikal</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- Mapping Tables will be inserted here -->
+            <div id="encodingMappings"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript Dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-statistics/7.7.1/simple-statistics.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let originalData = [];
+        let encodedData = [];
+        let tableColumns = [];
+        let chartInstance = null;
+        let encodingMaps = {}; // To store label encoding for each categorical column
+        let columnTypes = {}; // To store the type of each column
+        let isEncodingEnabled = false; // Flag to check if encoding is enabled
+
+        // Template explanations for each statistical test
+        const explanations = {
+            "t-test": (result, params) => `
+                <div class="explanation-section">
+                    <p class="explanation-title">Pernyataan tersebut berarti:</p>
+                    <p><strong>T-Test:</strong> Analisis statistik digunakan untuk mengetahui apakah terdapat perbedaan signifikan antara rata-rata dua kelompok independen, yaitu <strong>${params.group1}</strong> dan <strong>${params.group2}</strong>.</p>
+                    <p><strong>t-Statistik:</strong> Nilai t-statistik sebesar <strong>${result['t-Statistik']}</strong> menunjukkan seberapa jauh perbedaan rata-rata antara dua grup dari nol.</p>
+                    <p><strong>p-Value:</strong> Nilai p sebesar <strong>${result['p-Value']}</strong> menunjukkan probabilitas mendapatkan hasil seperti ini jika hipotesis nol benar (tidak ada perbedaan). Karena p-value < 0.05, kita menolak hipotesis nol.</p>
+                    <p><strong>Kesimpulan:</strong> T-Test menunjukkan bahwa ada perbedaan signifikan dalam efektivitas edukasi antara <strong>${params.group1}</strong> dan <strong>${params.group2}</strong> (p < 0.05).</p>
+                </div>
+            `,
+            "correlation": (result, params) => `
+                <div class="explanation-section">
+                    <p class="explanation-title">Pernyataan tersebut berarti:</p>
+                    <p><strong>Korelasi Pearson:</strong> Analisis statistik digunakan untuk mengukur hubungan linier antara dua variabel numerik, yaitu <strong>${params.corrX}</strong> dan <strong>${params.corrY}</strong>.</p>
+                    <p><strong>Koefisien Korelasi Pearson:</strong> Nilai koefisien korelasi sebesar <strong>${result['Koefisien Korelasi Pearson']}</strong> menunjukkan kekuatan dan arah hubungan antara kedua variabel.</p>
+                    <p><strong>p-Value:</strong> Nilai p sebesar <strong>${result['p-Value']}</strong> menunjukkan probabilitas mendapatkan hasil seperti ini jika tidak ada korelasi. Karena p-value < 0.05, kita menyimpulkan bahwa terdapat hubungan yang signifikan.</p>
+                    <p><strong>Kesimpulan:</strong> Korelasi Pearson antara <strong>${params.corrX}</strong> dan <strong>${params.corrY}</strong> adalah <strong>${result['Koefisien Korelasi Pearson']}</strong> (p < 0.05), menunjukkan hubungan yang signifikan.</p>
+                </div>
+            `,
+            "anova": (result, params) => `
+                <div class="explanation-section">
+                    <p class="explanation-title">Pernyataan tersebut berarti:</p>
+                    <p><strong>ANOVA:</strong> Analisis statistik digunakan untuk mengetahui apakah terdapat perbedaan signifikan antara rata-rata lebih dari dua kelompok, yaitu <strong>${params.groups.join(', ')}</strong>.</p>
+                    <p><strong>F-Statistik:</strong> Nilai F-statistik sebesar <strong>${result['F-Statistik']}</strong> menunjukkan seberapa besar variabilitas antar grup dibandingkan dengan variabilitas dalam grup.</p>
+                    <p><strong>p-Value:</strong> Nilai p sebesar <strong>${result['p-Value']}</strong> menunjukkan probabilitas mendapatkan hasil seperti ini jika tidak ada perbedaan rata-rata. Karena p-value < 0.05, kita menolak hipotesis nol.</p>
+                    <p><strong>Kesimpulan:</strong> ANOVA menunjukkan ada perbedaan signifikan dalam efektivitas edukasi antara grup: <strong>${params.groups.join(', ')}</strong> (p < 0.05).</p>
+                </div>
+            `,
+            "regression": (result, params) => {
+                const isSignificant = parseFloat(result['p-Value']) < 0.05;
+                return `
+                    <div class="explanation-section">
+                        <p class="explanation-title">Pernyataan tersebut berarti:</p>
+                        <p><strong>Regresi:</strong> Analisis statistik digunakan untuk memprediksi nilai variabel dependen (<strong>${params.regressY}</strong>) berdasarkan variabel independen (<strong>${params.regressX}</strong>).</p>
+                        <p><strong>Slope (m):</strong> Nilai slope sebesar <strong>${result['Slope (m)']}</strong> menunjukkan perubahan rata-rata pada variabel dependen untuk setiap unit perubahan pada variabel independen.</p>
+                        <p><strong>Intercept (b):</strong> Nilai intercept sebesar <strong>${result['Intercept (b)']}</strong> adalah nilai variabel dependen saat variabel independen bernilai nol.</p>
+                        <p><strong>R-squared:</strong> Nilai R² sebesar <strong>${result['R-squared']}</strong> menunjukkan seberapa besar variabel independen (<strong>${params.regressX}</strong>) dapat menjelaskan variasi dalam variabel dependen (<strong>${params.regressY}</strong>).</p>
+                        <p><strong>p-Value:</strong> Nilai p sebesar <strong>${result['p-Value']}</strong> menunjukkan probabilitas mendapatkan hasil seperti ini jika tidak ada hubungan. Karena p-value < 0.05, kita menyimpulkan bahwa ${params.regressX} adalah prediktor signifikan terhadap ${params.regressY}.</p>
+                        <p><strong>Kesimpulan:</strong> Regresi menunjukkan bahwa <strong>${params.regressX}</strong> adalah prediktor signifikan efektivitas edukasi (<strong>${params.regressY}</strong>) dengan R² = <strong>${result['R-squared']}</strong>.</p>
+                    </div>
+                `;
+            },
+            "chi-square": (result, params) => {
+                const isSignificant = parseFloat(result['p-Value']) < 0.05;
+                const conclusion = isSignificant 
+                    ? `Chi-Square Test menunjukkan terdapat asosiasi signifikan antara <strong>${params.chiX}</strong> dan <strong>${params.chiY}</strong> (p < 0.05).` 
+                    : `Chi-Square Test tidak menunjukkan adanya asosiasi signifikan antara <strong>${params.chiX}</strong> dan <strong>${params.chiY}</strong> (p >= 0.05).`;
+                return `
+                    <div class="explanation-section">
+                        <p class="explanation-title">Pernyataan tersebut berarti:</p>
+                        <p><strong>Chi-Square:</strong> Analisis statistik digunakan untuk menguji asosiasi antara dua variabel kategorikal, yaitu <strong>${params.chiX}</strong> dan <strong>${params.chiY}</strong>.</p>
+                        <p><strong>Chi-Square Statistik:</strong> Nilai Chi-Square sebesar <strong>${result['Chi-Square Statistik']}</strong> menunjukkan seberapa jauh distribusi yang diamati dari distribusi yang diharapkan.</p>
+                        <p><strong>Degrees of Freedom:</strong> Derajat kebebasan sebesar <strong>${result['Degrees of Freedom']}</strong> adalah parameter yang digunakan untuk menentukan distribusi Chi-Square.</p>
+                        <p><strong>p-Value:</strong> Nilai p sebesar <strong>${result['p-Value']}</strong> menunjukkan probabilitas mendapatkan hasil seperti ini jika tidak ada asosiasi. Karena p-value ${parseFloat(result['p-Value']) < 0.05 ? '< 0.05' : '>= 0.05'}, kita ${parseFloat(result['p-Value']) < 0.05 ? 'menolak hipotesis nol' : 'tidak menolak hipotesis nol'}.</p>
+                        <p><strong>Kesimpulan:</strong> ${conclusion}</p>
+                    </div>
+                `;
+            }
+        };
+
+        document.getElementById('csvFile').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                parseCSV(event.target.result);
+            };
+            reader.readAsText(file);
+        });
+
+        function parseCSV(data) {
+            const delimiter = data.includes('\t') ? '\t' : ',';
+            const rows = data.split('\n').filter(row => row.trim());
+            const headers = rows[0].split(delimiter).map(header => header.trim());
+            const records = rows.slice(1).map(row => row.split(delimiter));
+
+            originalData = records.map(record => {
+                const obj = {};
+                headers.forEach((header, index) => {
+                    const value = record[index] ? record[index].trim() : '';
+                    obj[header] = value === '' ? null : value;
+                });
+                return obj;
+            });
+
+            // Check if encoding is enabled
+            isEncodingEnabled = document.getElementById('enableEncoding').checked;
+
+            // Detect column types and encode categorical data if enabled
+            detectAndEncodeData(headers, originalData);
+
+            // Display original or encoded data
+            displayTable(headers, isEncodingEnabled ? encodedData : originalData);
+
+            // Populate chart columns
+            populateChartColumns();
+
+            // Generate descriptive analysis
+            generateDescriptiveAnalysis();
+
+            // Suggest statistical tests
+            suggestStatisticalTests();
+
+            // If encoding is enabled, display the mapping
+            if (isEncodingEnabled) {
+                displayEncodingMappings();
+            }
+        }
+
+        function detectAndEncodeData(headers, data) {
+            if (isEncodingEnabled) {
+                encodedData = data.map(row => ({ ...row })); // Clone original data
+                encodingMaps = {}; // Reset encoding maps
+                columnTypes = {}; // Reset column types
+
+                headers.forEach(header => {
+                    // Check if the column is numeric
+                    const isNumeric = data.every(row => {
+                        const val = row[header];
+                        return val === null || !isNaN(parseFloat(val));
+                    });
+
+                    if (!isNumeric) {
+                        columnTypes[header] = 'categorical';
+                        // Perform label encoding
+                        const uniqueValues = [...new Set(data.map(row => row[header]).filter(val => val !== null))];
+                        encodingMaps[header] = {};
+                        uniqueValues.forEach((val, idx) => {
+                            encodingMaps[header][val] = idx; // Start encoding from 0
+                        });
+
+                        // Encode the data
+                        encodedData = encodedData.map(row => {
+                            const encodedRow = { ...row };
+                            const originalVal = row[header];
+                            encodedRow[header] = originalVal === null ? null : encodingMaps[header][originalVal];
+                            return encodedRow;
+                        });
+                    } else {
+                        columnTypes[header] = 'numerical';
+                        // Convert numeric strings to numbers
+                        encodedData = encodedData.map(row => {
+                            const encodedRow = { ...row };
+                            const originalVal = row[header];
+                            encodedRow[header] = originalVal === null ? null : parseFloat(originalVal);
+                            return encodedRow;
+                        });
+                    }
+                });
+            } else {
+                // If encoding is not enabled, mark all as original types
+                headers.forEach(header => {
+                    const isNumeric = data.every(row => {
+                        const val = row[header];
+                        return val === null || !isNaN(parseFloat(val));
+                    });
+                    columnTypes[header] = isNumeric ? 'numerical' : 'categorical';
+                });
+            }
+        }
+
+        function displayTable(headers, data) {
+            // Define DataTables columns
+            tableColumns = headers.map(header => ({ title: header, data: header }));
+
+            // Initialize DataTables
+            $('#dataTable').DataTable({
+                destroy: true,
+                data: data,
+                columns: tableColumns,
+                paging: true,
+                searching: true,
+                info: true,
+                language: {
+                    emptyTable: "Tidak ada data tersedia",
+                    loadingRecords: "Memuat...",
+                    processing: "Sedang diproses...",
+                    search: "Cari:",
+                    lengthMenu: "Tampilkan _MENU_ entri",
+                    zeroRecords: "Tidak ditemukan data yang cocok",
+                    paginate: {
+                        first: "Pertama",
+                        last: "Terakhir",
+                        next: "Selanjutnya",
+                        previous: "Sebelumnya"
+                    },
+                }
+            });
+        }
+
+        function populateChartColumns() {
+            const chartColumnSelect = document.getElementById('chartColumn');
+            chartColumnSelect.innerHTML = '';
+            tableColumns.forEach(col => {
+                const option = document.createElement('option');
+                option.value = col.title;
+                option.textContent = col.title;
+                chartColumnSelect.appendChild(option);
+            });
+        }
+
+        function generateDescriptiveAnalysis() {
+            const analysisDiv = document.getElementById('descriptiveAnalysis');
+            analysisDiv.innerHTML = '';
+
+            tableColumns.forEach(col => {
+                const columnName = col.title;
+                const isNumeric = columnTypes[columnName] === 'numerical';
+
+                if (!isNumeric) return; // Skip categorical columns
+
+                const values = encodedData.map(row => row[columnName]).filter(val => typeof val === 'number');
+
+                if (values.length === 0) return;
+
+                const stats = {
+                    Mean: ss.mean(values).toFixed(2),
+                    Median: ss.median(values).toFixed(2),
+                    Variance: ss.variance(values).toFixed(2),
+                    StdDev: ss.standardDeviation(values).toFixed(2),
+                    Min: Math.min(...values).toFixed(2),
+                    Max: Math.max(...values).toFixed(2),
+                };
+
+                let html = `<h5>${columnName}</h5><table class="table table-bordered"><tbody>`;
+                for (let [key, value] of Object.entries(stats)) {
+                    html += `<tr><td>${key}</td><td>${value}</td></tr>`;
+                }
+                html += `</tbody></table>`;
+                analysisDiv.innerHTML += html;
+            });
+        }
+
+        document.getElementById('statisticalTest').addEventListener('change', function () {
+            const selectedTest = this.value;
+            const testOptionsDiv = document.getElementById('testOptions');
+            testOptionsDiv.innerHTML = '';
+
+            if (selectedTest === 't-test') {
+                // T-Test requires two numerical groups
+                const numericalCols = getNumericalColumns();
+                const html = `
+                    <label for="group1" class="form-label">Grup 1:</label>
+                    <select id="group1" class="form-select mb-2">
+                        ${populateOptions(numericalCols)}
+                    </select>
+                    <label for="group2" class="form-label">Grup 2:</label>
+                    <select id="group2" class="form-select">
+                        ${populateOptions(numericalCols)}
+                    </select>
+                `;
+                testOptionsDiv.innerHTML = html;
+            } else if (selectedTest === 'correlation') {
+                // Correlation requires two numerical variables
+                const numericalCols = getNumericalColumns();
+                const html = `
+                    <label for="corrX" class="form-label">Variabel X:</label>
+                    <select id="corrX" class="form-select mb-2">
+                        ${populateOptions(numericalCols)}
+                    </select>
+                    <label for="corrY" class="form-label">Variabel Y:</label>
+                    <select id="corrY" class="form-select">
+                        ${populateOptions(numericalCols)}
+                    </select>
+                `;
+                testOptionsDiv.innerHTML = html;
+            } else if (selectedTest === 'anova') {
+                // ANOVA requires at least two numerical groups
+                const numericalCols = getNumericalColumns();
+                if (numericalCols.length < 2) {
+                    testOptionsDiv.innerHTML = '<p class="text-danger">Minimal dua grup numerik diperlukan untuk ANOVA.</p>';
+                    return;
+                }
+                const html = `
+                    <label for="anovaGroups" class="form-label">Pilih Grup (minimal 2):</label>
+                    <select id="anovaGroups" class="form-select mb-2" multiple>
+                        ${populateOptions(numericalCols)}
+                    </select>
+                    <small class="text-muted">Tahan Ctrl (Windows) atau Cmd (Mac) untuk memilih multiple.</small>
+                `;
+                testOptionsDiv.innerHTML = html;
+            } else if (selectedTest === 'regression') {
+                // Regression requires one numerical independent variable and one numerical dependent variable
+                const numericalCols = getNumericalColumns();
+                const html = `
+                    <label for="regressX" class="form-label">Variabel Independen (X):</label>
+                    <select id="regressX" class="form-select mb-2">
+                        ${populateOptions(numericalCols)}
+                    </select>
+                    <label for="regressY" class="form-label">Variabel Dependen (Y):</label>
+                    <select id="regressY" class="form-select">
+                        ${populateOptions(numericalCols)}
+                    </select>
+                `;
+                testOptionsDiv.innerHTML = html;
+            } else if (selectedTest === 'chi-square') {
+                // Chi-Square requires two categorical variables
+                const categoricalCols = getCategoricalColumns();
+                if (categoricalCols.length < 2) {
+                    testOptionsDiv.innerHTML = '<p class="text-danger">Minimal dua variabel kategorikal diperlukan untuk Chi-Square.</p>';
+                    return;
+                }
+                const html = `
+                    <label for="chiX" class="form-label">Variabel X:</label>
+                    <select id="chiX" class="form-select mb-2">
+                        ${populateOptions(categoricalCols)}
+                    </select>
+                    <label for="chiY" class="form-label">Variabel Y:</label>
+                    <select id="chiY" class="form-select">
+                        ${populateOptions(categoricalCols)}
+                    </select>
+                `;
+                testOptionsDiv.innerHTML = html;
+            }
+        });
+
+        function getNumericalColumns() {
+            return tableColumns.filter(col => columnTypes[col.title] === 'numerical').map(col => col.title);
+        }
+
+        function getCategoricalColumns() {
+            return tableColumns.filter(col => columnTypes[col.title] === 'categorical').map(col => col.title);
+        }
+
+        function populateOptions(columns) {
+            return columns.map(col => `<option value="${col}">${col}</option>`).join('');
+        }
+
+        document.getElementById('runTest').addEventListener('click', () => {
+            const selectedTest = document.getElementById('statisticalTest').value;
+            if (!selectedTest) {
+                alert('Silakan pilih uji statistik terlebih dahulu.');
+                return;
+            }
+
+            try {
+                let result = {};
+                let params = {};
+                if (selectedTest === 't-test') {
+                    const group1Col = document.getElementById('group1').value;
+                    const group2Col = document.getElementById('group2').value;
+
+                    if (!group1Col || !group2Col) {
+                        alert('Silakan pilih kedua grup untuk T-Test.');
+                        return;
+                    }
+
+                    const group1 = encodedData.map(row => row[group1Col]).filter(val => typeof val === 'number');
+                    const group2 = encodedData.map(row => row[group2Col]).filter(val => typeof val === 'number');
+
+                    if (group1.length < 2 || group2.length < 2) {
+                        alert('Masing-masing grup harus memiliki minimal 2 data numerik.');
+                        return;
+                    }
+
+                    // Calculate Means
+                    const mean1 = ss.mean(group1);
+                    const mean2 = ss.mean(group2);
+
+                    // Calculate Variances
+                    const var1 = ss.variance(group1);
+                    const var2 = ss.variance(group2);
+
+                    // Calculate pooled standard deviation
+                    const n1 = group1.length;
+                    const n2 = group2.length;
+                    const sp = Math.sqrt(((n1 - 1) * var1 + (n2 - 1) * var2) / (n1 + n2 - 2));
+
+                    // Calculate standard error
+                    const se = sp * Math.sqrt(1/n1 + 1/n2);
+
+                    // Calculate t-statistic
+                    const tStat = (mean1 - mean2) / se;
+
+                    // Degrees of Freedom
+                    const df = n1 + n2 - 2;
+
+                    // Calculate p-value (two-tailed)
+                    const pVal = 2 * (1 - jStat.studentt.cdf(Math.abs(tStat), df));
+
+                    result = { 't-Statistik': tStat.toFixed(4), 'p-Value': pVal.toFixed(4) };
+                    params = { group1: group1Col, group2: group2Col };
+                    displayTestResults(selectedTest, `T-Test antara ${group1Col} dan ${group2Col}`, result, params);
+
+                } else if (selectedTest === 'correlation') {
+                    const corrX = document.getElementById('corrX').value;
+                    const corrY = document.getElementById('corrY').value;
+
+                    if (!corrX || !corrY) {
+                        alert('Silakan pilih kedua variabel untuk Korelasi.');
+                        return;
+                    }
+
+                    const x = encodedData.map(row => row[corrX]).filter(val => typeof val === 'number');
+                    const y = encodedData.map(row => row[corrY]).filter(val => typeof val === 'number');
+
+                    if (x.length < 2 || y.length < 2) {
+                        alert('Masing-masing variabel harus memiliki minimal 2 data numerik.');
+                        return;
+                    }
+
+                    // Calculate Pearson Correlation Coefficient
+                    const corrCoeff = jStat.corrcoeff(x, y);
+
+                    // Calculate t-statistic
+                    const n = x.length;
+                    const t = corrCoeff * Math.sqrt((n - 2) / (1 - corrCoeff * corrCoeff));
+
+                    // Calculate p-value (two-tailed)
+                    const pVal = 2 * (1 - jStat.studentt.cdf(Math.abs(t), n - 2));
+
+                    result = { 'Koefisien Korelasi Pearson': corrCoeff.toFixed(4), 'p-Value': pVal.toFixed(4) };
+                    params = { corrX: corrX, corrY: corrY };
+                    displayTestResults(selectedTest, `Korelasi Pearson antara ${corrX} dan ${corrY}`, result, params);
+                    
+                } else if (selectedTest === 'anova') {
+                    const anovaSelect = document.getElementById('anovaGroups');
+                    const selectedOptions = Array.from(anovaSelect.selectedOptions).map(option => option.value);
+
+                    if (selectedOptions.length < 2) {
+                        alert('Silakan pilih minimal dua grup untuk ANOVA.');
+                        return;
+                    }
+
+                    const groups = selectedOptions.map(group => encodedData.map(row => row[group]).filter(val => typeof val === 'number'));
+
+                    const groupSizes = groups.map(group => group.length);
+                    if (groupSizes.some(size => size < 2)) {
+                        alert('Setiap grup harus memiliki minimal 2 data numerik.');
+                        return;
+                    }
+
+                    // Calculate ANOVA F-statistic using jStat
+                    const anovaResult = jStat.anovaftest(groups);
+
+                    // Degrees of Freedom
+                    const dfBetween = selectedOptions.length - 1;
+                    const dfWithin = groups.reduce((acc, group) => acc + (group.length - 1), 0);
+
+                    // Calculate p-value
+                    const pVal = 1 - jStat.f.cdf(anovaResult, dfBetween, dfWithin);
+
+                    result = { 'F-Statistik': anovaResult.toFixed(4), 'p-Value': pVal.toFixed(4) };
+                    params = { groups: selectedOptions };
+                    displayTestResults(selectedTest, `ANOVA antara grup: ${selectedOptions.join(', ')}`, result, params);
+
+                } else if (selectedTest === 'regression') {
+                    const regressX = document.getElementById('regressX').value;
+                    const regressY = document.getElementById('regressY').value;
+
+                    if (!regressX || !regressY) {
+                        alert('Silakan pilih kedua variabel untuk Regresi.');
+                        return;
+                    }
+
+                    const x = encodedData.map(row => row[regressX]).filter(val => typeof val === 'number');
+                    const y = encodedData.map(row => row[regressY]).filter(val => typeof val === 'number');
+
+                    if (x.length < 2 || y.length < 2) {
+                        alert('Masing-masing variabel harus memiliki minimal 2 data numerik.');
+                        return;
+                    }
+
+                    if (x.length !== y.length) {
+                        alert('Jumlah data X dan Y harus sama.');
+                        return;
+                    }
+
+                    // Calculate Linear Regression using Simple Statistics
+                    const lr = ss.linearRegression(x.map((xi, i) => [xi, y[i]]));
+                    const slope = lr.m;
+                    const intercept = lr.b;
+                    const regressionLine = ss.linearRegressionLine(lr);
+                    const rSquared = ss.rSquared(x.map((xi, i) => [xi, y[i]]), regressionLine);
+
+                    // Calculate significance of slope
+                    // Using jStat for regression statistics
+                    const slopeStdErr = ss.standardError(x.map((xi, i) => [xi, y[i]]), regressionLine, 'slope');
+                    const tStat = slope / slopeStdErr;
+                    const df = x.length - 2;
+                    const pVal = 2 * (1 - jStat.studentt.cdf(Math.abs(tStat), df));
+
+                    result = {
+                        'Slope (m)': slope.toFixed(4),
+                        'Intercept (b)': intercept.toFixed(4),
+                        'R-squared': rSquared.toFixed(4),
+                        'p-Value': pVal.toFixed(4)
+                    };
+                    params = { regressX: regressX, regressY: regressY };
+                    displayTestResults(selectedTest, `Regresi antara ${regressX} (X) dan ${regressY} (Y)`, result, params);
+                    
+                } else if (selectedTest === 'chi-square') {
+                    const chiX = document.getElementById('chiX').value;
+                    const chiY = document.getElementById('chiY').value;
+
+                    if (!chiX || !chiY) {
+                        alert('Silakan pilih kedua variabel untuk Chi-Square.');
+                        return;
+                    }
+
+                    const x = isEncodingEnabled 
+                        ? encodedData.map(row => row[chiX]).filter(val => val !== null)
+                        : originalData.map(row => row[chiX]).filter(val => val !== null);
+                    const y = isEncodingEnabled 
+                        ? encodedData.map(row => row[chiY]).filter(val => val !== null)
+                        : originalData.map(row => row[chiY]).filter(val => val !== null);
+
+                    if (x.length !== y.length) {
+                        alert('Jumlah data variabel X dan Y harus sama.');
+                        return;
+                    }
+
+                    // Create contingency table
+                    const categoriesX = isEncodingEnabled 
+                        ? Object.keys(encodingMaps[chiX] || {})
+                        : [...new Set(x)];
+                    const categoriesY = isEncodingEnabled 
+                        ? Object.keys(encodingMaps[chiY] || {})
+                        : [...new Set(y)];
+
+                    const contingencyTable = {};
+                    categoriesX.forEach(catX => {
+                        contingencyTable[catX] = {};
+                        categoriesY.forEach(catY => {
+                            contingencyTable[catX][catY] = 0;
+                        });
+                    });
+
+                    for (let i = 0; i < x.length; i++) {
+                        const catX = isEncodingEnabled ? getKeyByValue(encodingMaps[chiX], x[i]) : x[i];
+                        const catY = isEncodingEnabled ? getKeyByValue(encodingMaps[chiY], y[i]) : y[i];
+                        contingencyTable[catX][catY] += 1;
+                    }
+
+                    // Convert contingency table to array format
+                    const tableArray = [];
+                    categoriesX.forEach(catX => {
+                        const row = [];
+                        categoriesY.forEach(catY => {
+                            row.push(contingencyTable[catX][catY]);
+                        });
+                        tableArray.push(row);
+                    });
+
+                    // Calculate Chi-Square statistic manually
+                    let chiSquareStat = 0;
+                    const rowTotals = [];
+                    const colTotals = [];
+                    const total = x.length;
+
+                    // Calculate row and column totals
+                    tableArray.forEach(row => {
+                        const rowSum = row.reduce((a, b) => a + b, 0);
+                        rowTotals.push(rowSum);
+                    });
+
+                    for (let j = 0; j < categoriesY.length; j++) {
+                        let colSum = 0;
+                        for (let i = 0; i < categoriesX.length; i++) {
+                            colSum += tableArray[i][j];
+                        }
+                        colTotals.push(colSum);
+                    }
+
+                    // Calculate Chi-Square statistic
+                    for (let i = 0; i < categoriesX.length; i++) {
+                        for (let j = 0; j < categoriesY.length; j++) {
+                            const observed = tableArray[i][j];
+                            const expected = (rowTotals[i] * colTotals[j]) / total;
+                            chiSquareStat += Math.pow(observed - expected, 2) / expected;
+                        }
+                    }
+
+                    // Degrees of Freedom
+                    const df = (categoriesX.length - 1) * (categoriesY.length - 1);
+
+                    // Calculate p-value
+                    const pVal = 1 - jStat.chisquare.cdf(chiSquareStat, df);
+
+                    result = { 'Chi-Square Statistik': chiSquareStat.toFixed(4), 'Degrees of Freedom': df, 'p-Value': pVal.toFixed(4) };
+                    params = { chiX: chiX, chiY: chiY };
+                    displayTestResults(selectedTest, `Chi-Square Test antara ${chiX} dan ${chiY}`, result, params);
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Terjadi kesalahan saat menjalankan uji statistik.');
+            }
+        });
+
+        function getKeyByValue(object, value) {
+            return Object.keys(object).find(key => object[key] === value);
+        }
+
+        function displayTestResults(testType, title, results, params) {
+            const summaryList = document.getElementById('summaryList');
+            const li = document.createElement('li');
+            const explanation = explanations[testType](results, params);
+            li.innerHTML = `
+                <strong>${title}:</strong> ${getStandardReport(testType, results, params)}
+                ${explanation}
+            `;
+            summaryList.appendChild(li);
+        }
+
+        function getStandardReport(testType, results, params) {
+            // Generate the standard report
+            let report = '';
+            switch(testType) {
+                case 't-test':
+                    report = `T-Test menunjukkan ada perbedaan signifikan dalam efektivitas edukasi antara ${params.group1} dan ${params.group2} (p < 0.05).`;
+                    break;
+                case 'correlation':
+                    report = `Korelasi Pearson antara ${params.corrX} dan ${params.corrY} adalah ${results['Koefisien Korelasi Pearson']} (p < 0.05), menunjukkan hubungan yang signifikan.`;
+                    break;
+                case 'anova':
+                    report = `ANOVA menunjukkan ada perbedaan signifikan dalam efektivitas edukasi antara grup: ${params.groups.join(', ')} (p < 0.05).`;
+                    break;
+                case 'regression':
+                    report = `Regresi menunjukkan bahwa ${params.regressX} adalah prediktor signifikan efektivitas edukasi (${params.regressY}) dengan R² = ${results['R-squared']}.`;
+                    break;
+                case 'chi-square':
+                    report = `Chi-Square Test menunjukkan ${parseFloat(results['p-Value']) < 0.05 ? 'terdapat asosiasi signifikan' : 'tidak terdapat asosiasi signifikan'} antara ${params.chiX} dan ${params.chiY} (${parseFloat(results['p-Value']) < 0.05 ? 'p < 0.05' : 'p >= 0.05'}).`;
+                    break;
+                default:
+                    report = 'Hasil uji statistik.';
+            }
+            return report;
+        }
+
+        function generateDescriptiveAnalysis() {
+            const analysisDiv = document.getElementById('descriptiveAnalysis');
+            analysisDiv.innerHTML = '';
+
+            tableColumns.forEach(col => {
+                const columnName = col.title;
+                const isNumeric = columnTypes[columnName] === 'numerical';
+
+                if (!isNumeric) return; // Skip categorical columns
+
+                const values = encodedData.map(row => row[columnName]).filter(val => typeof val === 'number');
+
+                if (values.length === 0) return;
+
+                const stats = {
+                    Mean: ss.mean(values).toFixed(2),
+                    Median: ss.median(values).toFixed(2),
+                    Variance: ss.variance(values).toFixed(2),
+                    StdDev: ss.standardDeviation(values).toFixed(2),
+                    Min: Math.min(...values).toFixed(2),
+                    Max: Math.max(...values).toFixed(2),
+                };
+
+                let html = `<h5>${columnName}</h5><table class="table table-bordered"><tbody>`;
+                for (let [key, value] of Object.entries(stats)) {
+                    html += `<tr><td>${key}</td><td>${value}</td></tr>`;
+                }
+                html += `</tbody></table>`;
+                analysisDiv.innerHTML += html;
+            });
+        }
+
+        document.getElementById('generateChart').addEventListener('click', () => {
+            const chartType = document.getElementById('chartType').value;
+            const chartColumn = document.getElementById('chartColumn').value;
+            const encodedValues = encodedData.map(row => row[chartColumn]).filter(val => typeof val === 'number');
+            const originalValues = originalData.map(row => row[chartColumn]).filter(val => typeof val === 'number');
+
+            if (chartType === 'scatter') {
+                // Scatter Plot requires two numerical variables
+                alert('Scatter Plot memerlukan dua variabel numerik. Silakan gunakan uji statistik atau tambahkan fitur pemilihan dua kolom.');
+                return;
+            }
+
+            if (chartInstance) chartInstance.destroy();
+
+            const ctx = document.getElementById('chartCanvas').getContext('2d');
+
+            if (chartType === 'pie') {
+                chartInstance = new Chart(ctx, {
+                    type: chartType,
+                    data: {
+                        labels: originalValues.map((_, i) => `Data ${i + 1}`),
+                        datasets: [{
+                            label: chartColumn,
+                            data: encodedValues,
+                            backgroundColor: generateColors(encodedValues.length)
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: `Diagram Pie untuk ${chartColumn}`
+                            }
+                        }
+                    }
+                });
+            } else if (chartType === 'histogram') {
+                // Create histogram
+                const binCount = Math.round(Math.sqrt(encodedValues.length));
+                const histogram = ss.histogram(encodedValues, binCount);
+                chartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: histogram.bins.map((bin, i) => `Bin ${i + 1}`),
+                        datasets: [{
+                            label: 'Frekuensi',
+                            data: histogram.bins.map(bin => bin.length),
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Bins'
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Frekuensi'
+                                }
+                            }
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: `Histogram untuk ${chartColumn}`
+                            },
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            } else {
+                chartInstance = new Chart(ctx, {
+                    type: chartType,
+                    data: {
+                        labels: encodedValues.map((_, i) => i + 1),
+                        datasets: [{
+                            label: chartColumn,
+                            data: encodedValues,
+                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: `${chartType.charAt(0).toUpperCase() + chartType.slice(1)} untuk ${chartColumn}`
+                            },
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+        });
+
+        function generateColors(num) {
+            const colors = [];
+            for (let i = 0; i < num; i++) {
+                const r = Math.floor(Math.random() * 255);
+                const g = Math.floor(Math.random() * 255);
+                const b = Math.floor(Math.random() * 255);
+                colors.push(`rgba(${r}, ${g}, ${b}, 0.6)`);
+            }
+            return colors;
+        }
+
+        // Export CSV
+        document.getElementById('exportCSV').addEventListener('click', () => {
+            const headers = tableColumns.map(col => col.title).join(',');
+            const rows = (isEncodingEnabled ? encodedData : originalData).map(row => tableColumns.map(col => {
+                const value = row[col.title];
+                // Escape double quotes and wrap in quotes if necessary
+                if (typeof value === 'string' && (value.includes(',') || value.includes('"') || value.includes('\n'))) {
+                    return `"${value.replace(/"/g, '""')}"`;
+                }
+                return value;
+            }).join(',')).join('\n');
+            const csvContent = `${headers}\n${rows}`;
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'data_export.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+
+        // Export PDF
+        document.getElementById('exportPDF').addEventListener('click', () => {
+            const container = document.querySelector('.container');
+            html2canvas(container).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+                const imgProps = pdf.getImageProperties(imgData);
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                pdf.save('laporan.pdf');
+            });
+        });
+
+        // Saran Uji Statistik
+        function suggestStatisticalTests() {
+            const numericalCols = getNumericalColumns();
+            const categoricalCols = getCategoricalColumns();
+
+            let suggestions = [];
+
+            if (numericalCols.length >= 2) {
+                suggestions.push('T-Test: Membandingkan rata-rata dua grup numerik.');
+                suggestions.push('Korelasi Pearson: Mengukur hubungan linier antara dua variabel numerik.');
+                suggestions.push('Regresi: Memprediksi nilai variabel dependen berdasarkan variabel independen.');
+                suggestions.push('ANOVA: Membandingkan rata-rata lebih dari dua grup numerik.');
+            }
+
+            if (categoricalCols.length >= 2) {
+                suggestions.push('Chi-Square: Menguji asosiasi antara dua variabel kategorikal.');
+            }
+
+            if (suggestions.length > 0) {
+                alert('Berdasarkan data yang diunggah, berikut adalah uji statistik yang dapat Anda gunakan:\n\n' + suggestions.join('\n'));
+            } else {
+                alert('Data yang diunggah tidak memenuhi kriteria untuk uji statistik yang tersedia.');
+            }
+        }
+
+        function displayTestResults(testType, title, results, params) {
+            const summaryList = document.getElementById('summaryList');
+            const li = document.createElement('li');
+            const explanation = explanations[testType](results, params);
+            li.innerHTML = `
+                <strong>${title}:</strong> ${getStandardReport(testType, results, params)}
+                ${explanation}
+            `;
+            summaryList.appendChild(li);
+        }
+
+        function getStandardReport(testType, results, params) {
+            // Generate the standard report
+            let report = '';
+            switch(testType) {
+                case 't-test':
+                    report = `T-Test menunjukkan ada perbedaan signifikan dalam efektivitas edukasi antara ${params.group1} dan ${params.group2} (p < 0.05).`;
+                    break;
+                case 'correlation':
+                    report = `Korelasi Pearson antara ${params.corrX} dan ${params.corrY} adalah ${results['Koefisien Korelasi Pearson']} (p < 0.05), menunjukkan hubungan yang signifikan.`;
+                    break;
+                case 'anova':
+                    report = `ANOVA menunjukkan ada perbedaan signifikan dalam efektivitas edukasi antara grup: ${params.groups.join(', ')} (p < 0.05).`;
+                    break;
+                case 'regression':
+                    report = `Regresi menunjukkan bahwa ${params.regressX} adalah prediktor signifikan efektivitas edukasi (${params.regressY}) dengan R² = ${results['R-squared']}.`;
+                    break;
+                case 'chi-square':
+                    report = `Chi-Square Test menunjukkan ${parseFloat(results['p-Value']) < 0.05 ? 'terdapat asosiasi signifikan' : 'tidak terdapat asosiasi signifikan'} antara ${params.chiX} dan ${params.chiY} (${parseFloat(results['p-Value']) < 0.05 ? 'p < 0.05' : 'p >= 0.05'}).`;
+                    break;
+                default:
+                    report = 'Hasil uji statistik.';
+            }
+            return report;
+        }
+
+        function displayEncodingMappings() {
+            const mappingsDiv = document.getElementById('encodingMappings');
+            mappingsDiv.innerHTML = ''; // Clear previous mappings
+
+            for (const [column, mapping] of Object.entries(encodingMaps)) {
+                let html = `<h5>Mapping untuk <strong>${column}</strong></h5>`;
+                html += `<table class="table table-bordered"><thead><tr><th>Kategori</th><th>Numerik</th></tr></thead><tbody>`;
+                for (const [category, num] of Object.entries(mapping)) {
+                    html += `<tr><td>${category}</td><td>${num}</td></tr>`;
+                }
+                html += `</tbody></table>`;
+                mappingsDiv.innerHTML += html;
+            }
+
+            // Show the modal
+            const encodingModal = new bootstrap.Modal(document.getElementById('encodingModal'), {
+                keyboard: false
+            });
+            encodingModal.show();
+        }
+
+        // Event listener for encoding checkbox
+        document.getElementById('enableEncoding').addEventListener('change', function () {
+            // If a file is already loaded, re-parse it with the new encoding setting
+            if (originalData.length > 0) {
+                parseCSV(convertDataToCSV(originalData));
+            }
+        });
+
+        function convertDataToCSV(data) {
+            if (data.length === 0) return '';
+
+            const headers = Object.keys(data[0]);
+            const rows = data.map(row => headers.map(header => row[header] !== null ? row[header] : '').join('\t')).join('\n');
+            return `${headers.join('\t')}\n${rows}`;
+        }
+
+        function generateDescriptiveAnalysis() {
+            const analysisDiv = document.getElementById('descriptiveAnalysis');
+            analysisDiv.innerHTML = '';
+
+            tableColumns.forEach(col => {
+                const columnName = col.title;
+                const isNumeric = columnTypes[columnName] === 'numerical';
+
+                if (!isNumeric) return; // Skip categorical columns
+
+                const values = encodedData.map(row => row[columnName]).filter(val => typeof val === 'number');
+
+                if (values.length === 0) return;
+
+                const stats = {
+                    Mean: ss.mean(values).toFixed(2),
+                    Median: ss.median(values).toFixed(2),
+                    Variance: ss.variance(values).toFixed(2),
+                    StdDev: ss.standardDeviation(values).toFixed(2),
+                    Min: Math.min(...values).toFixed(2),
+                    Max: Math.max(...values).toFixed(2),
+                };
+
+                let html = `<h5>${columnName}</h5><table class="table table-bordered"><tbody>`;
+                for (let [key, value] of Object.entries(stats)) {
+                    html += `<tr><td>${key}</td><td>${value}</td></tr>`;
+                }
+                html += `</tbody></table>`;
+                analysisDiv.innerHTML += html;
+            });
+        }
+
+        function generateDescriptiveAnalysis() {
+            const analysisDiv = document.getElementById('descriptiveAnalysis');
+            analysisDiv.innerHTML = '';
+
+            tableColumns.forEach(col => {
+                const columnName = col.title;
+                const isNumeric = columnTypes[columnName] === 'numerical';
+
+                if (!isNumeric) return; // Skip categorical columns
+
+                const values = encodedData.map(row => row[columnName]).filter(val => typeof val === 'number');
+
+                if (values.length === 0) return;
+
+                const stats = {
+                    Mean: ss.mean(values).toFixed(2),
+                    Median: ss.median(values).toFixed(2),
+                    Variance: ss.variance(values).toFixed(2),
+                    StdDev: ss.standardDeviation(values).toFixed(2),
+                    Min: Math.min(...values).toFixed(2),
+                    Max: Math.max(...values).toFixed(2),
+                };
+
+                let html = `<h5>${columnName}</h5><table class="table table-bordered"><tbody>`;
+                for (let [key, value] of Object.entries(stats)) {
+                    html += `<tr><td>${key}</td><td>${value}</td></tr>`;
+                }
+                html += `</tbody></table>`;
+                analysisDiv.innerHTML += html;
+            });
+        }
+
+        document.getElementById('generateChart').addEventListener('click', () => {
+            const chartType = document.getElementById('chartType').value;
+            const chartColumn = document.getElementById('chartColumn').value;
+            const encodedValues = encodedData.map(row => row[chartColumn]).filter(val => typeof val === 'number');
+            const originalValues = originalData.map(row => row[chartColumn]).filter(val => typeof val === 'number');
+
+            if (chartType === 'scatter') {
+                // Scatter Plot requires two numerical variables
+                alert('Scatter Plot memerlukan dua variabel numerik. Silakan gunakan uji statistik atau tambahkan fitur pemilihan dua kolom.');
+                return;
+            }
+
+            if (chartInstance) chartInstance.destroy();
+
+            const ctx = document.getElementById('chartCanvas').getContext('2d');
+
+            if (chartType === 'pie') {
+                chartInstance = new Chart(ctx, {
+                    type: chartType,
+                    data: {
+                        labels: originalValues.map((_, i) => `Data ${i + 1}`),
+                        datasets: [{
+                            label: chartColumn,
+                            data: encodedValues,
+                            backgroundColor: generateColors(encodedValues.length)
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: `Diagram Pie untuk ${chartColumn}`
+                            }
+                        }
+                    }
+                });
+            } else if (chartType === 'histogram') {
+                // Create histogram
+                const binCount = Math.round(Math.sqrt(encodedValues.length));
+                const histogram = ss.histogram(encodedValues, binCount);
+                chartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: histogram.bins.map((bin, i) => `Bin ${i + 1}`),
+                        datasets: [{
+                            label: 'Frekuensi',
+                            data: histogram.bins.map(bin => bin.length),
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Bins'
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Frekuensi'
+                                }
+                            }
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: `Histogram untuk ${chartColumn}`
+                            },
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            } else {
+                chartInstance = new Chart(ctx, {
+                    type: chartType,
+                    data: {
+                        labels: encodedValues.map((_, i) => i + 1),
+                        datasets: [{
+                            label: chartColumn,
+                            data: encodedValues,
+                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: `${chartType.charAt(0).toUpperCase() + chartType.slice(1)} untuk ${chartColumn}`
+                            },
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+        });
+
+        function generateColors(num) {
+            const colors = [];
+            for (let i = 0; i < num; i++) {
+                const r = Math.floor(Math.random() * 255);
+                const g = Math.floor(Math.random() * 255);
+                const b = Math.floor(Math.random() * 255);
+                colors.push(`rgba(${r}, ${g}, ${b}, 0.6)`);
+            }
+            return colors;
+        }
+
+        // Export CSV
+        document.getElementById('exportCSV').addEventListener('click', () => {
+            const headers = tableColumns.map(col => col.title).join(',');
+            const rows = (isEncodingEnabled ? encodedData : originalData).map(row => tableColumns.map(col => {
+                const value = row[col.title];
+                // Escape double quotes and wrap in quotes if necessary
+                if (typeof value === 'string' && (value.includes(',') || value.includes('"') || value.includes('\n'))) {
+                    return `"${value.replace(/"/g, '""')}"`;
+                }
+                return value;
+            }).join(',')).join('\n');
+            const csvContent = `${headers}\n${rows}`;
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'data_export.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+
+        // Export PDF
+        document.getElementById('exportPDF').addEventListener('click', () => {
+            const container = document.querySelector('.container');
+            html2canvas(container).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+                const imgProps = pdf.getImageProperties(imgData);
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                pdf.save('laporan.pdf');
+            });
+        });
+
+        // Saran Uji Statistik
+        function suggestStatisticalTests() {
+            const numericalCols = getNumericalColumns();
+            const categoricalCols = getCategoricalColumns();
+
+            let suggestions = [];
+
+            if (numericalCols.length >= 2) {
+                suggestions.push('T-Test: Membandingkan rata-rata dua grup numerik.');
+                suggestions.push('Korelasi Pearson: Mengukur hubungan linier antara dua variabel numerik.');
+                suggestions.push('Regresi: Memprediksi nilai variabel dependen berdasarkan variabel independen.');
+                suggestions.push('ANOVA: Membandingkan rata-rata lebih dari dua grup numerik.');
+            }
+
+            if (categoricalCols.length >= 2) {
+                suggestions.push('Chi-Square: Menguji asosiasi antara dua variabel kategorikal.');
+            }
+
+            if (suggestions.length > 0) {
+                alert('Berdasarkan data yang diunggah, berikut adalah uji statistik yang dapat Anda gunakan:\n\n' + suggestions.join('\n'));
+            } else {
+                alert('Data yang diunggah tidak memenuhi kriteria untuk uji statistik yang tersedia.');
+            }
+        }
+
+        function displayTestResults(testType, title, results, params) {
+            const summaryList = document.getElementById('summaryList');
+            const li = document.createElement('li');
+            const explanation = explanations[testType](results, params);
+            li.innerHTML = `
+                <strong>${title}:</strong> ${getStandardReport(testType, results, params)}
+                ${explanation}
+            `;
+            summaryList.appendChild(li);
+        }
+
+        function getStandardReport(testType, results, params) {
+            // Generate the standard report
+            let report = '';
+            switch(testType) {
+                case 't-test':
+                    report = `T-Test menunjukkan ada perbedaan signifikan dalam efektivitas edukasi antara ${params.group1} dan ${params.group2} (p < 0.05).`;
+                    break;
+                case 'correlation':
+                    report = `Korelasi Pearson antara ${params.corrX} dan ${params.corrY} adalah ${results['Koefisien Korelasi Pearson']} (p < 0.05), menunjukkan hubungan yang signifikan.`;
+                    break;
+                case 'anova':
+                    report = `ANOVA menunjukkan ada perbedaan signifikan dalam efektivitas edukasi antara grup: ${params.groups.join(', ')} (p < 0.05).`;
+                    break;
+                case 'regression':
+                    report = `Regresi menunjukkan bahwa ${params.regressX} adalah prediktor signifikan efektivitas edukasi (${params.regressY}) dengan R² = ${results['R-squared']}.`;
+                    break;
+                case 'chi-square':
+                    report = `Chi-Square Test menunjukkan ${parseFloat(results['p-Value']) < 0.05 ? 'terdapat asosiasi signifikan' : 'tidak terdapat asosiasi signifikan'} antara ${params.chiX} dan ${params.chiY} (${parseFloat(results['p-Value']) < 0.05 ? 'p < 0.05' : 'p >= 0.05'}).`;
+                    break;
+                default:
+                    report = 'Hasil uji statistik.';
+            }
+            return report;
+        }
+
+        function displayEncodingMappings() {
+            const mappingsDiv = document.getElementById('encodingMappings');
+            mappingsDiv.innerHTML = ''; // Clear previous mappings
+
+            for (const [column, mapping] of Object.entries(encodingMaps)) {
+                let html = `<h5>Mapping untuk <strong>${column}</strong></h5>`;
+                html += `<table class="table table-bordered"><thead><tr><th>Kategori</th><th>Numerik</th></tr></thead><tbody>`;
+                for (const [category, num] of Object.entries(mapping)) {
+                    html += `<tr><td>${category}</td><td>${num}</td></tr>`;
+                }
+                html += `</tbody></table>`;
+                mappingsDiv.innerHTML += html;
+            }
+
+            // Show the modal
+            const encodingModal = new bootstrap.Modal(document.getElementById('encodingModal'), {
+                keyboard: false
+            });
+            encodingModal.show();
+        }
+
+        // Event listener for encoding checkbox
+        document.getElementById('enableEncoding').addEventListener('change', function () {
+            // If a file is already loaded, re-parse it with the new encoding setting
+            if (originalData.length > 0) {
+                parseCSV(convertDataToCSV(originalData));
+            }
+        });
+
+        function convertDataToCSV(data) {
+            if (data.length === 0) return '';
+
+            const headers = Object.keys(data[0]);
+            const rows = data.map(row => headers.map(header => row[header] !== null ? row[header] : '').join('\t')).join('\n');
+            return `${headers.join('\t')}\n${rows}`;
+        }
+    </script>
+</body>
+</html>
