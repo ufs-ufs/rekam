@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuisioner Penelitian</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .question label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .button {
+            display: block;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kuisioner Penelitian</h1>
+    <p><strong>Judul Penelitian:</strong> Hubungan Pengetahuan Tentang Pemeliharaan Kebersihan Gigi dan Mulut Dengan Tingkat Kebersihan Gigi Pada Ibu Hamil Trimester 2</p>
+    <p><strong>Tujuan:</strong> Kuisioner ini bertujuan untuk mengukur pengetahuan ibu hamil tentang kebersihan gigi dan mulut serta mencatat tingkat kebersihan gigi berdasarkan pengukuran OHI-S.</p>
+    
+    <form action="#" method="POST">
+        <!-- Bagian 1: Identitas Responden -->
+        <h2>Bagian 1: Identitas Responden</h2>
+        <div class="question">
+            <label for="name">Nama:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="question">
+            <label for="age">Usia:</label>
+            <input type="number" id="age" name="age" min="15" max="50" required>
+        </div>
+        <div class="question">
+            <label for="education">Pendidikan Terakhir:</label>
+            <select id="education" name="education" required>
+                <option value="sd">SD</option>
+                <option value="smp">SMP</option>
+                <option value="sma">SMA</option>
+                <option value="diploma">Diploma</option>
+                <option value="sarjana">Sarjana</option>
+            </select>
+        </div>
+        <div class="question">
+            <label for="trimester">Trimester Kehamilan:</label>
+            <select id="trimester" name="trimester" required>
+                <option value="1">Trimester 1</option>
+                <option value="2">Trimester 2</option>
+                <option value="3">Trimester 3</option>
+            </select>
+        </div>
+
+        <!-- Bagian 2: Pengetahuan tentang Kebersihan Gigi dan Mulut -->
+        <h2>Bagian 2: Pengetahuan tentang Kebersihan Gigi dan Mulut</h2>
+        <div class="question">
+            <label>1. Seberapa sering Anda menyikat gigi setiap hari?</label>
+            <select name="q1" required>
+                <option value="1">Tidak pernah</option>
+                <option value="2">1 kali sehari</option>
+                <option value="3">2 kali sehari</option>
+                <option value="4">Lebih dari 2 kali sehari</option>
+            </select>
+        </div>
+        <div class="question">
+            <label>2. Apakah Anda menggunakan dental floss (benang gigi)?</label>
+            <select name="q2" required>
+                <option value="1">Tidak pernah</option>
+                <option value="2">Kadang-kadang</option>
+                <option value="3">Sering</option>
+                <option value="4">Selalu</option>
+            </select>
+        </div>
+        <div class="question">
+            <label>3. Apakah Anda menggunakan obat kumur?</label>
+            <select name="q3" required>
+                <option value="1">Tidak pernah</option>
+                <option value="2">Kadang-kadang</option>
+                <option value="3">Sering</option>
+                <option value="4">Selalu</option>
+            </select>
+        </div>
+        <div class="question">
+            <label>4. Apakah Anda mengetahui tanda-tanda penyakit gigi dan mulut seperti gusi bengkak atau plak?</label>
+            <select name="q4" required>
+                <option value="1">Tidak tahu</option>
+                <option value="2">Sedikit tahu</option>
+                <option value="3">Tahu</option>
+                <option value="4">Sangat tahu</option>
+            </select>
+        </div>
+
+        <!-- Bagian 3: Observasi Kebersihan Gigi -->
+        <h2>Bagian 3: Observasi Kebersihan Gigi</h2>
+        <p>Bagian ini akan diisi oleh peneliti berdasarkan pengukuran OHI-S menggunakan pemeriksaan klinis. Silakan lanjutkan ke bagian terakhir.</p>
+
+        <!-- Bagian 4: Persetujuan Responden -->
+        <h2>Bagian 4: Persetujuan Responden</h2>
+        <div class="question">
+            <label>
+                <input type="checkbox" name="consent" required>
+                Saya setuju untuk berpartisipasi dalam penelitian ini.
+            </label>
+        </div>
+
+        <button type="submit" class="button">Kirim Kuisioner</button>
+    </form>
+</body>
+</html>
